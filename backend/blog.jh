@@ -5,6 +5,9 @@ application {
     packageName ar.edu.um.proyectofinal.microblogging
     buildTool maven,
     testFrameworks [cypress]
+
+    prodDatabaseType mariadb
+    devDatabaseType h2Memory
   }
   entities *
 }
