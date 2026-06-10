@@ -2,7 +2,7 @@ application {
   config {
     baseName blog
     applicationType monolith
-    packageName com.jhipster.demo.blog
+    packageName ar.edu.um.proyectofinal.microblogging
     buildTool maven,
     testFrameworks [cypress]
   }
