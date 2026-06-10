@@ -1,0 +1,46 @@
+#app-header-toolbar {
+    --color: var(--ion-color-navbar-button);
+    --background: var(--ion-text-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    ion-title {
+        font-size: 20px;
+        font-weight: bold;
+        text-align: center;
+    }
+
+    ion-icon {
+        font-size: 26px;
+        vertical-align: middle;
+    }
+}
+
+#app-subheader-toolbar {
+    --background: var(--ion-background-color);
+    --min-height: 50px;
+    padding: 0;
+
+    ion-title {
+        font-size: 18px;
+        font-weight: 600;
+        text-align: center;
+        --color: var(--ion-text-color);
+    }
+
+    ion-avatar {
+        width: 30px;
+        height: 30px;
+    }
+
+    ion-button {
+        --padding-start: 6px;
+        --padding-end: 6px;
+    }
+
+    .spacer {
+        width: 40px;
+        height: 28px;
+    }
+}

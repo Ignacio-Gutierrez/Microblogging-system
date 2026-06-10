@@ -1,0 +1,30 @@
+<ion-header [translucent]="true">
+
+  <ion-toolbar id="app-header-toolbar">
+    <ion-title>
+      <ion-icon name="chatbubbles-sharp"></ion-icon>
+      Microblogging
+    </ion-title>
+  </ion-toolbar>
+
+  <ion-toolbar id="app-subheader-toolbar">
+    <ion-buttons slot="start">
+      <ion-button (click)="onProfileClick()">
+        @if (isLoggedIn) {
+          <ion-avatar>
+            <img [src]="profileImage" alt="Perfil">
+          </ion-avatar>
+        } @else {
+          <ion-icon slot="icon-only" name="person-circle-outline" style="font-size: 1.8rem;"></ion-icon>
+        }
+      </ion-button>
+    </ion-buttons>
+    <ion-title>
+      {{ pageTitle }}
+    </ion-title>
+    <ion-buttons slot="end">
+      <div class="spacer"></div>
+    </ion-buttons>
+  </ion-toolbar>
+
+</ion-header>
