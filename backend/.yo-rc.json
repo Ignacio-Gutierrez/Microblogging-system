@@ -1,0 +1,17 @@
+{
+  "generator-jhipster": {
+    "applicationType": "monolith",
+    "baseName": "blog",
+    "buildTool": "maven",
+    "entities": ["Blog", "Post", "Tag"],
+    "jhipsterVersion": "9.1.0",
+    "jwtSecretKey": "MzM2NWExMjEyZDcwMTM1YmRmMmU0MzU0NDM5MjM2ZDEyZmNjNjVlODdjYjk1M2JkNzA3MjVkY2VjMzYzOWExMTk2NmM4MWEzOTcwZDAzOTlkOWE0YTc4YjhhODk0YjdjMWY3NTMxMTA0M2VjYjNkNzI1NzZhZGUzMzliZTcxYzM=",
+    "languages": ["en"],
+    "lastLiquibaseTimestamp": 1781055565000,
+    "monorepository": true,
+    "nativeLanguage": "en",
+    "packageName": "ar.edu.um.proyectofinal.microblogging",
+    "skipCommitHook": true,
+    "testFrameworks": ["cypress"]
+  }
+}
