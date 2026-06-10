@@ -31,4 +31,14 @@ class BlogTest {
         assertThat(blog.getName()).isEqualTo("Mi blog de prueba");
         assertThat(blog.getHandle()).isEqualTo("um");
     }
+
+    @Test
+    void testBlogCanBeAssignedToUser() {
+        Blog blog = new Blog();
+        User user = new User();
+
+        blog.user(user);
+
+        assertThat(blog.getUser()).isEqualTo(user);
+    }
 }
