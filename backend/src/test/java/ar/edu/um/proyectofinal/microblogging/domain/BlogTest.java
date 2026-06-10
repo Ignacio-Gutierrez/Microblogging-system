@@ -21,4 +21,14 @@ class BlogTest {
         blog2 = getBlogSample2();
         assertThat(blog1).isNotEqualTo(blog2);
     }
+
+    @Test
+    void testBlogValidationSuccess() {
+        Blog blog = new Blog();
+        blog.setName("Mi blog de prueba");
+        blog.setHandle("um");
+
+        assertThat(blog.getName()).isEqualTo("Mi blog de prueba");
+        assertThat(blog.getHandle()).isEqualTo("um");
+    }
 }
