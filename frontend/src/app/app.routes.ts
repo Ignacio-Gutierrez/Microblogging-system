@@ -6,16 +6,16 @@ export const routes: Routes = [
     loadComponent: () => import('./layouts/main-layout/main-layout.component').then( m => m.MainLayoutComponent),
     children: [
       {
-        path: 'home',
-        data: { title: 'Inicio' },
-        loadComponent: () => import('./pages/home/home.page').then( m => m.HomePage)
+        path: 'feed',
+        data: { title: 'Feed' },
+        loadComponent: () => import('./pages/feed/feed.page').then( m => m.FeedPage)
       },
-      { path: '', redirectTo: '/app/home', pathMatch: 'full' }
+      { path: '', redirectTo: '/app/feed', pathMatch: 'full' }
     ]
   },
   {
     path: '',
-    redirectTo: '/app/home',
+    redirectTo: '/app/feed',
     pathMatch: 'full',
   }
 ];
