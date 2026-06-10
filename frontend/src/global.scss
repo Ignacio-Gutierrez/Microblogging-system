@@ -35,3 +35,52 @@
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
 @import '@ionic/angular/css/palettes/dark.system.css';
+
+:root { 
+    --ion-background-color: #0B3954;
+    --ion-background-color-rgb: 11 57 84;
+
+    --ion-background-color-00: #082D43;
+    --ion-background-color-00-rgb: 8 45 67;
+
+    --ion-background-color-01: #062232;
+    --ion-background-color-01-rgb: 6 34 50;
+
+    --ion-background-color-02: #041621; 
+    --ion-background-color-02-rgb: 4 22 33;
+
+    --ion-background-color-03: #020b10;
+    --ion-background-color-03-rgb: 2 11 16;
+
+    --ion-background-color-04: #000000;
+    --ion-background-color-04-rgb: 0 0 0; 
+
+    --ion-color-secondary: #FFFFFF;
+    --ion-color-secondary-rgb: 255 255 255;
+
+    --ion-text-color: #BFD7EA;
+	--ion-text-color-rgb: 191 215 234;
+
+    --ion-text-color-65: #BFD7EA99;
+    --ion-text-color-65-rgb: 191 215 234 / 0.65;
+
+    --ion-text-color-35: #BFD7EA59;
+    --ion-text-color-35-rgb: 191 215 234 / 0.35;
+
+    --ion-text-color-15-rgb: 191 215 234 / 0.15;
+
+    --ion-text-color-15: #BFD7EA26;
+    --ion-text-color-15-rgb: 191 215 234 / 0.15;
+
+    --ion-color-navbar-button: #FF6B6B;
+    --ion-color-navbar-button-rgb: 255 107 107;
+
+    --ion-color-success: #06D6A0;
+    --ion-color-success-rgb: 6, 214, 160;
+
+    --ion-color-warning: #FFD166;
+    --ion-color-warning-rgb: 255, 209, 102;
+
+    --ion-color-danger: #EF476F;
+    --ion-color-danger-rgb: 239, 71, 111;
+}
