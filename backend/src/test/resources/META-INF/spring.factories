@@ -1,0 +1,2 @@
+org.springframework.test.context.ContextCustomizerFactory = \
+    ar.edu.um.proyectofinal.microblogging.config.SqlTestContainersSpringContextCustomizerFactory

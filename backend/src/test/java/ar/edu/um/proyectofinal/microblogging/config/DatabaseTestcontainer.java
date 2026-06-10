@@ -1,24 +1,42 @@
 package ar.edu.um.proyectofinal.microblogging.config;
 
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.test.context.DynamicPropertyRegistry;
-import org.springframework.test.context.DynamicPropertySource;
+import org.springframework.beans.factory.DisposableBean;
+import org.springframework.beans.factory.InitializingBean;
+import org.testcontainers.containers.JdbcDatabaseContainer;
+import org.testcontainers.containers.MariaDBContainer;
 import org.testcontainers.containers.output.Slf4jLogConsumer;
-import org.testcontainers.junit.jupiter.Container;
-import org.testcontainers.postgresql.PostgreSQLContainer;
 
-public interface DatabaseTestcontainer {
-    @Container
-    PostgreSQLContainer databaseContainer = new PostgreSQLContainer("postgres:18.4")
-        .withDatabaseName("blog")
+public class DatabaseTestcontainer implements SqlTestContainer, InitializingBean, DisposableBean {
 
-        .withLogConsumer(new Slf4jLogConsumer(LoggerFactory.getLogger(DatabaseTestcontainer.class)))
-        .withReuse(true);
+    private static final Logger LOG = LoggerFactory.getLogger(DatabaseTestcontainer.class);
 
-    @DynamicPropertySource
-    static void registerProperties(DynamicPropertyRegistry registry) {
-        registry.add("spring.datasource.url", databaseContainer::getJdbcUrl);
-        registry.add("spring.datasource.username", databaseContainer::getUsername);
-        registry.add("spring.datasource.password", databaseContainer::getPassword);
+    private MariaDBContainer<?> databaseContainer;
+
+    @Override
+    public void destroy() {
+        if (null != databaseContainer && databaseContainer.isRunning()) {
+            databaseContainer.stop();
+        }
+    }
+
+    @Override
+    public void afterPropertiesSet() {
+        if (null == databaseContainer) {
+            databaseContainer = (MariaDBContainer) new MariaDBContainer<>("mariadb:12.2.2")
+                .withDatabaseName("blog")
+
+                .withLogConsumer(new Slf4jLogConsumer(LOG))
+                .withReuse(true);
+        }
+        if (!databaseContainer.isRunning()) {
+            databaseContainer.start();
+        }
+    }
+
+    @Override
+    public JdbcDatabaseContainer<?> getTestContainer() {
+        return databaseContainer;
     }
 }

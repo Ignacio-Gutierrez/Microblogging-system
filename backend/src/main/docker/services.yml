@@ -1,7 +1,10 @@
 # This configuration is intended for development purpose, it's **your** responsibility to harden it for production
 name: blog
 services:
-  postgresql:
+  mariadb:
     extends:
-      file: ./postgresql.yml
-      service: postgresql
+      file: ./mariadb.yml
+      service: mariadb
+    profiles:
+      - ''
+      - prod
