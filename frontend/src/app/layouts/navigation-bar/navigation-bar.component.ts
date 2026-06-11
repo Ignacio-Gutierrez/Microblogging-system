@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { IonIcon, IonTabBar, IonTabButton, IonTabs } from '@ionic/angular/standalone';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 import { addIcons } from 'ionicons';
 import { homeSharp, searchSharp, addCircleSharp } from 'ionicons/icons';
 
@@ -8,7 +9,7 @@ import { homeSharp, searchSharp, addCircleSharp } from 'ionicons/icons';
   templateUrl: './navigation-bar.component.html',
   styleUrls: ['./navigation-bar.component.scss'],
   standalone: true,
-  imports: [IonIcon, IonTabBar, IonTabButton, IonTabs],
+  imports: [IonIcon, IonTabBar, IonTabButton, IonTabs, RouterLink, RouterLinkActive],
 })
 export class NavigationBarComponent {
   constructor() { 

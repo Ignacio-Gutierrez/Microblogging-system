@@ -15,6 +15,10 @@ ion-tab-bar {
   }
 }
 
+.tab-selected {
+  --color: var(--ion-color-navbar-selected);
+}
+
 .tab-add {
   --color-selected: var(--ion-color-navbar-selected);
   --color: var(--ion-color-navbar-button);
