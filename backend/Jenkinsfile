@@ -52,7 +52,7 @@ node {
         stage('publish docker') {
             withCredentials([
                 usernamePassword(
-                    credentialsId: 'dockerhub-login',
+                    credentialsId: 'dockerhub-credenciales',
                     usernameVariable: 'DOCKER_REGISTRY_USER',
                     passwordVariable: 'DOCKER_REGISTRY_PWD'
                 )
