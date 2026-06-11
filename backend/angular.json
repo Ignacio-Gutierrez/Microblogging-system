@@ -122,6 +122,12 @@
                 {
                   "outputFile": "./target/test-results/TESTS-results-sonar-vitest.xml"
                 }
+              ],
+              [
+                "junit",
+                {
+                  "outputFile": "./target/test-results/TESTS-results-junit.xml"
+                }
               ]
             ],
             "tsConfig": "tsconfig.spec.json"
