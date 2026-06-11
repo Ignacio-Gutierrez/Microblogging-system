@@ -124,10 +124,20 @@ public class BlogResource {
         Optional<Blog> result = blogRepository
             .findById(blog.getId())
             .map(existingBlog -> {
+                // Resolve effective values before modifying the managed entity
+                String effectiveHandle = blog.getHandle() != null ? blog.getHandle() : existingBlog.getHandle();
+                var effectiveUser = blog.getUser() != null ? blog.getUser() : existingBlog.getUser();
+
+                // Validate BEFORE modifying to avoid Hibernate auto-flush issues
+                Blog effectiveBlog = new Blog();
+                effectiveBlog.setHandle(effectiveHandle);
+                effectiveBlog.setUser(effectiveUser);
+                validateUniqueHandleForUser(effectiveBlog, existingBlog.getId());
+
                 updateIfPresent(existingBlog::setName, blog.getName());
                 updateIfPresent(existingBlog::setHandle, blog.getHandle());
+                updateIfPresent(existingBlog::setUser, blog.getUser());
 
-                validateUniqueHandleForUser(existingBlog, existingBlog.getId());
                 return existingBlog;
             })
             .map(blogRepository::save);

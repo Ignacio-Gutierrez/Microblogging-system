@@ -189,6 +189,63 @@ class BlogResourceIT {
 
     @Test
     @Transactional
+    void putChangingHandleToOneAlreadyUsedBySameUser_shouldReturnBadRequest() throws Exception {
+        User user = userRepository.findOneByLogin("user").orElseThrow();
+        blog.user(user);
+        blogRepository.saveAndFlush(blog);
+
+        // Create a second blog for the same user with a different handle
+        Blog savedOther = blogRepository.saveAndFlush(
+            new Blog().name("Other Name").handle("OTHERHANDLE").user(user)
+        );
+
+        // Build a fresh POJO (non-managed) for the PUT request body
+        Blog updateRequest = new Blog();
+        updateRequest.setId(savedOther.getId());
+        updateRequest.setName(savedOther.getName());
+        updateRequest.setHandle(DEFAULT_HANDLE);
+        updateRequest.setUser(new User());
+        updateRequest.getUser().setId(user.getId());
+
+        restBlogMockMvc
+            .perform(
+                put(ENTITY_API_URL_ID, savedOther.getId())
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(om.writeValueAsBytes(updateRequest))
+            )
+            .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @Transactional
+    void patchChangingHandleToOneAlreadyUsedBySameUser_shouldReturnBadRequest() throws Exception {
+        User user = userRepository.findOneByLogin("user").orElseThrow();
+        blog.user(user);
+        blogRepository.saveAndFlush(blog);
+
+        // Create a second blog for the same user with a different handle
+        Blog savedOther = blogRepository.saveAndFlush(
+            new Blog().name("Other Name").handle("OTHERHANDLE").user(user)
+        );
+
+        // Build a fresh POJO (non-managed) for the PATCH request body
+        Blog patchRequest = new Blog();
+        patchRequest.setId(savedOther.getId());
+        patchRequest.setHandle(DEFAULT_HANDLE);
+        patchRequest.setUser(new User());
+        patchRequest.getUser().setId(user.getId());
+
+        restBlogMockMvc
+            .perform(
+                patch(ENTITY_API_URL_ID, savedOther.getId())
+                    .contentType("application/merge-patch+json")
+                    .content(om.writeValueAsBytes(patchRequest))
+            )
+            .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @Transactional
     void checkNameIsRequired() throws Exception {
         long databaseSizeBeforeTest = getRepositoryCount();
         // set the field null
