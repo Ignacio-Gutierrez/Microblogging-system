@@ -10,6 +10,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import ar.edu.um.proyectofinal.microblogging.IntegrationTest;
 import ar.edu.um.proyectofinal.microblogging.domain.Blog;
+import ar.edu.um.proyectofinal.microblogging.domain.User;
 import ar.edu.um.proyectofinal.microblogging.repository.BlogRepository;
 import ar.edu.um.proyectofinal.microblogging.repository.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -145,6 +146,45 @@ class BlogResourceIT {
 
         // Validate the Blog in the database
         assertSameRepositoryCount(databaseSizeBeforeCreate);
+    }
+
+    @Test
+    @Transactional
+    void createBlogWithDuplicateHandleForSameUser_shouldReturnBadRequest() throws Exception {
+        // Retrieve an existing user from the database
+        User user = userRepository.findOneByLogin("user").orElseThrow();
+        blog.user(user);
+
+        // Save the first blog
+        blogRepository.saveAndFlush(blog);
+
+        // Attempt to create a second blog with the same handle and user
+        Blog duplicateBlog = new Blog().name("Other Name").handle(DEFAULT_HANDLE);
+        duplicateBlog.user(user);
+
+        restBlogMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(duplicateBlog)))
+            .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @Transactional
+    void createBlogWithSameHandleForDifferentUser_shouldSucceed() throws Exception {
+        // Retrieve two different users from the database
+        User user1 = userRepository.findOneByLogin("user").orElseThrow();
+        User user2 = userRepository.findOneByLogin("admin").orElseThrow();
+
+        // Create a blog with user1
+        blog.user(user1);
+        blogRepository.saveAndFlush(blog);
+
+        // Create another blog with the same handle but a different user
+        Blog blogWithDifferentUser = new Blog().name("Other Name").handle(DEFAULT_HANDLE);
+        blogWithDifferentUser.user(user2);
+
+        restBlogMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(blogWithDifferentUser)))
+            .andExpect(status().isCreated());
     }
 
     @Test
