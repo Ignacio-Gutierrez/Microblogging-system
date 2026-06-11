@@ -11,7 +11,9 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
  * A Blog.
  */
 @Entity
-@Table(name = "blog")
+@Table(name = "blog", uniqueConstraints = {
+    @UniqueConstraint(columnNames = {"handle", "user_id"})
+})
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @SuppressWarnings("common-java:DuplicatedBlocks")
 public class Blog implements Serializable {

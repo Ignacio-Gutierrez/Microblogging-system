@@ -17,4 +17,12 @@
                                  referencedTableName="jhi_user"
                                  />
     </changeSet>
+
+    <changeSet id="20260610013725-3" author="jhipster">
+        <addUniqueConstraint
+            columnNames="handle, user_id"
+            constraintName="ux_blog_handle_user"
+            tableName="blog"
+        />
+    </changeSet>
 </databaseChangeLog>

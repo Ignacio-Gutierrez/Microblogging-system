@@ -17,6 +17,10 @@ public interface BlogRepository extends JpaRepository<Blog, Long> {
     @Query("select blog from Blog blog where blog.user.login = ?#{authentication.name}")
     List<Blog> findByUserIsCurrentUser();
 
+    boolean existsByHandleAndUserId(String handle, Long userId);
+
+    boolean existsByHandleAndUserIdAndIdNot(String handle, Long userId, Long id);
+
     default Optional<Blog> findOneWithEagerRelationships(Long id) {
         return this.findOneWithToOneRelationships(id);
     }

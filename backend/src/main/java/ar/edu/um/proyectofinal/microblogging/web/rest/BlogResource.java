@@ -54,6 +54,7 @@ public class BlogResource {
         if (blog.getId() != null) {
             throw new BadRequestAlertException("A new blog cannot already have an ID", ENTITY_NAME, "idexists");
         }
+        validateUniqueHandleForUser(blog, null);
         blog = blogRepository.save(blog);
         return ResponseEntity.created(new URI("/api/blogs/" + blog.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, blog.getId().toString()))
@@ -85,6 +86,7 @@ public class BlogResource {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
+        validateUniqueHandleForUser(blog, id);
         blog = blogRepository.save(blog);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, blog.getId().toString()))
@@ -125,6 +127,7 @@ public class BlogResource {
                 updateIfPresent(existingBlog::setName, blog.getName());
                 updateIfPresent(existingBlog::setHandle, blog.getHandle());
 
+                validateUniqueHandleForUser(existingBlog, existingBlog.getId());
                 return existingBlog;
             })
             .map(blogRepository::save);
@@ -182,6 +185,29 @@ public class BlogResource {
     private <T> void updateIfPresent(Consumer<T> setter, T value) {
         if (value != null) {
             setter.accept(value);
+        }
+    }
+
+    private void validateUniqueHandleForUser(Blog blog, Long currentBlogId) {
+        if (blog.getUser() == null || blog.getHandle() == null) {
+            return;
+        }
+        Long userId = blog.getUser().getId();
+        if (userId == null) {
+            return;
+        }
+        boolean exists;
+        if (currentBlogId != null) {
+            exists = blogRepository.existsByHandleAndUserIdAndIdNot(blog.getHandle(), userId, currentBlogId);
+        } else {
+            exists = blogRepository.existsByHandleAndUserId(blog.getHandle(), userId);
+        }
+        if (exists) {
+            throw new BadRequestAlertException(
+                "A blog with the same handle already exists for this user",
+                ENTITY_NAME,
+                "handleAlreadyExistsForUser"
+            );
         }
     }
 }
