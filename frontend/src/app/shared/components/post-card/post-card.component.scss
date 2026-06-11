@@ -1,5 +1,6 @@
 ion-card {
   margin: 0;
+  padding: 18px 0;
   border-radius: 0;
   background: transparent;
   box-shadow: none;
@@ -10,7 +11,7 @@ ion-card::after {
   content: '';
   display: block;
   height: 2px;
-  background: rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.24);
   margin: 0 16px;
 }
 
