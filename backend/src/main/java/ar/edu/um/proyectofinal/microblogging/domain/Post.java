@@ -42,7 +42,7 @@ public class Post implements Serializable {
     private Instant date;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnoreProperties(value = { "user" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "blog" }, allowSetters = true)
     private Blog blog;
 
     @ManyToMany(fetch = FetchType.LAZY)
