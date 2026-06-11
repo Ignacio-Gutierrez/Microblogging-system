@@ -1,0 +1,35 @@
+<ion-card>
+  <ion-card-header>
+    <div class="author-row">
+      <button class="author-avatar" (click)="onUserClick()">
+        {{ (post().blog.user?.login ?? post().blog.handle).charAt(0).toUpperCase() }}
+      </button>
+      <button class="author-info" (click)="onUserClick()">
+        <span class="author-name">@{{ post().blog.user?.login ?? post().blog.handle }}</span>
+      </button>
+      <span class="time-text">
+        <ion-icon></ion-icon>
+        {{ post().date | date: 'short' }}
+      </span>
+    </div>
+  </ion-card-header>
+
+  <ion-card-content>
+    <ion-card-title>{{ post().title }}</ion-card-title>
+
+    <ion-text>
+      <p>{{ post().content }}</p>
+    </ion-text>
+
+    <div class="post-footer">
+      <div class="tags">
+        @if (post().tags && post().tags!.length > 0) {
+          @for (tag of post().tags; track tag.id) {
+            <button class="tag-badge" (click)="onTagClick(tag)">#{{ tag.name }}</button>
+          }
+        }
+      </div>
+      <button class="blog-chip" (click)="onBlogClick()">{{ post().blog.handle }}</button>
+    </div>
+  </ion-card-content>
+</ion-card>
