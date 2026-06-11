@@ -10,6 +10,9 @@ export const routes: Routes = [
         data: { title: 'Feed' },
         loadComponent: () => import('./pages/feed/feed.page').then( m => m.FeedPage)
       },
+      { path: 'search', redirectTo: '/app/feed', pathMatch: 'full' },
+      { path: 'home', redirectTo: '/app/feed', pathMatch: 'full' },
+      { path: 'post', redirectTo: '/app/feed', pathMatch: 'full' },
       { path: '', redirectTo: '/app/feed', pathMatch: 'full' }
     ]
   },
