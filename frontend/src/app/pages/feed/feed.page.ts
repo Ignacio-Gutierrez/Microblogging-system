@@ -12,6 +12,8 @@ import {
 import { Post } from 'src/app/shared/models/post.model';
 import { PostService } from 'src/app/shared/services/post.service';
 import { PostCardComponent } from 'src/app/shared/components/post-card/post-card.component';
+import { HeaderComponent } from 'src/app/shared/components/header/header.component';
+import { NavigationBarComponent } from 'src/app/shared/components/navigation-bar/navigation-bar.component';
 import { addIcons } from 'ionicons';
 import { sad } from 'ionicons/icons';
 
@@ -28,6 +30,8 @@ import { sad } from 'ionicons/icons';
     IonIcon,
     CommonModule,
     PostCardComponent,
+    HeaderComponent,
+    NavigationBarComponent,
   ],
 })
 export class FeedPage implements OnInit {

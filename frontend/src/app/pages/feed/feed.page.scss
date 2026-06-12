@@ -1,6 +1,5 @@
-ion-content {
-  --padding-top: 112px;
-  --padding-bottom: 90px;
+ion-content::part(scroll) {
+  padding-top: 0;
 }
 
 ion-card-header {

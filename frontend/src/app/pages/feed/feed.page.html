@@ -1,3 +1,5 @@
+<app-header />
+
 <ion-content>
   @if (posts.length === 0 && isLoading) {
     <div class="loading-spinner">
@@ -24,3 +26,5 @@
     />
   </ion-infinite-scroll>
 </ion-content>
+
+<app-navigation-bar></app-navigation-bar>
