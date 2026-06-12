@@ -4,7 +4,7 @@
   @if (posts.length === 0 && isLoading) {
     <div class="loading-spinner">
       <ion-spinner name="circular"></ion-spinner>
-      <p>Loading posts...</p>
+      <p>Cargando posteos...</p>
     </div>
   }
 
@@ -14,7 +14,7 @@
     @if (!isLoading && !hasLoadError) {
       <div class="empty-state">
         <ion-icon name="sad"></ion-icon>
-        <p>No posts yet. Be the first to create one!</p>
+        <p>No hay posteos todavía. Sé el primero en crear uno.</p>
       </div>
     }
   }
@@ -28,14 +28,14 @@
 
   @if (hasLoadError) {
     <div class="feed-end feed-error">
-      <span>No pudimos cargar más posts. Intentá de nuevo en un rato.</span>
+      <span>No pudimos cargar más posteos. Intentá de nuevo en un rato.</span>
     </div>
   }
 
   <ion-infinite-scroll [disabled]="!hasMore || hasLoadError" (ionInfinite)="onIonInfinite($event)">
     <ion-infinite-scroll-content
       loadingSpinner="circular"
-      loadingText="Loading more posts..."
+      loadingText="Cargando más posteos..."
     />
   </ion-infinite-scroll>
 </ion-content>
