@@ -1,9 +1,11 @@
 import { Routes } from '@angular/router';
+import { redirectIfAuthenticatedGuard } from './shared/guards/redirect-if-authenticated.guard';
 
 export const routes: Routes = [
   {
     path: 'login',
     data: { title: 'Iniciar Sesión' },
+    canActivate: [redirectIfAuthenticatedGuard],
     loadComponent: () => import('./pages/login/login.page').then(m => m.LoginPage),
   },
   {
