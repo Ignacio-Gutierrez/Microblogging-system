@@ -1,3 +1,13 @@
+:host {
+  display: block;
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 100;
+  pointer-events: none;
+}
+
 ion-tab-bar {
   --color-selected: var(--ion-color-navbar-selected);
   --color: var(--ion-color-navbar-button);
@@ -5,6 +15,7 @@ ion-tab-bar {
   height: 50px;
   border-radius: 35px;
   margin: 0 20px 20px 20px;
+  pointer-events: auto;
   
   ion-tab-button { 
     ion-icon {
@@ -29,6 +40,8 @@ ion-tab-bar {
   transform: translateX(-50%);
   bottom: 0px;
   z-index: 100;
+  height: max-content;
+  pointer-events: auto;
 
   ion-icon {
     font-size: 5.4rem;
