@@ -1,0 +1,213 @@
+.register-content {
+  --background: #C2D9EC;
+  --padding-top: 0;
+  --padding-bottom: 0;
+  --overflow: auto;
+}
+
+.register-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 100%;
+  padding: 32px;
+  max-width: 400px;
+  margin: 0 auto;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.app-title,
+.register-form,
+.login-section,
+.success-banner,
+.error-banner {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.logo-section {
+  text-align: center;
+  margin-bottom: 14px;
+}
+
+.logo-icon {
+  font-size: 5.5rem;
+  color: var(--ion-background-color);
+}
+
+.app-title {
+  font-family: 'Inter', 'Montserrat', system-ui, -apple-system, sans-serif;
+  font-size: 2rem;
+  font-weight: 600;
+  color: var(--ion-background-color);
+  text-align: center;
+  letter-spacing: 0.04em;
+  margin: 0 auto 28px;
+}
+
+.register-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  position: relative;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.input-label {
+  font-family: 'Inter', 'Montserrat', system-ui, -apple-system, sans-serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--ion-background-color);
+  padding-left: 2px;
+}
+
+.form-input {
+  width: 100%;
+  height: 48px;
+  padding: 0 14px;
+  border: 1px solid #d0d8e0;
+  border-radius: 5px;
+  font-size: 0.92rem;
+  font-family: 'Inter', 'Montserrat', system-ui, -apple-system, sans-serif;
+  color: #333;
+  background: #fff;
+  outline: none;
+  box-sizing: border-box;
+  transition: border-color 0.2s;
+
+  &::placeholder {
+    color: #b0b8c0;
+    opacity: 1;
+  }
+
+  &:focus {
+    border-color: var(--ion-background-color);
+  }
+}
+
+.password-field {
+  position: relative;
+  width: 100%;
+
+  .form-input {
+    padding-right: 44px;
+  }
+}
+
+.toggle-password {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #b0b8c0;
+  font-size: 1.15rem;
+  cursor: pointer;
+  padding: 4px;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+
+  &:hover {
+    color: var(--ion-background-color);
+  }
+}
+
+.register-button {
+  width: 100%;
+  height: 48px;
+  background: var(--ion-background-color);
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-family: 'Inter', 'Montserrat', system-ui, -apple-system, sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 2px;
+  transition: opacity 0.2s;
+
+  &:hover:not(:disabled) {
+    opacity: 0.92;
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+.success-banner,
+.error-banner {
+  margin-top: 12px;
+  border-radius: 6px;
+  padding: 10px 14px;
+  text-align: center;
+
+  ion-text {
+    font-size: 0.82rem;
+    font-weight: 700;
+  }
+}
+
+.success-banner {
+  background: color-mix(in srgb, var(--ion-color-success) 20%, transparent);
+  border: 1px solid color-mix(in srgb, var(--ion-color-success) 45%, transparent);
+}
+
+.error-banner {
+  background: color-mix(in srgb, var(--ion-color-danger) 25%, transparent);
+  border: 1px solid color-mix(in srgb, var(--ion-color-danger) 50%, transparent);
+}
+
+.login-section {
+  text-align: center;
+  margin-top: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+.login-text,
+.login-link {
+  font-family: 'Inter', 'Montserrat', system-ui, -apple-system, sans-serif;
+  font-size: 0.85rem;
+}
+
+.login-text {
+  color: #333;
+}
+
+.login-link {
+  color: var(--ion-background-color);
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+@media (max-width: 380px) {
+  .register-container {
+    padding: 28px 22px;
+  }
+
+  .app-title {
+    font-size: 1.8rem;
+  }
+}

@@ -1,0 +1,101 @@
+<ion-content class="register-content">
+  <div class="register-container">
+    <div class="logo-section">
+      <ion-icon name="chatbubbles-sharp" class="logo-icon"></ion-icon>
+    </div>
+
+    <h1 class="app-title">Crear cuenta</h1>
+
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="register-form">
+      <div class="input-group">
+        <label class="input-label">Usuario</label>
+        <input
+          type="text"
+          placeholder="Elegí un nombre de usuario"
+          formControlName="username"
+          autocomplete="username"
+          class="form-input"
+        />
+      </div>
+
+      <div class="input-group">
+        <label class="input-label">Email</label>
+        <input
+          type="email"
+          placeholder="tu@email.com"
+          formControlName="email"
+          autocomplete="email"
+          class="form-input"
+        />
+      </div>
+
+      <div class="input-group">
+        <label class="input-label">Contraseña</label>
+        <div class="password-field">
+          <input
+            [type]="showPassword ? 'text' : 'password'"
+            placeholder="Mínimo 4 caracteres"
+            formControlName="password"
+            autocomplete="new-password"
+            class="form-input"
+          />
+          <button
+            type="button"
+            class="toggle-password"
+            (click)="togglePassword()"
+            aria-label="Mostrar u ocultar contraseña"
+          >
+            <ion-icon [name]="showPassword ? 'eye-off-outline' : 'eye-outline'"></ion-icon>
+          </button>
+        </div>
+      </div>
+
+      <div class="input-group">
+        <label class="input-label">Confirmar contraseña</label>
+        <div class="password-field">
+          <input
+            [type]="showConfirmPassword ? 'text' : 'password'"
+            placeholder="Repetí la contraseña"
+            formControlName="confirmPassword"
+            autocomplete="new-password"
+            class="form-input"
+          />
+          <button
+            type="button"
+            class="toggle-password"
+            (click)="toggleConfirmPassword()"
+            aria-label="Mostrar u ocultar confirmación de contraseña"
+          >
+            <ion-icon [name]="showConfirmPassword ? 'eye-off-outline' : 'eye-outline'"></ion-icon>
+          </button>
+        </div>
+      </div>
+
+      <button type="submit" class="register-button" [disabled]="isLoading()">
+        @if (isLoading()) {
+          <ion-spinner name="circular" slot="start"></ion-spinner>
+          Creando cuenta...
+        } @else {
+          Registrarse
+        }
+      </button>
+    </form>
+
+    <div class="login-section">
+      <span class="login-text">¿Ya tenés una cuenta?</span>
+      <a routerLink="/login" class="login-link">Ingresar</a>
+    </div>
+
+    @if (successMessage()) {
+      <div class="success-banner">
+        <ion-text color="success">{{ successMessage() }}</ion-text>
+      </div>
+    }
+
+    @if (errorMessage()) {
+      <div class="error-banner">
+        <ion-text color="danger">{{ errorMessage() }}</ion-text>
+      </div>
+    }
+  </div>
+</ion-content>

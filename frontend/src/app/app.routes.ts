@@ -9,6 +9,12 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/login/login.page').then(m => m.LoginPage),
   },
   {
+    path: 'register',
+    data: { title: 'Registrarse' },
+    canActivate: [redirectIfAuthenticatedGuard],
+    loadComponent: () => import('./pages/register/register.page').then(m => m.RegisterPage),
+  },
+  {
     path: 'app',
     loadComponent: () => import('./layouts/main-layout/main-layout.component').then( m => m.MainLayoutComponent),
     children: [
