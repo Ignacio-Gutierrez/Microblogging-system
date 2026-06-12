@@ -66,7 +66,20 @@
             <column name="title" type="string"/>
             <column name="content" type="clob"/>
             <column name="date" type="date"/>
+            <column name="blog_id" type="numeric"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
+        </loadData>
+    </changeSet>
+
+    <changeSet id="20260610013825-1-relations-data" author="jhipster" context="faker">
+        <loadData
+                  file="../fake-data/rel_post__tag.csv"
+                  relativeToChangelogFile="true"
+                  separator=";"
+                  tableName="rel_post__tag"
+                  usePreparedStatements="true">
+            <column name="post_id" type="numeric"/>
+            <column name="tag_id" type="numeric"/>
         </loadData>
     </changeSet>
 </databaseChangeLog>
