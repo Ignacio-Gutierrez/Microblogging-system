@@ -19,3 +19,24 @@ ion-infinite-scroll-content {
   --spinner-color: var(--ion-text-color);
   --color: var(--ion-text-color);
 }
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  text-align: center;
+  color: var(--ion-color-medium);
+
+  ion-icon {
+    font-size: 64px;
+    margin-bottom: 16px;
+    color: var(--ion-color-medium);
+  }
+
+  p {
+    font-size: 1.1rem;
+    margin: 0;
+  }
+}

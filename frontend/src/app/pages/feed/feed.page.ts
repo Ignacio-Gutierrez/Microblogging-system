@@ -7,10 +7,13 @@ import {
   IonInfiniteScroll,
   IonInfiniteScrollContent,
   IonSpinner,
+  IonIcon,
 } from '@ionic/angular/standalone';
 import { Post } from 'src/app/shared/models/post.model';
 import { PostService } from 'src/app/shared/services/post.service';
 import { PostCardComponent } from 'src/app/shared/components/post-card/post-card.component';
+import { addIcons } from 'ionicons';
+import { sad } from 'ionicons/icons';
 
 @Component({
   selector: 'app-feed',
@@ -22,6 +25,7 @@ import { PostCardComponent } from 'src/app/shared/components/post-card/post-card
     IonInfiniteScroll,
     IonInfiniteScrollContent,
     IonSpinner,
+    IonIcon,
     CommonModule,
     PostCardComponent,
   ],
@@ -34,6 +38,10 @@ export class FeedPage implements OnInit {
   readonly pageSize = 10;
   isLoading = false;
   hasMore = true;
+
+  constructor() {
+    addIcons({ sad });
+  }
 
   ngOnInit() {
     this.loadPosts();
