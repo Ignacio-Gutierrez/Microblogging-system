@@ -13,5 +13,4 @@ export interface RegisterRequest {
   email: string;
   password: string;
   langKey: string;
-  activated: true;
 }
