@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { IonIcon, IonTabBar, IonTabButton, IonTabs } from '@ionic/angular/standalone';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { addIcons } from 'ionicons';
