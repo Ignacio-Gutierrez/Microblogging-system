@@ -2,6 +2,11 @@ import { Routes } from '@angular/router';
 
 export const routes: Routes = [
   {
+    path: 'login',
+    data: { title: 'Iniciar Sesión' },
+    loadComponent: () => import('./pages/login/login.page').then(m => m.LoginPage),
+  },
+  {
     path: 'app',
     loadComponent: () => import('./layouts/main-layout/main-layout.component').then( m => m.MainLayoutComponent),
     children: [
@@ -18,7 +23,7 @@ export const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: '/app/feed',
+    redirectTo: 'app/feed',
     pathMatch: 'full',
   }
 ];
