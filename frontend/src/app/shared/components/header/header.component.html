@@ -9,21 +9,27 @@
 
   <ion-toolbar id="app-subheader-toolbar">
     <ion-buttons slot="start">
-      <ion-button (click)="onProfileClick()">
-        @if (isLoggedIn) {
-          <ion-avatar>
-            <img [src]="profileImage" alt="Perfil">
-          </ion-avatar>
-        } @else {
-          <ion-icon slot="icon-only" name="person-circle-outline" style="font-size: 1.8rem;"></ion-icon>
-        }
-      </ion-button>
+      @if (authService.isAuthenticated()) {
+        <ion-button (click)="onProfileClick()">
+          <div class="header-avatar">{{ authService.getUsername().charAt(0).toUpperCase() }}</div>
+        </ion-button>
+      } @else {
+        <ion-button (click)="onProfileClick()" class="login-btn">
+          <span class="login-label">Ingresar</span>
+          <ion-icon name="log-in-outline" class="btn-icon"></ion-icon>
+        </ion-button>
+      }
     </ion-buttons>
     <ion-title>
       {{ pageTitle }}
     </ion-title>
     <ion-buttons slot="end">
-      <div class="spacer"></div>
+      @if (authService.isAuthenticated()) {
+        <ion-button (click)="onLogout()" class="logout-btn">
+          <ion-icon name="log-out-outline" class="btn-icon"></ion-icon>
+          <span class="login-label">Cerrar sesión</span>
+        </ion-button>
+      }
     </ion-buttons>
   </ion-toolbar>
 

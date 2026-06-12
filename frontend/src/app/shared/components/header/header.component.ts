@@ -1,8 +1,9 @@
 import { Component, inject } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
-import { IonIcon, IonHeader, IonTitle, IonToolbar, IonButtons, IonButton, IonAvatar } from '@ionic/angular/standalone';
+import { IonIcon, IonHeader, IonTitle, IonToolbar, IonButtons, IonButton } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { chatbubblesSharp, personCircleOutline } from 'ionicons/icons';
+import { chatbubblesSharp, logInOutline, logOutOutline } from 'ionicons/icons';
+import { AuthService } from '../../services/auth.service';
 import { filter, map } from 'rxjs/operators';
 
 @Component({
@@ -10,17 +11,16 @@ import { filter, map } from 'rxjs/operators';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
   standalone: true,
-  imports: [IonHeader, IonTitle, IonToolbar, IonIcon, IonButtons, IonButton, IonAvatar]
+  imports: [IonHeader, IonTitle, IonToolbar, IonIcon, IonButtons, IonButton]
 })
 export class HeaderComponent {
   private readonly router = inject(Router);
+  readonly authService = inject(AuthService);
 
-  isLoggedIn: boolean = false;
-  profileImage: string = 'https://ionicframework.com/docs/img/demos/avatar.svg';
-  pageTitle: string = 'Inicio';
+  pageTitle: string = 'Microblogging';
 
   constructor() {
-    addIcons({ chatbubblesSharp, personCircleOutline });
+    addIcons({ chatbubblesSharp, logInOutline, logOutOutline });
 
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd),
@@ -39,10 +39,14 @@ export class HeaderComponent {
   }
 
   onProfileClick() {
-    if (this.isLoggedIn) {
-      console.log('Ir al perfil');
+    if (this.authService.isAuthenticated()) {
+      this.router.navigateByUrl('/app/profile');
     } else {
-      console.log('Mostrar login');
+      this.router.navigateByUrl('/login');
     }
+  }
+
+  onLogout() {
+    this.authService.logout();
   }
 }
