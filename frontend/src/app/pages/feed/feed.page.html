@@ -11,7 +11,7 @@
   @for (post of posts; track post.id) {
     <app-post-card [post]="post" />
   } @empty {
-    @if (!isLoading) {
+    @if (!isLoading && !hasLoadError) {
       <div class="empty-state">
         <ion-icon name="sad"></ion-icon>
         <p>No posts yet. Be the first to create one!</p>
@@ -19,7 +19,20 @@
     }
   }
 
-  <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)">
+  @if (posts.length > 0 && !hasMore && !hasLoadError) {
+    <div class="empty-state feed-end-state">
+      <ion-icon name="sad"></ion-icon>
+      <p>No hay más posteos disponibles. Llegaste al comienzo de los blogs.</p>
+    </div>
+  }
+
+  @if (hasLoadError) {
+    <div class="feed-end feed-error">
+      <span>No pudimos cargar más posts. Intentá de nuevo en un rato.</span>
+    </div>
+  }
+
+  <ion-infinite-scroll [disabled]="!hasMore || hasLoadError" (ionInfinite)="onIonInfinite($event)">
     <ion-infinite-scroll-content
       loadingSpinner="circular"
       loadingText="Loading more posts..."

@@ -42,6 +42,7 @@ export class FeedPage implements OnInit {
   readonly pageSize = 10;
   isLoading = false;
   hasMore = true;
+  hasLoadError = false;
 
   constructor() {
     addIcons({ sad });
@@ -51,9 +52,14 @@ export class FeedPage implements OnInit {
     this.loadPosts();
   }
 
-  loadPosts() {
-    if (this.isLoading || !this.hasMore) return;
+  loadPosts(onComplete?: () => void) {
+    if (this.isLoading || !this.hasMore) {
+      onComplete?.();
+      return;
+    }
+
     this.isLoading = true;
+    this.hasLoadError = false;
 
     this.postService.getPosts(this.currentPage, this.pageSize).subscribe({
       next: (res: HttpResponse<Post[]>) => {
@@ -62,16 +68,20 @@ export class FeedPage implements OnInit {
         this.hasMore = body.length >= this.pageSize;
         this.currentPage++;
         this.isLoading = false;
+        onComplete?.();
       },
       error: () => {
         this.isLoading = false;
-        this.hasMore = false;
+        this.hasLoadError = true;
+        onComplete?.();
       },
     });
   }
 
   onIonInfinite(event: InfiniteScrollCustomEvent) {
-    this.loadPosts();
-    setTimeout(() => event.target.complete(), 500);
+    this.loadPosts(() => {
+      event.target.complete();
+      event.target.disabled = !this.hasMore || this.hasLoadError;
+    });
   }
 }
