@@ -74,6 +74,10 @@ export class LoginPage {
     this.showPassword = !this.showPassword;
   }
 
+  onRegisterClick() {
+    this.router.navigateByUrl('/register');
+  }
+
   onForgotPassword() {
     // TODO: navigate to password recovery page
   }
