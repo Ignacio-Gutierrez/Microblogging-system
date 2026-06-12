@@ -1,8 +1,25 @@
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Feed</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content>
+  @if (posts.length === 0 && isLoading) {
+    <div class="loading-spinner">
+      <ion-spinner name="circular"></ion-spinner>
+      <p>Loading posts...</p>
+    </div>
+  }
 
+  @for (post of posts; track post.id) {
+    <app-post-card [post]="post" />
+  } @empty {
+    @if (!isLoading) {
+      <div class="empty-state">
+        <p>No posts yet. Be the first to create one!</p>
+      </div>
+    }
+  }
+
+  <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)">
+    <ion-infinite-scroll-content
+      loadingSpinner="circular"
+      loadingText="Loading more posts..."
+    />
+  </ion-infinite-scroll>
 </ion-content>

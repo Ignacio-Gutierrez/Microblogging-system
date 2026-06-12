@@ -1,20 +1,65 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular/standalone';
+import { HttpResponse } from '@angular/common/http';
+import {
+  IonContent,
+  InfiniteScrollCustomEvent,
+  IonInfiniteScroll,
+  IonInfiniteScrollContent,
+  IonSpinner,
+} from '@ionic/angular/standalone';
+import { Post } from 'src/app/shared/models/post.model';
+import { PostService } from 'src/app/shared/services/post.service';
+import { PostCardComponent } from 'src/app/shared/components/post-card/post-card.component';
 
 @Component({
   selector: 'app-feed',
   templateUrl: './feed.page.html',
   styleUrls: ['./feed.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule]
+  imports: [
+    IonContent,
+    IonInfiniteScroll,
+    IonInfiniteScrollContent,
+    IonSpinner,
+    CommonModule,
+    PostCardComponent,
+  ],
 })
 export class FeedPage implements OnInit {
+  private readonly postService = inject(PostService);
 
-  constructor() { }
+  posts: Post[] = [];
+  currentPage = 0;
+  readonly pageSize = 10;
+  isLoading = false;
+  hasMore = true;
 
   ngOnInit() {
+    this.loadPosts();
   }
 
+  loadPosts() {
+    if (this.isLoading || !this.hasMore) return;
+    this.isLoading = true;
+
+    this.postService.getPosts(this.currentPage, this.pageSize).subscribe({
+      next: (res: HttpResponse<Post[]>) => {
+        const body = res.body ?? [];
+        this.posts = [...this.posts, ...body];
+        this.hasMore = body.length >= this.pageSize;
+        this.currentPage++;
+        this.isLoading = false;
+      },
+      error: () => {
+        this.isLoading = false;
+        this.hasMore = false;
+      },
+    });
+  }
+
+  onIonInfinite(event: InfiniteScrollCustomEvent) {
+    this.loadPosts();
+    setTimeout(() => event.target.complete(), 500);
+  }
 }
