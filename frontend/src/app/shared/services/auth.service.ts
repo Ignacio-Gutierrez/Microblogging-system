@@ -2,16 +2,7 @@ import { inject, Injectable, InjectionToken } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
-
-export interface LoginRequest {
-  username: string;
-  password: string;
-  rememberMe?: boolean;
-}
-
-export interface JwtToken {
-  id_token: string;
-}
+import type { JwtToken, LoginRequest, RegisterRequest } from '../models/auth.model';
 
 export const TOKEN_KEY = new InjectionToken<string>('Authentication token key', {
   factory: () => 'jhi-authenticationToken',
@@ -44,6 +35,10 @@ export class AuthService {
     return this.http
       .post<JwtToken>('/api/authenticate', credentials)
       .pipe(map(response => response.id_token));
+  }
+
+  register(registration: RegisterRequest): Observable<void> {
+    return this.http.post<void>('/api/register', registration);
   }
 
   storeToken(token: string, username?: string): void {
