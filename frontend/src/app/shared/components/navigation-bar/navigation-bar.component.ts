@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { IonIcon, IonTabBar, IonTabButton } from '@ionic/angular/standalone';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { addIcons } from 'ionicons';
-import { homeSharp, searchSharp, addCircleSharp } from 'ionicons/icons';
+import { homeSharp, addCircleSharp, fileTrayStacked } from 'ionicons/icons';
 
 @Component({
   selector: 'app-navigation-bar',
@@ -13,6 +13,6 @@ import { homeSharp, searchSharp, addCircleSharp } from 'ionicons/icons';
 })
 export class NavigationBarComponent {
   constructor() { 
-    addIcons({ homeSharp, searchSharp, addCircleSharp });
+    addIcons({ homeSharp, addCircleSharp, fileTrayStacked });
   }
 }

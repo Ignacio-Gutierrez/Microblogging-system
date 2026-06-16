@@ -1,0 +1,43 @@
+ion-content::part(scroll) {
+  padding-top: 0;
+}
+
+ion-spinner {
+  color: var(--ion-text-color);
+}
+
+.loading-spinner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  text-align: center;
+  color: var(--ion-text-color-65);
+
+  p {
+    margin-top: 12px;
+    font-size: 1rem;
+  }
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  text-align: center;
+  color: var(--ion-text-color-65);
+
+  ion-icon {
+    font-size: 64px;
+    margin-bottom: 16px;
+    color: var(--ion-text-color-65);
+  }
+
+  p {
+    font-size: 1.1rem;
+    margin: 0;
+  }
+}

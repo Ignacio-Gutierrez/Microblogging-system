@@ -1,0 +1,38 @@
+<app-header />
+
+<ion-content>
+  @if (isLoading) {
+    <div class="loading-spinner">
+      <ion-spinner name="circular"></ion-spinner>
+      <p>Cargando tus blogs...</p>
+    </div>
+  }
+
+  <ion-list>
+    @for (blog of blogs; track blog.id) {
+      <app-blog-card [blog]="blog" (click)="onBlogClick($event)" />
+    } @empty {
+      @if (!isLoading && !hasLoadError) {
+        <div class="empty-state">
+          <ion-icon name="sad"></ion-icon>
+          <p>No tenés blogs todavía. Creá tu primer blog.</p>
+        </div>
+      }
+    }
+  </ion-list>
+
+  @if (hasLoadError) {
+    <div class="empty-state">
+      <ion-icon name="sad"></ion-icon>
+      <p>No pudimos cargar tus blogs. Intentá de nuevo más tarde.</p>
+    </div>
+  }
+</ion-content>
+
+<ion-fab slot="fixed" vertical="bottom" horizontal="end">
+  <ion-fab-button routerLink="/app/blogs/new" aria-label="Crear blog">
+    <ion-icon name="add-sharp"></ion-icon>
+  </ion-fab-button>
+</ion-fab>
+
+<app-navigation-bar></app-navigation-bar>

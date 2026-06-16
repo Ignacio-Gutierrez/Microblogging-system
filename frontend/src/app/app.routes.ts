@@ -22,6 +22,11 @@ export const routes: Routes = [
         data: { title: 'Feed' },
         loadComponent: () => import('./pages/feed/feed.page').then( m => m.FeedPage)
       },
+      {
+        path: 'blogs',
+        data: { title: 'Mis Blogs' },
+        loadComponent: () => import('./pages/blogs/blogs.page').then( m => m.BlogsPage)
+      },
       { path: 'search', redirectTo: '/app/feed', pathMatch: 'full' },
       { path: 'home', redirectTo: '/app/feed', pathMatch: 'full' },
       { path: 'post', redirectTo: '/app/feed', pathMatch: 'full' },
