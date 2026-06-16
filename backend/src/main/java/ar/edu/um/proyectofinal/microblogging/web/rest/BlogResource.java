@@ -165,6 +165,17 @@ public class BlogResource {
     }
 
     /**
+     * {@code GET  /blogs/my-blogs} : get all Blogs for the current user.
+     *
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of Blogs in body.
+     */
+    @GetMapping("/my-blogs")
+    public List<Blog> getMyBlogs() {
+        LOG.debug("REST request to get Blogs for current user");
+        return blogRepository.findByUserIsCurrentUser();
+    }
+
+    /**
      * {@code GET  /blogs/:id} : get the "id" blog.
      *
      * @param id the id of the blog to retrieve.
