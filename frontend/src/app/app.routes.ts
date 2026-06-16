@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { redirectIfAuthenticatedGuard } from './shared/guards/redirect-if-authenticated.guard';
+import { requireAuthGuard } from './shared/guards/require-auth.guard';
 
 export const routes: Routes = [
   {
@@ -26,6 +27,7 @@ export const routes: Routes = [
       {
         path: 'blogs',
         data: { title: 'Mis Blogs' },
+        canActivate: [requireAuthGuard],
         loadComponent: () => import('./pages/blogs/blogs.page').then( m => m.BlogsPage)
       },
       { path: 'search', redirectTo: '/app/feed', pathMatch: 'full' },
