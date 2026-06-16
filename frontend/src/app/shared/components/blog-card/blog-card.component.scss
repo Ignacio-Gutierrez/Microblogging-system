@@ -1,0 +1,36 @@
+ion-item {
+  --background: transparent;
+  --color: var(--ion-text-color);
+  --border-width: 0;
+  --inner-border-width: 0;
+  --padding-start: 16px;
+  --padding-end: 16px;
+  --min-height: 58px;
+  cursor: pointer;
+  position: relative;
+
+  &::after {
+    content: '';
+    display: block;
+    height: 2px;
+    background: var(--ion-color-separator);
+    position: absolute;
+    bottom: 0;
+    left: 16px;
+    right: 16px;
+  }
+
+  &:hover {
+    --background: var(--ion-background-color-00);
+  }
+}
+
+ion-icon {
+  color: var(--ion-text-color);
+  font-size: 1.3rem;
+}
+
+ion-label {
+  font-size: 1rem;
+  font-weight: 600;
+}
