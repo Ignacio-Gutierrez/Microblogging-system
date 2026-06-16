@@ -11,7 +11,7 @@ ion-card::after {
   content: '';
   display: block;
   height: 2px;
-  background: rgba(255, 255, 255, 0.24);
+  background: var(--ion-color-separator);
   margin: 0 16px;
 }
 
@@ -26,15 +26,15 @@ ion-card::after {
   width: 42px;
   height: 42px;
   border-radius: 50%;
-  background: linear-gradient(135deg, var(--ion-color-navbar-button) 0%, #ff8e53 100%);
-  color: #fff;
+  background: linear-gradient(135deg, var(--ion-color-navbar-button) 0%, var(--ion-color-avatar-end) 100%);
+  color: var(--ion-color-secondary);
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: 700;
   font-size: 1.1rem;
   flex-shrink: 0;
-  box-shadow: 0 2px 8px rgba(255, 107, 107, 0.35);
+  box-shadow: 0 2px 8px var(--ion-color-shadow);
   cursor: pointer;
   padding: 0;
 
@@ -100,11 +100,11 @@ ion-text p {
   align-items: center;
   margin-top: 14px;
   padding-top: 12px;
-  border-top: 2px dashed rgba(255, 255, 255, 0.12);
+  border-top: 2px dashed var(--ion-color-separator-dashed);
   border-image: repeating-linear-gradient(
     to right,
-    rgba(255, 255, 255, 0.12) 0,
-    rgba(255, 255, 255, 0.12) 6px,
+    var(--ion-color-separator-dashed) 0,
+    var(--ion-color-separator-dashed) 6px,
     transparent 6px,
     transparent 20px
   ) 1;

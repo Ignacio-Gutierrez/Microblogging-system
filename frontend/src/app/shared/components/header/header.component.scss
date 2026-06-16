@@ -61,11 +61,11 @@
     height: 36px;
 
     &:hover {
-        --background: rgba(255, 107, 107, 0.12);
+        --background: var(--ion-color-hover);
     }
 
     &:active {
-        --background: rgba(255, 107, 107, 0.2);
+        --background: var(--ion-color-active);
     }
 }
 
@@ -78,14 +78,14 @@
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  background: linear-gradient(135deg, var(--ion-color-navbar-button) 0%, #ff8e53 100%);
-  color: #fff;
+  background: linear-gradient(135deg, var(--ion-color-navbar-button) 0%, var(--ion-color-avatar-end) 100%);
+  color: var(--ion-color-secondary);
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: 700;
   font-size: 1rem;
-  box-shadow: 0 2px 8px rgba(255, 107, 107, 0.35);
+  box-shadow: 0 2px 8px var(--ion-color-shadow);
 }
 
 /* ── Mobile: hide text labels, show only icons ── */

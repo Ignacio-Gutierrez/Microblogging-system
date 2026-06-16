@@ -59,7 +59,7 @@
     --ion-color-secondary-rgb: 255 255 255;
 
     --ion-text-color: #BFD7EA;
-	--ion-text-color-rgb: 191 215 234;
+	  --ion-text-color-rgb: 191 215 234;
 
     --ion-text-color-65: #BFD7EA99;
     --ion-text-color-65-rgb: 191 215 234 / 0.65;
@@ -86,6 +86,26 @@
 
     --ion-color-danger: #EF476F;
     --ion-color-danger-rgb: 239, 71, 111;
+
+    /* Avatar */
+    --ion-color-avatar-end: #ff8e53;
+    --ion-color-avatar-end-rgb: 255 142 83;
+
+    /* Separator lines */
+    --ion-color-separator: rgba(255, 255, 255, 0.24);
+    --ion-color-separator-dashed: rgba(255, 255, 255, 0.12);
+
+    /*  Hover */
+    --ion-color-hover: rgba(255, 107, 107, 0.12);
+    --ion-color-active: rgba(255, 107, 107, 0.20);
+    --ion-color-shadow: rgba(255, 107, 107, 0.35);
+
+    /* Light-theme surface (login/register) */
+    --ion-color-surface-light: #C2D9EC;
+    --ion-color-input-border: #d0d8e0;
+    --ion-color-input-text: #333333;
+    --ion-color-input-bg: #ffffff;
+    --ion-color-input-placeholder: #b0b8c0;
 }
 
 /*
