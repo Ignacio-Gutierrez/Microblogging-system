@@ -5,8 +5,7 @@ import {
   IonContent,
   IonSpinner,
   IonIcon,
-  IonFab,
-  IonFabButton,
+  IonButton,
   IonList,
 } from '@ionic/angular/standalone';
 import { Blog } from 'src/app/shared/models/blog.model';
@@ -26,8 +25,7 @@ import { addSharp, sad } from 'ionicons/icons';
     IonContent,
     IonSpinner,
     IonIcon,
-    IonFab,
-    IonFabButton,
+    IonButton,
     IonList,
     CommonModule,
     RouterLink,
