@@ -11,8 +11,6 @@ import {
 import { Blog } from 'src/app/shared/models/blog.model';
 import { BlogService } from 'src/app/shared/services/blog.service';
 import { BlogCardComponent } from 'src/app/shared/components/blog-card/blog-card.component';
-import { HeaderComponent } from 'src/app/shared/components/header/header.component';
-import { NavigationBarComponent } from 'src/app/shared/components/navigation-bar/navigation-bar.component';
 import { addIcons } from 'ionicons';
 import { addSharp, sad } from 'ionicons/icons';
 
@@ -29,9 +27,7 @@ import { addSharp, sad } from 'ionicons/icons';
     IonList,
     CommonModule,
     RouterLink,
-    BlogCardComponent,
-    HeaderComponent,
-    NavigationBarComponent,
+    BlogCardComponent
   ],
 })
 export class BlogsPage implements OnInit {

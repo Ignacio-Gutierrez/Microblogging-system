@@ -108,17 +108,7 @@
     --ion-color-input-placeholder: #b0b8c0;
 }
 
-/*
- * Content padding so pages are not hidden behind the fixed
- * header (112px = two toolbars) or the bottom navigation bar (~90px).
- */
+/* Content padding so pages are not hidden behind the bottom navigation bar (~90px). */
 ion-content::part(scroll) {
-  padding-top: 112px;
   padding-bottom: 90px;
-}
-
-@media (max-width: 576px) {
-  ion-content::part(scroll) {
-    padding-top: 102px;
-  }
 }

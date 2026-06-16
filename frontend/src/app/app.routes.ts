@@ -16,6 +16,7 @@ export const routes: Routes = [
   },
   {
     path: 'app',
+    loadComponent: () => import('./shared/components/app-layout/app-layout.component').then(m => m.AppLayoutComponent),
     children: [
       {
         path: 'feed',
@@ -28,7 +29,6 @@ export const routes: Routes = [
         loadComponent: () => import('./pages/blogs/blogs.page').then( m => m.BlogsPage)
       },
       { path: 'search', redirectTo: '/app/feed', pathMatch: 'full' },
-      { path: 'home', redirectTo: '/app/feed', pathMatch: 'full' },
       { path: 'post', redirectTo: '/app/feed', pathMatch: 'full' },
       { path: '', redirectTo: '/app/feed', pathMatch: 'full' }
     ]
