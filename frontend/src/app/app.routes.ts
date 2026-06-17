@@ -25,8 +25,8 @@ export const routes: Routes = [
         loadComponent: () => import('./pages/feed/feed.page').then( m => m.FeedPage)
       },
       {
-        path: 'blogs',
-        data: { title: 'Mis Blogs' },
+        path: ':login/blogs',
+        data: { title: 'User Blogs' },
         canActivate: [requireAuthGuard],
         loadComponent: () => import('./pages/blogs/blogs.page').then( m => m.BlogsPage)
       },

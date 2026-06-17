@@ -1,6 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpResponse } from '@angular/common/http';
+import { ViewWillEnter } from '@ionic/angular';
 import {
   IonContent,
   InfiniteScrollCustomEvent,
@@ -12,6 +13,8 @@ import {
 import { Post } from 'src/app/shared/models/post.model';
 import { PostService } from 'src/app/shared/services/post.service';
 import { PostCardComponent } from 'src/app/shared/components/post-card/post-card.component';
+import { PageTitleService } from 'src/app/shared/services/page-title.service';
+import { Router } from '@angular/router';
 import { addIcons } from 'ionicons';
 import { sad } from 'ionicons/icons';
 
@@ -30,8 +33,10 @@ import { sad } from 'ionicons/icons';
     PostCardComponent
   ],
 })
-export class FeedPage implements OnInit {
+export class FeedPage implements OnInit, ViewWillEnter {
   private readonly postService = inject(PostService);
+  private readonly router = inject(Router);
+  private readonly pageTitleService = inject(PageTitleService);
 
   posts: Post[] = [];
   currentPage = 0;
@@ -46,6 +51,10 @@ export class FeedPage implements OnInit {
 
   ngOnInit() {
     this.loadPosts();
+  }
+
+  ionViewWillEnter(): void {
+    this.pageTitleService.setTitle('Feed');
   }
 
   loadPosts(onComplete?: () => void) {
@@ -79,5 +88,19 @@ export class FeedPage implements OnInit {
       event.target.complete();
       event.target.disabled = !this.hasMore || this.hasLoadError;
     });
+  }
+
+  onUserClick(post: Post) {
+    const login = post.blog.user?.login;
+    if (login) {
+      this.router.navigate(['/app', login, 'blogs']);
+    }
+  }
+
+  onBlogClick(post: Post) {
+    const login = post.blog.user?.login;
+    if (login) {
+      this.router.navigate(['/app', login, 'blogs']);
+    }
   }
 }

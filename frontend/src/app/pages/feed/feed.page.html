@@ -7,7 +7,7 @@
   }
 
   @for (post of posts; track post.id) {
-    <app-post-card [post]="post" />
+    <app-post-card [post]="post" (userClick)="onUserClick($event)" (blogClick)="onBlogClick($event)"/>
   } @empty {
     @if (!isLoading && !hasLoadError) {
       <div class="empty-state">

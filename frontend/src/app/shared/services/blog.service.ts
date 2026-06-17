@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { Blog } from '../models/blog.model';
 
 @Injectable({ providedIn: 'root' })
@@ -11,5 +11,12 @@ export class BlogService {
   /* Get all blogs for the currently authenticated user. */
   getMyBlogs(): Observable<Blog[]> {
     return this.http.get<Blog[]>(`${this.baseUrl}/my-blogs`);
+  }
+
+  /* Get all blogs for a specific user by their login. Uses the public endpoint and filters client-side. */
+  getBlogsByUser(login: string): Observable<Blog[]> {
+    return this.http.get<Blog[]>(`${this.baseUrl}?eagerload=true`).pipe(
+      map(blogs => blogs.filter(blog => blog.user?.login === login))
+    );
   }
 }
