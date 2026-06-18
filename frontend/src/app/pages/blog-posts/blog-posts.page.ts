@@ -10,6 +10,7 @@ import {
   IonIcon,
 } from '@ionic/angular/standalone';
 import { Post } from 'src/app/shared/models/post.model';
+import { Blog } from 'src/app/shared/models/blog.model';
 import { PostService } from 'src/app/shared/services/post.service';
 import { BlogService } from 'src/app/shared/services/blog.service';
 import { PostCardComponent } from 'src/app/shared/components/post-card/post-card.component';
@@ -47,7 +48,7 @@ export class BlogPostsPage implements OnInit {
   hasMore = true;
   hasLoadError = false;
   blogId = 0;
-  blogName = '';
+  blog: Blog | null = null;
   profileLogin = '';
 
   constructor() {
@@ -70,14 +71,14 @@ export class BlogPostsPage implements OnInit {
 
   private verifyBlog() {
     this.blogService.getBlogById(this.blogId).subscribe({
-      next: (blog) => {
-        if (blog.user?.login !== this.profileLogin) {
+      next: (b) => {
+        if (b.user?.login !== this.profileLogin) {
           this.router.navigate(['/app', this.profileLogin, 'blogs']);
           return;
         }
-        this.blogName = blog.name;
+        this.blog = b;
         const displayName = this.profileLogin.charAt(0).toUpperCase() + this.profileLogin.slice(1);
-        this.pageTitleService.setTitle(`${displayName} · ${this.blogName}`);
+        this.pageTitleService.setTitle(`${displayName} · ${this.blog.name}`);
         this.resetAndLoad();
       },
       error: () => {
