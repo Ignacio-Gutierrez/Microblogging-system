@@ -103,4 +103,8 @@ export class FeedPage implements OnInit, ViewWillEnter {
       this.router.navigate(['/app', login, 'blogs', post.blog.id, 'posts']);
     }
   }
+
+  onTagClick(event: { tag: string; post: Post }) {
+    this.router.navigate(['/app/tag', event.tag]);
+  }
 }

@@ -39,10 +39,10 @@ export const routes: Routes = [
       {
         path: 'tag/:tagName',
         data: { title: 'Tag' },
+        canActivate: [requireAuthGuard],
         loadComponent: () => import('./pages/tag-posts/tag-posts.page').then( m => m.TagPostsPage)
       },
-      { path: 'search', redirectTo: '/app/feed', pathMatch: 'full' },
-      { path: 'post', redirectTo: '/app/feed', pathMatch: 'full' },
+      { path: '**', redirectTo: '/app/feed' },
       { path: '', redirectTo: '/app/feed', pathMatch: 'full' }
     ]
   },

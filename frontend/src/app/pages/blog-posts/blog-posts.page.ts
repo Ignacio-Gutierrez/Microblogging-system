@@ -138,4 +138,8 @@ export class BlogPostsPage implements OnInit {
   onBlogClick(_post: Post) {
     // Already viewing posts of this blog — no navigation needed
   }
+
+  onTagClick(event: { tag: string; post: Post }) {
+    this.router.navigate(['/app/tag', event.tag]);
+  }
 }
