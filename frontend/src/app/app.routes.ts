@@ -48,6 +48,11 @@ export const routes: Routes = [
         canActivate: [requireAuthGuard],
         loadComponent: () => import('./pages/search/search.page').then( m => m.SearchPage)
       },
+      {
+        path: 'random',
+        data: { title: 'Post aleatorio' },
+        loadComponent: () => import('./pages/random-post/random-post.page').then( m => m.RandomPostPage)
+      },
       { path: '**', redirectTo: '/app/feed' },
       { path: '', redirectTo: '/app/feed', pathMatch: 'full' }
     ]

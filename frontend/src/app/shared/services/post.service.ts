@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { Post } from '../models/post.model';
 
 @Injectable({ providedIn: 'root' })
@@ -66,7 +66,7 @@ export class PostService {
     });
   }
 
-  /**
+  /*
    * Create a new post.
    */
   createPost(post: {
@@ -76,5 +76,12 @@ export class PostService {
     blog: { id: number };
   }): Observable<Post> {
     return this.http.post<Post>(this.baseUrl, post);
+  }
+
+  /* Get a random post from today. */
+  getRandomPost(): Observable<Post | null> {
+    return this.http.get<Post>(`${this.baseUrl}/random`).pipe(
+      map(response => response ?? null)
+    );
   }
 }
