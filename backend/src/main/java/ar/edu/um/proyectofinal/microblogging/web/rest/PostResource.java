@@ -152,13 +152,16 @@ public class PostResource {
     public ResponseEntity<List<Post>> getAllPosts(
         @org.springdoc.core.annotations.ParameterObject Pageable pageable,
         @RequestParam(name = "eagerload", required = false, defaultValue = "true") boolean eagerload,
-        @RequestParam(name = "blogId", required = false) Long blogId
+        @RequestParam(name = "blogId", required = false) Long blogId,
+        @RequestParam(name = "tagName", required = false) String tagName
     ) {
         LOG.debug("REST request to get a page of Posts");
         Page<Post> page;
         if (eagerload) {
             if (blogId != null) {
                 page = postRepository.findAllWithEagerRelationships(pageable, blogId);
+            } else if (tagName != null) {
+                page = postRepository.findAllWithEagerRelationships(pageable, tagName);
             } else {
                 page = postRepository.findAllWithEagerRelationships(pageable);
             }

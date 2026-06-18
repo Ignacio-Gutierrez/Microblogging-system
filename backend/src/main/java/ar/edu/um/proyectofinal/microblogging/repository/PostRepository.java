@@ -33,6 +33,10 @@ public interface PostRepository extends PostRepositoryWithBagRelationships, JpaR
         return this.fetchBagRelationships(this.findAllWithToOneRelationshipsByBlogId(blogId, pageable));
     }
 
+    default Page<Post> findAllWithEagerRelationships(Pageable pageable, String tagName) {
+        return this.fetchBagRelationships(this.findAllWithToOneRelationshipsByTagName(tagName, pageable));
+    }
+
     Page<Post> findByBlog_Id(Long blogId, Pageable pageable);
 
     @Query(value = "select post from Post post left join fetch post.blog left join fetch post.blog.user", countQuery = "select count(post) from Post post")
@@ -40,6 +44,9 @@ public interface PostRepository extends PostRepositoryWithBagRelationships, JpaR
 
     @Query(value = "select post from Post post left join fetch post.blog left join fetch post.blog.user where post.blog.id =:blogId", countQuery = "select count(post) from Post post where post.blog.id =:blogId")
     Page<Post> findAllWithToOneRelationshipsByBlogId(@Param("blogId") Long blogId, Pageable pageable);
+
+    @Query(value = "select post from Post post left join fetch post.blog left join fetch post.blog.user left join post.tags tag where tag.name =:tagName", countQuery = "select count(post) from Post post left join post.tags tag where tag.name =:tagName")
+    Page<Post> findAllWithToOneRelationshipsByTagName(@Param("tagName") String tagName, Pageable pageable);
 
     @Query("select post from Post post left join fetch post.blog left join fetch post.blog.user")
     List<Post> findAllWithToOneRelationships();
