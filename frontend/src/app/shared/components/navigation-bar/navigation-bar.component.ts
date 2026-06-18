@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { IonIcon, IonTabBar, IonTabButton } from '@ionic/angular/standalone';
 import { RouterLink, RouterLinkActive, Router } from '@angular/router';
 import { addIcons } from 'ionicons';
-import { homeSharp, addCircleSharp, fileTrayStacked } from 'ionicons/icons';
+import { homeSharp, addCircleSharp, fileTrayStackedSharp, searchSharp } from 'ionicons/icons';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
@@ -16,7 +16,7 @@ export class NavigationBarComponent {
   private readonly authService = inject(AuthService);
 
   constructor() {
-    addIcons({ homeSharp, addCircleSharp, fileTrayStacked });
+    addIcons({ homeSharp, addCircleSharp, fileTrayStackedSharp, searchSharp });
   }
 
   get userBlogsLink(): string {
