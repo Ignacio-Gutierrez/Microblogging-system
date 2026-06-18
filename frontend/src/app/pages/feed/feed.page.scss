@@ -19,6 +19,21 @@ ion-infinite-scroll-content {
   --color: var(--ion-text-color);
 }
 
+.loading-spinner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  text-align: center;
+  color: var(--ion-text-color-65);
+
+  p {
+    margin-top: 12px;
+    font-size: 1rem;
+  }
+}
+
 .feed-end {
   display: flex;
   justify-content: center;
