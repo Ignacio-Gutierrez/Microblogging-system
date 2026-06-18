@@ -2,18 +2,9 @@
   <div class="popup" (click)="$event.stopPropagation()">
     <div class="popup-header">
       <span class="popup-title">Crear blog</span>
-      <button class="close-btn" (click)="dismiss()">
-        <ion-icon name="close-sharp"></ion-icon>
-      </button>
     </div>
 
     <div class="popup-body">
-      @if (errorMessage) {
-        <div class="error-message">
-          <span>{{ errorMessage }}</span>
-        </div>
-      }
-
       <label class="field">
         <span class="field-label">Nombre del blog</span>
         <input
@@ -33,6 +24,14 @@
           [disabled]="isSubmitting"
         />
       </label>
+    </div>
+
+    <div class="popup-message">
+      @if (errorMessage) {
+        <div class="error-message">
+          <span>{{ errorMessage }}</span>
+        </div>
+      }
     </div>
 
     <div class="popup-footer">

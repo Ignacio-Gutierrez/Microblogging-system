@@ -19,7 +19,6 @@ import { closeSharp } from 'ionicons/icons';
   imports: [
     CommonModule,
     FormsModule,
-    IonIcon,
     IonSpinner,
   ],
 })
