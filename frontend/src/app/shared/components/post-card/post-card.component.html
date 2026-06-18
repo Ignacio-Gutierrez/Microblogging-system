@@ -5,7 +5,7 @@
         {{ (post().blog.user?.login ?? post().blog.handle).charAt(0).toUpperCase() }}
       </button>
       <button class="author-info" (click)="onUserClick()">
-        <span class="author-name">@{{ post().blog.user?.login ?? post().blog.handle }}</span>
+        <span class="author-name">@{{ post().blog.user?.login }}</span>
       </button>
       <span class="time-text">
         <ion-icon></ion-icon>
@@ -29,7 +29,7 @@
           }
         }
       </div>
-      <button class="blog-chip" (click)="onBlogClick()">{{ post().blog.handle }}</button>
+      <button class="blog-chip" (click)="onBlogClick()">{{ post().blog.name }}</button>
     </div>
   </ion-card-content>
 </ion-card>
