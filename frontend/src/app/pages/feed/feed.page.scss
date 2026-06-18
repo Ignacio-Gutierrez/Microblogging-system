@@ -16,7 +16,8 @@ ion-spinner {
 
 ion-infinite-scroll-content {
   --spinner-color: var(--ion-text-color);
-  --color: var(--ion-text-color);
+  --color: var(--ion-text-color-65);
+  font-size: 0.95rem;
 }
 
 .loading-spinner {

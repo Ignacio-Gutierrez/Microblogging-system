@@ -16,7 +16,23 @@ ion-spinner {
 
 ion-infinite-scroll-content {
   --spinner-color: var(--ion-text-color);
-  --color: var(--ion-text-color);
+  --color: var(--ion-text-color-65);
+  font-size: 0.95rem;
+}
+
+.loading-spinner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  text-align: center;
+  color: var(--ion-text-color-65);
+
+  p {
+    margin-top: 12px;
+    font-size: 1rem;
+  }
 }
 
 .feed-end {
