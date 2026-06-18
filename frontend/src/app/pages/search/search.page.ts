@@ -10,7 +10,6 @@ import {
   IonSearchbar,
   IonLabel,
   IonAvatar,
-  IonChip,
 } from '@ionic/angular/standalone';
 import { PostCardComponent } from 'src/app/shared/components/post-card/post-card.component';
 import { SearchService, SearchAllResult } from 'src/app/shared/services/search.service';
@@ -31,7 +30,6 @@ import { layersSharp, sad, peopleSharp } from 'ionicons/icons';
     IonSearchbar,
     IonLabel,
     IonAvatar,
-    IonChip,
     CommonModule,
     FormsModule,
     PostCardComponent,
