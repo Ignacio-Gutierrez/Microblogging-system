@@ -3,7 +3,6 @@ import { inject } from '@angular/core';
 import { AuthService } from './auth.service';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
-  // Skip adding token for login endpoint
   if (req.url.endsWith('/api/authenticate')) {
     return next(req);
   }
