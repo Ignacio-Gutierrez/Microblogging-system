@@ -19,4 +19,9 @@ export class BlogService {
       map(blogs => blogs.filter(blog => blog.user?.login === login))
     );
   }
+
+  /* Get a single blog by its ID. */
+  getBlogById(id: number): Observable<Blog> {
+    return this.http.get<Blog>(`${this.baseUrl}/${id}`);
+  }
 }

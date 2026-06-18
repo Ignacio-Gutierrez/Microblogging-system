@@ -1,7 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpResponse } from '@angular/common/http';
-import { ViewWillEnter } from '@ionic/angular';
 import {
   IonContent,
   InfiniteScrollCustomEvent,
@@ -12,16 +11,17 @@ import {
 } from '@ionic/angular/standalone';
 import { Post } from 'src/app/shared/models/post.model';
 import { PostService } from 'src/app/shared/services/post.service';
+import { BlogService } from 'src/app/shared/services/blog.service';
 import { PostCardComponent } from 'src/app/shared/components/post-card/post-card.component';
 import { PageTitleService } from 'src/app/shared/services/page-title.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { addIcons } from 'ionicons';
 import { sad } from 'ionicons/icons';
 
 @Component({
-  selector: 'app-feed',
-  templateUrl: './feed.page.html',
-  styleUrls: ['./feed.page.scss'],
+  selector: 'app-blog-posts',
+  templateUrl: './blog-posts.page.html',
+  styleUrls: ['./blog-posts.page.scss'],
   standalone: true,
   imports: [
     IonContent,
@@ -30,12 +30,14 @@ import { sad } from 'ionicons/icons';
     IonSpinner,
     IonIcon,
     CommonModule,
-    PostCardComponent
+    PostCardComponent,
   ],
 })
-export class FeedPage implements OnInit, ViewWillEnter {
+export class BlogPostsPage implements OnInit {
   private readonly postService = inject(PostService);
+  private readonly blogService = inject(BlogService);
   private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
   private readonly pageTitleService = inject(PageTitleService);
 
   posts: Post[] = [];
@@ -44,17 +46,49 @@ export class FeedPage implements OnInit, ViewWillEnter {
   isLoading = false;
   hasMore = true;
   hasLoadError = false;
+  blogId = 0;
+  blogHandle = '';
+  profileLogin = '';
 
   constructor() {
     addIcons({ sad });
   }
 
   ngOnInit() {
-    this.loadPosts();
+    this.route.paramMap.subscribe((params) => {
+      const login = params.get('login');
+      const blogIdStr = params.get('blogId');
+      if (login && blogIdStr) {
+        this.profileLogin = login;
+        this.blogId = Number(blogIdStr);
+        const displayName = login.charAt(0).toUpperCase() + login.slice(1);
+        this.pageTitleService.setTitle(`${displayName} · ...`);
+        this.verifyBlog();
+      }
+    });
   }
 
-  ionViewWillEnter(): void {
-    this.pageTitleService.setTitle('Feed');
+  private verifyBlog() {
+    this.blogService.getBlogById(this.blogId).subscribe({
+      next: (blog) => {
+        if (blog.user?.login !== this.profileLogin) {
+          this.router.navigate(['/app', this.profileLogin, 'blogs']);
+          return;
+        }
+        this.resetAndLoad();
+      },
+      error: () => {
+        this.router.navigate(['/app', this.profileLogin, 'blogs']);
+      },
+    });
+  }
+
+  private resetAndLoad() {
+    this.posts = [];
+    this.currentPage = 0;
+    this.hasMore = true;
+    this.hasLoadError = false;
+    this.loadPosts();
   }
 
   loadPosts(onComplete?: () => void) {
@@ -66,11 +100,16 @@ export class FeedPage implements OnInit, ViewWillEnter {
     this.isLoading = true;
     this.hasLoadError = false;
 
-    this.postService.getPosts(this.currentPage, this.pageSize).subscribe({
+    this.postService.getPostsByBlog(this.blogId, this.currentPage, this.pageSize).subscribe({
       next: (res: HttpResponse<Post[]>) => {
         const body = res.body ?? [];
         this.posts = [...this.posts, ...body];
         this.hasMore = body.length >= this.pageSize;
+        if (body.length > 0 && !this.blogHandle) {
+          this.blogHandle = body[0].blog.handle;
+          const displayName = this.profileLogin.charAt(0).toUpperCase() + this.profileLogin.slice(1);
+          this.pageTitleService.setTitle(`${displayName} · Blog - ${body[0].blog.name}`);
+        }
         this.currentPage++;
         this.isLoading = false;
         onComplete?.();
@@ -97,10 +136,7 @@ export class FeedPage implements OnInit, ViewWillEnter {
     }
   }
 
-  onBlogClick(post: Post) {
-    const login = post.blog.user?.login;
-    if (login) {
-      this.router.navigate(['/app', login, 'blogs', post.blog.id, 'posts']);
-    }
+  onBlogClick(_post: Post) {
+    // Already viewing posts of this blog — no navigation needed
   }
 }
