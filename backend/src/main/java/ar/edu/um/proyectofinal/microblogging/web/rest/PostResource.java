@@ -7,9 +7,13 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Random;
 import java.util.function.Consumer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,6 +40,8 @@ public class PostResource {
     private static final Logger LOG = LoggerFactory.getLogger(PostResource.class);
 
     private static final String ENTITY_NAME = "post";
+
+    private static final Random RANDOM = new Random();
 
     @Value("${jhipster.clientApp.name:blog}")
     private String applicationName;
@@ -174,6 +180,24 @@ public class PostResource {
         }
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    /**
+     * {@code GET  /posts/random} : get a random post from today.
+     *
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body a random post,
+     * or with status {@code 204 (No Content)} if there are no posts today.
+     */
+    @GetMapping("/random")
+    public ResponseEntity<Post> getRandomPost() {
+        LOG.debug("REST request to get a random post");
+        Instant startOfDay = LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant();
+        List<Post> posts = postRepository.findAllByDateAfterWithEagerRelationships(startOfDay);
+        if (posts.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        Post randomPost = posts.get(RANDOM.nextInt(posts.size()));
+        return ResponseEntity.ok(randomPost);
     }
 
     /**

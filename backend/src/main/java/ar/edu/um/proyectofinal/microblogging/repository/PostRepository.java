@@ -1,6 +1,7 @@
 package ar.edu.um.proyectofinal.microblogging.repository;
 
 import ar.edu.um.proyectofinal.microblogging.domain.Post;
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
@@ -53,4 +54,10 @@ public interface PostRepository extends PostRepositoryWithBagRelationships, JpaR
 
     @Query("select post from Post post left join fetch post.blog left join fetch post.blog.user where post.id =:id")
     Optional<Post> findOneWithToOneRelationships(@Param("id") Long id);
+
+    @Query("select count(p) from Post p where p.date >= :startOfDay")
+    long countByDateAfter(@Param("startOfDay") Instant startOfDay);
+
+    @Query("select p from Post p left join fetch p.blog left join fetch p.blog.user where p.date >= :startOfDay")
+    List<Post> findAllByDateAfterWithEagerRelationships(@Param("startOfDay") Instant startOfDay);
 }
