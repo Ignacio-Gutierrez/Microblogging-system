@@ -88,13 +88,13 @@
 
     @if (successMessage()) {
       <div class="success-banner">
-        <ion-text color="success">{{ successMessage() }}</ion-text>
+        <ion-text>{{ successMessage() }}</ion-text>
       </div>
     }
 
     @if (errorMessage()) {
       <div class="error-banner">
-        <ion-text color="danger">{{ errorMessage() }}</ion-text>
+        <ion-text>{{ errorMessage() }}</ion-text>
       </div>
     }
   </div>
