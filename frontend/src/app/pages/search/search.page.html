@@ -1,0 +1,74 @@
+<ion-content>
+  <div class="search-wrapper">
+    <ion-searchbar
+      [debounce]="0"
+      placeholder="Buscar usuarios, tags, blogs..."
+      (ionInput)="onSearchInput($event)"
+      class="search-bar"
+    />
+  </div>
+
+  @if (isLoading) {
+    <div class="loading-spinner">
+      <ion-spinner name="circular"></ion-spinner>
+      <p>Buscando...</p>
+    </div>
+  }
+
+  @if (!isLoading && hasSearched && users.length === 0 && posts.length === 0) {
+    <div class="empty-state">
+      <ion-icon name="sad"></ion-icon>
+      <p>No encontramos resultados para "{{ query }}"</p>
+    </div>
+  }
+
+  @if (!isLoading && hasSearched) {
+      <!-- Users section -->
+      @if (users.length > 0) {
+        <section class="results-section">
+          <h2 class="section-title">
+            <ion-icon name="people-sharp"></ion-icon>
+            Usuarios
+          </h2>
+          <div class="users-list">
+            @for (user of users; track user.id) {
+              <div (click)="onUserClick(user.login)" class="user-item">
+                <ion-avatar>
+                  <span class="avatar-text">{{ user.login.charAt(0).toUpperCase() }}</span>
+                </ion-avatar>
+                <ion-label>@{{ user.login }}</ion-label>
+              </div>
+            }
+          </div>
+        </section>
+      }
+
+      <!-- Posts section -->
+      @if (posts.length > 0) {
+        <section class="results-section">
+          <h2 class="section-title">
+            <ion-icon name="layers-sharp"></ion-icon>
+            Posts
+          </h2>
+          <div class="posts-list">
+          @for (post of posts; track post.id) {
+            <app-post-card
+              [post]="post"
+              (userClick)="onPostUserClick($event)"
+              (blogClick)="onPostBlogClick($event)"
+              (tagClick)="onPostTagClick($event)"
+            />
+          }
+          </div>
+        </section>
+      }
+    }
+
+    <!-- Initial state -->
+    @if (!hasSearched && !isLoading) {
+      <div class="empty-state initial-state">
+        <ion-icon name="search-sharp"></ion-icon>
+        <p>Buscá por usuarios, tags o blogs</p>
+      </div>
+    }
+</ion-content>
