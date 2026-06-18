@@ -1,0 +1,81 @@
+<div class="overlay" (click)="dismiss()">
+  <div class="popup" (click)="$event.stopPropagation()">
+    <div class="popup-header">
+      <span class="popup-title">Crear post</span>
+    </div>
+
+    <div class="popup-body">
+      <label class="field">
+        <span class="field-label">Título</span>
+        <input
+          class="field-input"
+          [(ngModel)]="postTitle"
+          placeholder="Título del post"
+          [disabled]="isSubmitting"
+        />
+      </label>
+
+      <label class="field">
+        <span class="field-label">Contenido</span>
+        <textarea
+          class="field-textarea"
+          [(ngModel)]="postContent"
+          placeholder="Escribí tu post..."
+          [disabled]="isSubmitting"
+          rows="4"
+        ></textarea>
+      </label>
+
+      <label class="field">
+        <span class="field-label">Blog</span>
+        <select
+          class="field-select"
+          [(ngModel)]="selectedBlogId"
+          [disabled]="isSubmitting || isLoadingBlogs"
+        >
+          <option [ngValue]="null" disabled>
+            {{ isLoadingBlogs ? 'Cargando blogs...' : 'Seleccioná un blog' }}
+          </option>
+          @for (blog of userBlogs; track blog.id) {
+            <option [ngValue]="blog.id">{{ blog.name }}</option>
+          }
+        </select>
+      </label>
+
+      <label class="field">
+        <span class="field-label">Tags</span>
+        <input
+          class="field-input"
+          [(ngModel)]="tagsInput"
+          placeholder="tech, ciencia, java"
+          [disabled]="isSubmitting"
+        />
+        <span class="field-hint">Separados por coma</span>
+      </label>
+    </div>
+
+    <div class="popup-message">
+      @if (errorMessage) {
+        <div class="error-message">
+          <span>{{ errorMessage }}</span>
+        </div>
+      }
+    </div>
+
+    <div class="popup-footer">
+      <button class="btn btn-cancel" (click)="dismiss()" [disabled]="isSubmitting">
+        Cancelar
+      </button>
+      <button class="btn btn-primary" (click)="submit()" [disabled]="isSubmitting">
+        @if (isSubmitting) {
+          <span class="btn-loading">
+            <ion-spinner name="circular"></ion-spinner>
+            Creando...
+          </span>
+        } @else {
+          Crear post
+        }
+      </button>
+    </div>
+  </div>
+</div>

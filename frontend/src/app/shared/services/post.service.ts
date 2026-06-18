@@ -65,4 +65,16 @@ export class PostService {
       observe: 'response',
     });
   }
+
+  /**
+   * Create a new post.
+   */
+  createPost(post: {
+    title: string;
+    content: string;
+    date: string;
+    blog: { id: number };
+  }): Observable<Post> {
+    return this.http.post<Post>(this.baseUrl, post);
+  }
 }

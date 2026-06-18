@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, output } from '@angular/core';
 import { IonIcon, IonTabBar, IonTabButton } from '@ionic/angular/standalone';
 import { RouterLink, RouterLinkActive, Router } from '@angular/router';
 import { addIcons } from 'ionicons';
@@ -14,13 +14,26 @@ import { AuthService } from '../../services/auth.service';
 })
 export class NavigationBarComponent {
   private readonly authService = inject(AuthService);
+  private readonly router = inject(Router);
+
+  readonly createPost = output<void>();
 
   constructor() {
     addIcons({ homeSharp, addCircleSharp, fileTrayStackedSharp, searchSharp });
   }
 
+  onCreatePost() {
+    if (!this.authService.isAuthenticated()) {
+      this.router.navigate(['/login']);
+      return;
+    }
+    this.createPost.emit();
+  }
+
   get userBlogsLink(): string {
-    const username = this.authService.getUsername();
-    return username ? `/app/${username}/blogs` : '/app/feed';
+    if (!this.authService.isAuthenticated()) {
+      return '/login';
+    }
+    return `/app/${this.authService.getUsername()}/blogs`;
   }
 }
