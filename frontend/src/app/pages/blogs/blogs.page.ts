@@ -1,6 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router, ActivatedRoute, RouterLink } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { ViewWillEnter } from '@ionic/angular';
 import {
   IonContent,
@@ -14,6 +14,7 @@ import { BlogService } from 'src/app/shared/services/blog.service';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { PageTitleService } from 'src/app/shared/services/page-title.service';
 import { BlogCardComponent } from 'src/app/shared/components/blog-card/blog-card.component';
+import { CreateBlogModalComponent } from 'src/app/shared/components/create-blog-modal/create-blog-modal.component';
 import { addIcons } from 'ionicons';
 import { addSharp, sad } from 'ionicons/icons';
 
@@ -29,8 +30,8 @@ import { addSharp, sad } from 'ionicons/icons';
     IonButton,
     IonList,
     CommonModule,
-    RouterLink,
-    BlogCardComponent
+    BlogCardComponent,
+    CreateBlogModalComponent,
   ],
 })
 export class BlogsPage implements OnInit, ViewWillEnter {
@@ -45,6 +46,7 @@ export class BlogsPage implements OnInit, ViewWillEnter {
   hasLoadError = false;
   isOwnProfile = false;
   profileLogin = '';
+  showCreateModal = false;
 
   constructor() {
     addIcons({ addSharp, sad });
@@ -89,5 +91,18 @@ export class BlogsPage implements OnInit, ViewWillEnter {
 
   onBlogClick(blog: Blog) {
     this.router.navigate(['/app', this.profileLogin, 'blogs', blog.id, 'posts']);
+  }
+
+  openCreateModal() {
+    this.showCreateModal = true;
+  }
+
+  onBlogCreated(blog: Blog) {
+    this.showCreateModal = false;
+    this.blogs.unshift(blog);
+  }
+
+  onModalDismissed() {
+    this.showCreateModal = false;
   }
 }

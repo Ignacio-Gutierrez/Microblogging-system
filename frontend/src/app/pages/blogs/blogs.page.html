@@ -8,7 +8,7 @@
 
   @if (isOwnProfile) {
     <div class="add-blog-btn">
-      <ion-button routerLink="/app/blogs/new">
+      <ion-button (click)="openCreateModal()">
         <ion-icon name="add-sharp" slot="start"></ion-icon>
         Crear blog
       </ion-button>
@@ -39,3 +39,10 @@
     </div>
   }
 </ion-content>
+
+@if (showCreateModal) {
+  <app-create-blog-modal
+    (created)="onBlogCreated($event)"
+    (dismissed)="onModalDismissed()"
+  />
+}

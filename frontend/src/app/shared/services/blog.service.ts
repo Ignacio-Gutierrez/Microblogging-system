@@ -24,4 +24,9 @@ export class BlogService {
   getBlogById(id: number): Observable<Blog> {
     return this.http.get<Blog>(`${this.baseUrl}/${id}`);
   }
+
+  /* Create a new blog. */
+  createBlog(blog: { name: string; handle: string; user: { id: number } }): Observable<Blog> {
+    return this.http.post<Blog>(`${this.baseUrl}`, blog);
+  }
 }

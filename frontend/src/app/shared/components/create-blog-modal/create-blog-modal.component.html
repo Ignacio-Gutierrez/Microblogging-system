@@ -1,0 +1,54 @@
+<div class="overlay" (click)="dismiss()">
+  <div class="popup" (click)="$event.stopPropagation()">
+    <div class="popup-header">
+      <span class="popup-title">Crear blog</span>
+      <button class="close-btn" (click)="dismiss()">
+        <ion-icon name="close-sharp"></ion-icon>
+      </button>
+    </div>
+
+    <div class="popup-body">
+      @if (errorMessage) {
+        <div class="error-message">
+          <span>{{ errorMessage }}</span>
+        </div>
+      }
+
+      <label class="field">
+        <span class="field-label">Nombre del blog</span>
+        <input
+          class="field-input"
+          [(ngModel)]="blogName"
+          placeholder="Nombre visible del blog"
+          [disabled]="isSubmitting"
+        />
+      </label>
+
+      <label class="field">
+        <span class="field-label">Identificador del blog</span>
+        <input
+          class="field-input"
+          [(ngModel)]="blogHandle"
+          placeholder="Identificador único"
+          [disabled]="isSubmitting"
+        />
+      </label>
+    </div>
+
+    <div class="popup-footer">
+      <button class="btn btn-cancel" (click)="dismiss()" [disabled]="isSubmitting">
+        Cancelar
+      </button>
+      <button class="btn btn-primary" (click)="submit()" [disabled]="isSubmitting">
+        @if (isSubmitting) {
+          <span class="btn-loading">
+            <ion-spinner name="circular"></ion-spinner>
+            Creando...
+          </span>
+        } @else {
+          Crear blog
+        }
+      </button>
+    </div>
+  </div>
+</div>
