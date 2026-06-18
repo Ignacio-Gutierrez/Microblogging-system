@@ -45,4 +45,24 @@ export class PostService {
       observe: 'response',
     });
   }
+
+  /**
+   * Fetch a paginated page of posts that contain a specific tag.
+   * @param tagName the tag name to filter by
+   * @param page 0-based page index
+   * @param size number of items per page
+   */
+  getPostsByTag(tagName: string, page: number, size: number = 10): Observable<HttpResponse<Post[]>> {
+    const params = new HttpParams()
+      .set('page', page)
+      .set('size', size)
+      .set('sort', 'date,desc')
+      .set('eagerload', 'true')
+      .set('tagName', tagName);
+
+    return this.http.get<Post[]>(this.baseUrl, {
+      params,
+      observe: 'response',
+    });
+  }
 }
