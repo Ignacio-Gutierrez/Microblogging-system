@@ -47,7 +47,7 @@ export class BlogPostsPage implements OnInit {
   hasMore = true;
   hasLoadError = false;
   blogId = 0;
-  blogHandle = '';
+  blogName = '';
   profileLogin = '';
 
   constructor() {
@@ -75,6 +75,9 @@ export class BlogPostsPage implements OnInit {
           this.router.navigate(['/app', this.profileLogin, 'blogs']);
           return;
         }
+        this.blogName = blog.name;
+        const displayName = this.profileLogin.charAt(0).toUpperCase() + this.profileLogin.slice(1);
+        this.pageTitleService.setTitle(`${displayName} · ${this.blogName}`);
         this.resetAndLoad();
       },
       error: () => {
@@ -105,11 +108,6 @@ export class BlogPostsPage implements OnInit {
         const body = res.body ?? [];
         this.posts = [...this.posts, ...body];
         this.hasMore = body.length >= this.pageSize;
-        if (body.length > 0 && !this.blogHandle) {
-          this.blogHandle = body[0].blog.handle;
-          const displayName = this.profileLogin.charAt(0).toUpperCase() + this.profileLogin.slice(1);
-          this.pageTitleService.setTitle(`${displayName} · Blog - ${body[0].blog.name}`);
-        }
         this.currentPage++;
         this.isLoading = false;
         onComplete?.();
