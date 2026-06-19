@@ -6,7 +6,6 @@ import {
   IonContent,
   IonSpinner,
   IonIcon,
-  IonButton,
 } from '@ionic/angular/standalone';
 import { Post } from 'src/app/shared/models/post.model';
 import { PostService } from 'src/app/shared/services/post.service';
@@ -24,7 +23,6 @@ import { sad, refreshSharp } from 'ionicons/icons';
     IonContent,
     IonSpinner,
     IonIcon,
-    IonButton,
     CommonModule,
     PostCardComponent,
   ],
