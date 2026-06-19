@@ -35,24 +35,6 @@ ion-infinite-scroll-content {
   }
 }
 
-.feed-end {
-  display: flex;
-  justify-content: center;
-  padding: 20px 16px 28px;
-  color: var(--ion-text-color-65);
-  font-size: 0.9rem;
-  text-align: center;
-
-  span {
-    padding: 8px 14px;
-    border-top: 1px solid var(--ion-text-color-15);
-  }
-}
-
-.feed-error {
-  color: var(--ion-color-warning);
-}
-
 .empty-state {
   display: flex;
   flex-direction: column;
@@ -71,19 +53,5 @@ ion-infinite-scroll-content {
   p {
     font-size: 1.1rem;
     margin: 0;
-  }
-}
-
-.feed-end-state {
-  min-height: auto;
-  padding: 24px 16px 32px;
-
-  ion-icon {
-    font-size: 40px;
-    margin-bottom: 10px;
-  }
-
-  p {
-    font-size: 0.95rem;
   }
 }

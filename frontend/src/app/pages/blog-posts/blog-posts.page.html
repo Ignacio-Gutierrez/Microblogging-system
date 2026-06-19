@@ -25,8 +25,9 @@
   }
 
   @if (hasLoadError) {
-    <div class="feed-end feed-error">
-      <span>No pudimos cargar más posteos. Intentá de nuevo en un rato.</span>
+    <div class="empty-state feed-end-state error">
+      <ion-icon name="sad"></ion-icon>
+      <p>No pudimos cargar más posteos. Intentá de nuevo en un rato.</p>
     </div>
   }
 

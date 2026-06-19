@@ -112,3 +112,28 @@
 ion-content::part(scroll) {
   padding-bottom: 90px;
 }
+
+/* Feed end state — usado en feed, blog-posts y tag-posts para "no hay más posteos" y errores */
+.feed-end-state {
+  min-height: auto;
+  padding: 24px 16px 32px;
+
+  ion-icon {
+    font-size: 40px;
+    margin-bottom: 10px;
+  }
+
+  p {
+    font-size: 0.95rem;
+    margin: 0;
+  }
+}
+
+/* Modificador rojo para errores — misma clase que feed-end-state pero en danger */
+.feed-end-state.error {
+  color: var(--ion-color-danger);
+
+  ion-icon {
+    color: var(--ion-color-danger);
+  }
+}
