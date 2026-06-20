@@ -9,9 +9,11 @@
   @for (post of posts; track post.id) {
     <app-post-card
       [post]="post"
+      [showActions]="post.blog.user?.login === currentUsername"
       (userClick)="onUserClick($event)"
       (blogClick)="onBlogClick($event)"
       (tagClick)="onTagClick($event)"
+      (deleteRequested)="confirmDeletePost($event)"
     />
   } @empty {
     @if (!isLoading && !hasLoadError) {

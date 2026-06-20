@@ -78,6 +78,11 @@ export class PostService {
     return this.http.post<Post>(this.baseUrl, post);
   }
 
+  /* Delete a post by ID. */
+  deletePost(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/${id}`);
+  }
+
   /* Get a random post from today. */
   getRandomPost(): Observable<Post | null> {
     return this.http.get<Post>(`${this.baseUrl}/random`).pipe(

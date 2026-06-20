@@ -23,9 +23,11 @@
   @if (post && !isLoading) {
     <app-post-card
       [post]="post"
+      [showActions]="post.blog.user?.login === currentUsername"
       (userClick)="onUserClick($event)"
       (blogClick)="onBlogClick($event)"
       (tagClick)="onTagClick($event)"
+      (deleteRequested)="confirmDeletePost($event)"
     />
   }
 </ion-content>

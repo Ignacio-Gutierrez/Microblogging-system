@@ -12,6 +12,8 @@ import {
 } from '@ionic/angular/standalone';
 import { Post } from 'src/app/shared/models/post.model';
 import { PostService } from 'src/app/shared/services/post.service';
+import { PostActionsService } from 'src/app/shared/services/post-actions.service';
+import { AuthService } from 'src/app/shared/services/auth.service';
 import { PostCardComponent } from 'src/app/shared/components/post-card/post-card.component';
 import { PageTitleService } from 'src/app/shared/services/page-title.service';
 import { Router } from '@angular/router';
@@ -35,10 +37,13 @@ import { sad } from 'ionicons/icons';
 })
 export class FeedPage implements OnInit, ViewWillEnter {
   private readonly postService = inject(PostService);
+  private readonly postActionsService = inject(PostActionsService);
+  private readonly authService = inject(AuthService);
   private readonly router = inject(Router);
   private readonly pageTitleService = inject(PageTitleService);
 
   posts: Post[] = [];
+  readonly currentUsername = this.authService.getUsername();
   currentPage = 0;
   readonly pageSize = 10;
   isLoading = false;
@@ -106,5 +111,16 @@ export class FeedPage implements OnInit, ViewWillEnter {
 
   onTagClick(event: { tag: string; post: Post }) {
     this.router.navigate(['/app/tag', event.tag]);
+  }
+
+  async confirmDeletePost(post: Post) {
+    if (post.blog.user?.login !== this.currentUsername) {
+      return;
+    }
+
+    const deleted = await this.postActionsService.confirmDeletePost(post);
+    if (deleted) {
+      this.posts = this.posts.filter(existingPost => existingPost.id !== post.id);
+    }
   }
 }

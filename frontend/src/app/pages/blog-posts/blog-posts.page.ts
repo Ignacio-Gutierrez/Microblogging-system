@@ -12,7 +12,9 @@ import {
 import { Post } from 'src/app/shared/models/post.model';
 import { Blog } from 'src/app/shared/models/blog.model';
 import { PostService } from 'src/app/shared/services/post.service';
+import { PostActionsService } from 'src/app/shared/services/post-actions.service';
 import { BlogService } from 'src/app/shared/services/blog.service';
+import { AuthService } from 'src/app/shared/services/auth.service';
 import { PostCardComponent } from 'src/app/shared/components/post-card/post-card.component';
 import { PageTitleService } from 'src/app/shared/services/page-title.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -36,12 +38,15 @@ import { sad } from 'ionicons/icons';
 })
 export class BlogPostsPage implements OnInit {
   private readonly postService = inject(PostService);
+  private readonly postActionsService = inject(PostActionsService);
   private readonly blogService = inject(BlogService);
+  private readonly authService = inject(AuthService);
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
   private readonly pageTitleService = inject(PageTitleService);
 
   posts: Post[] = [];
+  readonly currentUsername = this.authService.getUsername();
   currentPage = 0;
   readonly pageSize = 10;
   isLoading = false;
@@ -141,5 +146,16 @@ export class BlogPostsPage implements OnInit {
 
   onTagClick(event: { tag: string; post: Post }) {
     this.router.navigate(['/app/tag', event.tag]);
+  }
+
+  async confirmDeletePost(post: Post) {
+    if (post.blog.user?.login !== this.currentUsername) {
+      return;
+    }
+
+    const deleted = await this.postActionsService.confirmDeletePost(post);
+    if (deleted) {
+      this.posts = this.posts.filter(existingPost => existingPost.id !== post.id);
+    }
   }
 }

@@ -8,9 +8,20 @@
         <span class="author-name">@{{ post().blog.user?.login }}</span>
       </button>
       <span class="time-text">
-        <ion-icon></ion-icon>
+        <ion-icon name="time-outline"></ion-icon>
         {{ post().date | date: 'short' }}
       </span>
+      @if (showActions()) {
+        <ion-button
+          [id]="actionsTriggerId"
+          class="actions-button"
+          fill="clear"
+          aria-label="Opciones del post"
+          (click)="$event.stopPropagation()"
+        >
+          <ion-icon name="ellipsis-vertical-sharp" slot="icon-only"></ion-icon>
+        </ion-button>
+      }
     </div>
   </ion-card-header>
 
@@ -32,4 +43,24 @@
       <button class="blog-chip" (click)="onBlogClick()">{{ post().blog.name }}</button>
     </div>
   </ion-card-content>
+
+  @if (showActions()) {
+    <ion-popover
+      #actionsPopover
+      class="post-actions-popover"
+      [trigger]="actionsTriggerId"
+      triggerAction="click"
+      side="bottom"
+      alignment="end"
+      [showBackdrop]="false"
+      [backdropDismiss]="true"
+    >
+      <ng-template>
+        <button type="button" class="action-button delete-button" (click)="actionsPopover.dismiss(); requestDelete($event)">
+          <ion-icon name="trash-outline"></ion-icon>
+          <span>Eliminar post</span>
+        </button>
+      </ng-template>
+    </ion-popover>
+  }
 </ion-card>

@@ -54,9 +54,11 @@
           @for (post of posts; track post.id) {
             <app-post-card
               [post]="post"
+              [showActions]="post.blog.user?.login === currentUsername"
               (userClick)="onPostUserClick($event)"
               (blogClick)="onPostBlogClick($event)"
               (tagClick)="onPostTagClick($event)"
+              (deleteRequested)="confirmDeletePost($event)"
             />
           }
           </div>

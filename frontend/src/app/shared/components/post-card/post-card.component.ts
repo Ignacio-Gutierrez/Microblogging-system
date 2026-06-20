@@ -8,9 +8,11 @@ import {
   IonCardContent,
   IonText,
   IonIcon,
+  IonButton,
+  IonPopover,
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { timeOutline } from 'ionicons/icons';
+import { ellipsisVerticalSharp, timeOutline, trashOutline } from 'ionicons/icons';
 
 @Component({
   selector: 'app-post-card',
@@ -24,18 +26,26 @@ import { timeOutline } from 'ionicons/icons';
     IonCardContent,
     IonText,
     IonIcon,
+    IonButton,
+    IonPopover,
     DatePipe,
   ],
 })
 export class PostCardComponent {
   readonly post = input.required<Post>();
+  readonly showActions = input(false);
 
   readonly userClick = output<Post>();
   readonly blogClick = output<Post>();
   readonly tagClick = output<{ tag: string; post: Post }>();
+  readonly deleteRequested = output<Post>();
 
   constructor() {
-    addIcons({ timeOutline });
+    addIcons({ ellipsisVerticalSharp, timeOutline, trashOutline });
+  }
+
+  get actionsTriggerId(): string {
+    return `post-actions-${this.post().id}`;
   }
 
   onUserClick() {
@@ -48,5 +58,10 @@ export class PostCardComponent {
 
   onTagClick(tag: { id: number; name: string }) {
     this.tagClick.emit({ tag: tag.name, post: this.post() });
+  }
+
+  requestDelete(event: Event) {
+    event.stopPropagation();
+    this.deleteRequested.emit(this.post());
   }
 }

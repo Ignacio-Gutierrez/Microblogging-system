@@ -13,6 +13,8 @@ import {
 } from '@ionic/angular/standalone';
 import { PostCardComponent } from 'src/app/shared/components/post-card/post-card.component';
 import { SearchService, SearchAllResult } from 'src/app/shared/services/search.service';
+import { PostActionsService } from 'src/app/shared/services/post-actions.service';
+import { AuthService } from 'src/app/shared/services/auth.service';
 import { PageTitleService } from 'src/app/shared/services/page-title.service';
 import { Post } from 'src/app/shared/models/post.model';
 import { addIcons } from 'ionicons';
@@ -37,6 +39,8 @@ import { layersSharp, sad, peopleSharp } from 'ionicons/icons';
 })
 export class SearchPage implements OnInit, OnDestroy {
   private readonly searchService = inject(SearchService);
+  private readonly postActionsService = inject(PostActionsService);
+  private readonly authService = inject(AuthService);
   private readonly router = inject(Router);
   private readonly pageTitleService = inject(PageTitleService);
 
@@ -46,6 +50,7 @@ export class SearchPage implements OnInit, OnDestroy {
   query = '';
   users: SearchAllResult['users'] = [];
   posts: Post[] = [];
+  readonly currentUsername = this.authService.getUsername();
   isLoading = false;
   hasSearched = false;
 
@@ -117,5 +122,16 @@ export class SearchPage implements OnInit, OnDestroy {
 
   onPostTagClick(event: { tag: string; post: Post }): void {
     this.router.navigate(['/app/tag', event.tag]);
+  }
+
+  async confirmDeletePost(post: Post) {
+    if (post.blog.user?.login !== this.currentUsername) {
+      return;
+    }
+
+    const deleted = await this.postActionsService.confirmDeletePost(post);
+    if (deleted) {
+      this.posts = this.posts.filter(existingPost => existingPost.id !== post.id);
+    }
   }
 }
