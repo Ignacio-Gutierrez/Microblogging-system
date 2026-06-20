@@ -1,3 +1,7 @@
+.blog-card {
+  position: relative;
+}
+
 ion-item {
   --background: transparent;
   --color: var(--ion-text-color);
@@ -33,4 +37,48 @@ ion-icon {
 ion-label {
   font-size: 1rem;
   font-weight: 600;
+}
+
+.actions-button {
+  width: 44px;
+  height: 44px;
+  margin-inline-end: -8px;
+  --padding-start: 0;
+  --padding-end: 0;
+  --color: var(--ion-text-color);
+  --background-hover: var(--ion-background-color-00);
+  --border-radius: 50%;
+  z-index: 2;
+}
+
+.blog-actions-popover {
+  --width: 156px;
+  --background: var(--app-popup-background);
+  --box-shadow: 0 8px 24px rgb(0 0 0 / 14%);
+  --border-radius: 8px;
+}
+
+.delete-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  min-height: 40px;
+  padding: 0 12px;
+  border: 0;
+  color: var(--ion-color-danger);
+  background: var(--app-popup-background);
+  font: inherit;
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+
+  ion-icon {
+    color: currentColor;
+    font-size: 1.15rem;
+  }
+
+  &:hover {
+    background: var(--app-popup-background-hover);
+  }
 }

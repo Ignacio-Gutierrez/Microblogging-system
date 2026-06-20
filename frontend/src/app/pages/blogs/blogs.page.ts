@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ViewWillEnter } from '@ionic/angular';
 import {
+  AlertController,
   IonContent,
   IonSpinner,
   IonIcon,
@@ -40,6 +41,7 @@ export class BlogsPage implements OnInit, ViewWillEnter {
   private readonly route = inject(ActivatedRoute);
   private readonly authService = inject(AuthService);
   private readonly pageTitleService = inject(PageTitleService);
+  private readonly alertController = inject(AlertController);
 
   blogs: Blog[] = [];
   isLoading = false;
@@ -93,6 +95,31 @@ export class BlogsPage implements OnInit, ViewWillEnter {
     this.router.navigate(['/app', this.profileLogin, 'blogs', blog.id, 'posts']);
   }
 
+  async confirmDeleteBlog(blog: Blog) {
+    if (!this.isOwnProfile) {
+      return;
+    }
+
+    const alert = await this.alertController.create({
+      cssClass: 'app-alert app-delete-alert',
+      header: 'Eliminar blog',
+      message: `Seguro que queres eliminar "${blog.name}"?`,
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+        },
+        {
+          text: 'Eliminar',
+          role: 'destructive',
+          handler: () => this.deleteBlog(blog),
+        },
+      ],
+    });
+
+    await alert.present();
+  }
+
   openCreateModal() {
     this.showCreateModal = true;
   }
@@ -104,5 +131,25 @@ export class BlogsPage implements OnInit, ViewWillEnter {
 
   onModalDismissed() {
     this.showCreateModal = false;
+  }
+
+  private deleteBlog(blog: Blog) {
+    this.blogService.deleteBlog(blog.id).subscribe({
+      next: () => {
+        this.loadBlogs(this.profileLogin);
+      },
+      error: () => this.showDeleteError(),
+    });
+  }
+
+  private async showDeleteError() {
+    const alert = await this.alertController.create({
+      cssClass: 'app-alert',
+      header: 'No se pudo eliminar',
+      message: 'No pudimos eliminar el blog. Intenta de nuevo mas tarde.',
+      buttons: ['OK'],
+    });
+
+    await alert.present();
   }
 }

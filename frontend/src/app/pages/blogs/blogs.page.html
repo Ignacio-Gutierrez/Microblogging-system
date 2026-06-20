@@ -17,7 +17,12 @@
 
   <ion-list>
     @for (blog of blogs; track blog.id) {
-      <app-blog-card [blog]="blog" (click)="onBlogClick($event)" />
+      <app-blog-card
+        [blog]="blog"
+        [showActions]="isOwnProfile"
+        (click)="onBlogClick($event)"
+        (deleteRequested)="confirmDeleteBlog($event)"
+      />
     } @empty {
       @if (!isLoading && !hasLoadError) {
         <div class="empty-state">

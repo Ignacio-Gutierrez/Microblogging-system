@@ -29,4 +29,9 @@ export class BlogService {
   createBlog(blog: { name: string; handle: string; user: { id: number } }): Observable<Blog> {
     return this.http.post<Blog>(`${this.baseUrl}`, blog);
   }
+
+  /* Delete a blog by its ID. */
+  deleteBlog(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/${id}`);
+  }
 }
