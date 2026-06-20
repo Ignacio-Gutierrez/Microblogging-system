@@ -156,8 +156,8 @@
   align-items: center;
   justify-content: center;
   gap: 6px;
-  background: color-mix(in srgb, var(--ion-color-danger) 18%, transparent);
-  border: 1px solid color-mix(in srgb, var(--ion-color-danger) 50%, transparent);
+  background: var(--app-error-background);
+  border: 1px solid var(--app-error-border);
   border-radius: 6px;
   padding: 10px 14px;
   text-align: center;
@@ -165,7 +165,7 @@
   span {
     font-size: 0.82rem;
     font-weight: 700;
-    color: var(--ion-color-danger);
+    color: var(--app-error-text);
   }
 }
 

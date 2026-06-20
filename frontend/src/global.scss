@@ -104,6 +104,12 @@
     --app-popup-background: #fff1f2;
     --app-popup-background-hover: #ffe4e6;
 
+    /* Feedback */
+    --app-error-background: #3b1828;
+    --app-error-border: rgba(255, 107, 107, 0.38);
+    --app-error-text: #fecdd3;
+    --app-error-text-on-dark: #fecdd3;
+
     /* Light-theme surface (login/register) */
     --ion-color-surface-light: #C2D9EC;
     --ion-color-input-border: #d0d8e0;
@@ -135,9 +141,9 @@ ion-content::part(scroll) {
 
 /* Modificador rojo para errores — misma clase que feed-end-state pero en danger */
 .feed-end-state.error {
-  color: var(--ion-color-danger);
+  color: var(--app-error-text-on-dark);
 
   ion-icon {
-    color: var(--ion-color-danger);
+    color: var(--app-error-text-on-dark);
   }
 }

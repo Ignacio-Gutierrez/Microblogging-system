@@ -172,11 +172,11 @@
 }
 
 .error-banner {
-  background: color-mix(in srgb, var(--ion-color-danger) 18%, transparent);
-  border: 1px solid color-mix(in srgb, var(--ion-color-danger) 50%, transparent);
+  background: var(--app-error-background);
+  border: 1px solid var(--app-error-border);
 
   ion-text {
-    color: var(--ion-color-danger);
+    color: var(--app-error-text);
   }
 }
 
