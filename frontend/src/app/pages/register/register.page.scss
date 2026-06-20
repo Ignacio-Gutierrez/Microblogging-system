@@ -163,11 +163,11 @@
 }
 
 .success-banner {
-  background: color-mix(in srgb, var(--ion-color-success) 18%, transparent);
-  border: 1px solid color-mix(in srgb, var(--ion-color-success) 50%, transparent);
+  background: var(--app-success-background);
+  border: 1px solid var(--app-success-border);
 
   ion-text {
-    color: var(--ion-color-success);
+    color: var(--app-success-text);
   }
 }
 
