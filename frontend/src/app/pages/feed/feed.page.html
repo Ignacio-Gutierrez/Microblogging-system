@@ -13,6 +13,7 @@
       (userClick)="onUserClick($event)"
       (blogClick)="onBlogClick($event)"
       (tagClick)="onTagClick($event)"
+      (editRequested)="openEditModal($event)"
       (deleteRequested)="confirmDeletePost($event)"
     />
   } @empty {
@@ -45,3 +46,11 @@
     />
   </ion-infinite-scroll>
 </ion-content>
+
+@if (showPostModal) {
+  <app-create-post-modal
+    [post]="postToEdit"
+    (updated)="onPostUpdated($event)"
+    (dismissed)="onPostModalDismissed()"
+  />
+}

@@ -12,6 +12,7 @@ import { PostService } from 'src/app/shared/services/post.service';
 import { PostActionsService } from 'src/app/shared/services/post-actions.service';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { PostCardComponent } from 'src/app/shared/components/post-card/post-card.component';
+import { CreatePostModalComponent } from 'src/app/shared/components/create-post-modal/create-post-modal.component';
 import { PageTitleService } from 'src/app/shared/services/page-title.service';
 import { addIcons } from 'ionicons';
 import { sad, refreshSharp } from 'ionicons/icons';
@@ -27,6 +28,7 @@ import { sad, refreshSharp } from 'ionicons/icons';
     IonIcon,
     CommonModule,
     PostCardComponent,
+    CreatePostModalComponent,
   ],
 })
 export class RandomPostPage implements OnInit, ViewWillEnter {
@@ -37,6 +39,8 @@ export class RandomPostPage implements OnInit, ViewWillEnter {
   private readonly pageTitleService = inject(PageTitleService);
 
   post: Post | null = null;
+  showPostModal = false;
+  postToEdit: Post | null = null;
   readonly currentUsername = this.authService.getUsername();
   isLoading = false;
   hasLoadError = false;
@@ -98,6 +102,26 @@ export class RandomPostPage implements OnInit, ViewWillEnter {
     this.router.navigate(['/app/tag', event.tag]);
   }
 
+  openEditModal(post: Post) {
+    if (post.blog.user?.login !== this.currentUsername) {
+      return;
+    }
+
+    this.postToEdit = post;
+    this.showPostModal = true;
+  }
+
+  onPostUpdated(updatedPost: Post) {
+    this.showPostModal = false;
+    this.postToEdit = null;
+    this.post = this.post ? this.mergeUpdatedPost(this.post, updatedPost) : updatedPost;
+  }
+
+  onPostModalDismissed() {
+    this.showPostModal = false;
+    this.postToEdit = null;
+  }
+
   async confirmDeletePost(post: Post) {
     if (post.blog.user?.login !== this.currentUsername) {
       return;
@@ -107,5 +131,18 @@ export class RandomPostPage implements OnInit, ViewWillEnter {
     if (deleted) {
       this.refresh();
     }
+  }
+
+  private mergeUpdatedPost(existingPost: Post, updatedPost: Post): Post {
+    return {
+      ...existingPost,
+      ...updatedPost,
+      blog: {
+        ...existingPost.blog,
+        ...updatedPost.blog,
+        user: updatedPost.blog?.user ?? existingPost.blog.user,
+      },
+      tags: updatedPost.tags ?? existingPost.tags,
+    };
   }
 }

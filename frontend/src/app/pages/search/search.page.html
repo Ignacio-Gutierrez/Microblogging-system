@@ -58,6 +58,7 @@
               (userClick)="onPostUserClick($event)"
               (blogClick)="onPostBlogClick($event)"
               (tagClick)="onPostTagClick($event)"
+              (editRequested)="openEditModal($event)"
               (deleteRequested)="confirmDeletePost($event)"
             />
           }
@@ -74,3 +75,11 @@
       </div>
     }
 </ion-content>
+
+@if (showPostModal) {
+  <app-create-post-modal
+    [post]="postToEdit"
+    (updated)="onPostUpdated($event)"
+    (dismissed)="onPostModalDismissed()"
+  />
+}

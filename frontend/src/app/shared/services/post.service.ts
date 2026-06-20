@@ -74,8 +74,21 @@ export class PostService {
     content: string;
     date: string;
     blog: { id: number };
+    tags?: { id: number; name?: string }[];
   }): Observable<Post> {
     return this.http.post<Post>(this.baseUrl, post);
+  }
+
+  /* Update an existing post. */
+  updatePost(post: {
+    id: number;
+    title: string;
+    content: string;
+    date: string;
+    blog: { id: number };
+    tags?: { id: number; name?: string }[];
+  }): Observable<Post> {
+    return this.http.put<Post>(`${this.baseUrl}/${post.id}`, post);
   }
 
   /* Delete a post by ID. */

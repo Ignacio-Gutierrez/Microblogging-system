@@ -15,6 +15,7 @@ import { PostService } from 'src/app/shared/services/post.service';
 import { PostActionsService } from 'src/app/shared/services/post-actions.service';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { PostCardComponent } from 'src/app/shared/components/post-card/post-card.component';
+import { CreatePostModalComponent } from 'src/app/shared/components/create-post-modal/create-post-modal.component';
 import { PageTitleService } from 'src/app/shared/services/page-title.service';
 import { Router } from '@angular/router';
 import { addIcons } from 'ionicons';
@@ -32,7 +33,8 @@ import { sad } from 'ionicons/icons';
     IonSpinner,
     IonIcon,
     CommonModule,
-    PostCardComponent
+    PostCardComponent,
+    CreatePostModalComponent,
   ],
 })
 export class FeedPage implements OnInit, ViewWillEnter {
@@ -43,6 +45,8 @@ export class FeedPage implements OnInit, ViewWillEnter {
   private readonly pageTitleService = inject(PageTitleService);
 
   posts: Post[] = [];
+  showPostModal = false;
+  postToEdit: Post | null = null;
   readonly currentUsername = this.authService.getUsername();
   currentPage = 0;
   readonly pageSize = 10;
@@ -113,6 +117,28 @@ export class FeedPage implements OnInit, ViewWillEnter {
     this.router.navigate(['/app/tag', event.tag]);
   }
 
+  openEditModal(post: Post) {
+    if (post.blog.user?.login !== this.currentUsername) {
+      return;
+    }
+
+    this.postToEdit = post;
+    this.showPostModal = true;
+  }
+
+  onPostUpdated(updatedPost: Post) {
+    this.showPostModal = false;
+    this.postToEdit = null;
+    this.posts = this.posts.map(existingPost =>
+      existingPost.id === updatedPost.id ? this.mergeUpdatedPost(existingPost, updatedPost) : existingPost
+    );
+  }
+
+  onPostModalDismissed() {
+    this.showPostModal = false;
+    this.postToEdit = null;
+  }
+
   async confirmDeletePost(post: Post) {
     if (post.blog.user?.login !== this.currentUsername) {
       return;
@@ -122,5 +148,18 @@ export class FeedPage implements OnInit, ViewWillEnter {
     if (deleted) {
       this.posts = this.posts.filter(existingPost => existingPost.id !== post.id);
     }
+  }
+
+  private mergeUpdatedPost(existingPost: Post, updatedPost: Post): Post {
+    return {
+      ...existingPost,
+      ...updatedPost,
+      blog: {
+        ...existingPost.blog,
+        ...updatedPost.blog,
+        user: updatedPost.blog?.user ?? existingPost.blog.user,
+      },
+      tags: updatedPost.tags ?? existingPost.tags,
+    };
   }
 }

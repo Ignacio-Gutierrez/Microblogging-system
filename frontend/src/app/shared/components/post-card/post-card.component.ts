@@ -12,7 +12,7 @@ import {
   IonPopover,
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { ellipsisVerticalSharp, timeOutline, trashOutline } from 'ionicons/icons';
+import { createOutline, ellipsisVerticalSharp, timeOutline, trashOutline } from 'ionicons/icons';
 
 @Component({
   selector: 'app-post-card',
@@ -38,10 +38,11 @@ export class PostCardComponent {
   readonly userClick = output<Post>();
   readonly blogClick = output<Post>();
   readonly tagClick = output<{ tag: string; post: Post }>();
+  readonly editRequested = output<Post>();
   readonly deleteRequested = output<Post>();
 
   constructor() {
-    addIcons({ ellipsisVerticalSharp, timeOutline, trashOutline });
+    addIcons({ createOutline, ellipsisVerticalSharp, timeOutline, trashOutline });
   }
 
   get actionsTriggerId(): string {
@@ -58,6 +59,11 @@ export class PostCardComponent {
 
   onTagClick(tag: { id: number; name: string }) {
     this.tagClick.emit({ tag: tag.name, post: this.post() });
+  }
+
+  requestEdit(event: Event) {
+    event.stopPropagation();
+    this.editRequested.emit(this.post());
   }
 
   requestDelete(event: Event) {
