@@ -114,6 +114,13 @@ export class RandomPostPage implements OnInit, ViewWillEnter {
   onPostUpdated(updatedPost: Post) {
     this.showPostModal = false;
     this.postToEdit = null;
+    this.postService.getPostById(updatedPost.id).subscribe({
+      next: (reloadedPost) => this.applyUpdatedPost(reloadedPost),
+      error: () => this.applyUpdatedPost(updatedPost),
+    });
+  }
+
+  private applyUpdatedPost(updatedPost: Post) {
     this.post = this.post ? this.mergeUpdatedPost(this.post, updatedPost) : updatedPost;
   }
 

@@ -14,6 +14,7 @@ import {
 import { PostCardComponent } from 'src/app/shared/components/post-card/post-card.component';
 import { CreatePostModalComponent } from 'src/app/shared/components/create-post-modal/create-post-modal.component';
 import { SearchService, SearchAllResult } from 'src/app/shared/services/search.service';
+import { PostService } from 'src/app/shared/services/post.service';
 import { PostActionsService } from 'src/app/shared/services/post-actions.service';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { PageTitleService } from 'src/app/shared/services/page-title.service';
@@ -41,6 +42,7 @@ import { layersSharp, sad, peopleSharp } from 'ionicons/icons';
 })
 export class SearchPage implements OnInit, OnDestroy {
   private readonly searchService = inject(SearchService);
+  private readonly postService = inject(PostService);
   private readonly postActionsService = inject(PostActionsService);
   private readonly authService = inject(AuthService);
   private readonly router = inject(Router);
@@ -140,6 +142,13 @@ export class SearchPage implements OnInit, OnDestroy {
   onPostUpdated(updatedPost: Post) {
     this.showPostModal = false;
     this.postToEdit = null;
+    this.postService.getPostById(updatedPost.id).subscribe({
+      next: (reloadedPost) => this.applyUpdatedPost(reloadedPost),
+      error: () => this.applyUpdatedPost(updatedPost),
+    });
+  }
+
+  private applyUpdatedPost(updatedPost: Post) {
     this.posts = this.posts.map(existingPost =>
       existingPost.id === updatedPost.id ? this.mergeUpdatedPost(existingPost, updatedPost) : existingPost
     );

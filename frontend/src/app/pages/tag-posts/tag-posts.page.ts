@@ -143,6 +143,13 @@ export class TagPostsPage implements OnInit {
   onPostUpdated(updatedPost: Post) {
     this.showPostModal = false;
     this.postToEdit = null;
+    this.postService.getPostById(updatedPost.id).subscribe({
+      next: (reloadedPost) => this.applyUpdatedPost(reloadedPost),
+      error: () => this.applyUpdatedPost(updatedPost),
+    });
+  }
+
+  private applyUpdatedPost(updatedPost: Post) {
     if (!updatedPost.tags?.some(tag => tag.name === this.tagName)) {
       this.posts = this.posts.filter(existingPost => existingPost.id !== updatedPost.id);
       return;

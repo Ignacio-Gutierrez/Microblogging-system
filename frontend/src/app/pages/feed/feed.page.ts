@@ -129,6 +129,13 @@ export class FeedPage implements OnInit, ViewWillEnter {
   onPostUpdated(updatedPost: Post) {
     this.showPostModal = false;
     this.postToEdit = null;
+    this.postService.getPostById(updatedPost.id).subscribe({
+      next: (reloadedPost) => this.applyUpdatedPost(reloadedPost),
+      error: () => this.applyUpdatedPost(updatedPost),
+    });
+  }
+
+  private applyUpdatedPost(updatedPost: Post) {
     this.posts = this.posts.map(existingPost =>
       existingPost.id === updatedPost.id ? this.mergeUpdatedPost(existingPost, updatedPost) : existingPost
     );

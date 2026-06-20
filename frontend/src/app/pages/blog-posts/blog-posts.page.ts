@@ -164,6 +164,13 @@ export class BlogPostsPage implements OnInit {
   onPostUpdated(updatedPost: Post) {
     this.showPostModal = false;
     this.postToEdit = null;
+    this.postService.getPostById(updatedPost.id).subscribe({
+      next: (reloadedPost) => this.applyUpdatedPost(reloadedPost),
+      error: () => this.applyUpdatedPost(updatedPost),
+    });
+  }
+
+  private applyUpdatedPost(updatedPost: Post) {
     if (updatedPost.blog.id !== this.blogId) {
       this.posts = this.posts.filter(existingPost => existingPost.id !== updatedPost.id);
       return;

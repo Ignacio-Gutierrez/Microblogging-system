@@ -66,6 +66,11 @@ export class PostService {
     });
   }
 
+  /* Get a single post by ID. */
+  getPostById(id: number): Observable<Post> {
+    return this.http.get<Post>(`${this.baseUrl}/${id}`);
+  }
+
   /*
    * Create a new post.
    */
