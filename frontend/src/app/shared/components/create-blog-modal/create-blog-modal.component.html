@@ -1,7 +1,7 @@
 <div class="overlay" (click)="dismiss()">
   <div class="popup" (click)="$event.stopPropagation()">
     <div class="popup-header">
-      <span class="popup-title">Crear blog</span>
+      <span class="popup-title">{{ title }}</span>
     </div>
 
     <div class="popup-body">
@@ -42,10 +42,10 @@
         @if (isSubmitting) {
           <span class="btn-loading">
             <ion-spinner name="circular"></ion-spinner>
-            Creando...
+            {{ loadingText }}
           </span>
         } @else {
-          Crear blog
+          {{ submitText }}
         }
       </button>
     </div>

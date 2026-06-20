@@ -30,6 +30,11 @@ export class BlogService {
     return this.http.post<Blog>(`${this.baseUrl}`, blog);
   }
 
+  /* Update an existing blog. */
+  updateBlog(blog: Pick<Blog, 'id'> & Partial<Blog>): Observable<Blog> {
+    return this.http.patch<Blog>(`${this.baseUrl}/${blog.id}`, blog);
+  }
+
   /* Delete a blog by its ID. */
   deleteBlog(id: number): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/${id}`);

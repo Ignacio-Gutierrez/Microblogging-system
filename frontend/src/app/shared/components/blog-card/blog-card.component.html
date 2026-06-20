@@ -29,7 +29,11 @@
       [backdropDismiss]="true"
     >
       <ng-template>
-        <button type="button" class="delete-button" (click)="actionsPopover.dismiss(); requestDelete($event)">
+        <button type="button" class="action-button edit-button" (click)="actionsPopover.dismiss(); requestEdit($event)">
+          <ion-icon name="create-outline"></ion-icon>
+          <span>Editar blog</span>
+        </button>
+        <button type="button" class="action-button delete-button" (click)="actionsPopover.dismiss(); requestDelete($event)">
           <ion-icon name="trash-outline"></ion-icon>
           <span>Eliminar blog</span>
         </button>

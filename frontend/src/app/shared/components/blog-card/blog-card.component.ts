@@ -8,7 +8,7 @@ import {
   IonPopover,
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { ellipsisVerticalSharp, fileTray, trashOutline } from 'ionicons/icons';
+import { createOutline, ellipsisVerticalSharp, fileTray, trashOutline } from 'ionicons/icons';
 
 @Component({
   selector: 'app-blog-card',
@@ -28,10 +28,11 @@ export class BlogCardComponent {
   readonly showActions = input(false);
 
   readonly click = output<Blog>();
+  readonly editRequested = output<Blog>();
   readonly deleteRequested = output<Blog>();
 
   constructor() {
-    addIcons({ ellipsisVerticalSharp, fileTray, trashOutline });
+    addIcons({ createOutline, ellipsisVerticalSharp, fileTray, trashOutline });
   }
 
   get actionsTriggerId(): string {
@@ -40,6 +41,11 @@ export class BlogCardComponent {
 
   onClick() {
     this.click.emit(this.blog());
+  }
+
+  requestEdit(event: Event) {
+    event.stopPropagation();
+    this.editRequested.emit(this.blog());
   }
 
   requestDelete(event: Event) {

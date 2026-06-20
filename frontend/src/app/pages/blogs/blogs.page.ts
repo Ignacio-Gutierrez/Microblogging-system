@@ -48,7 +48,8 @@ export class BlogsPage implements OnInit, ViewWillEnter {
   hasLoadError = false;
   isOwnProfile = false;
   profileLogin = '';
-  showCreateModal = false;
+  showBlogModal = false;
+  blogToEdit: Blog | null = null;
 
   constructor() {
     addIcons({ addSharp, sad });
@@ -121,16 +122,38 @@ export class BlogsPage implements OnInit, ViewWillEnter {
   }
 
   openCreateModal() {
-    this.showCreateModal = true;
+    this.blogToEdit = null;
+    this.showBlogModal = true;
+  }
+
+  openEditModal(blog: Blog) {
+    if (!this.isOwnProfile) {
+      return;
+    }
+
+    this.blogToEdit = blog;
+    this.showBlogModal = true;
   }
 
   onBlogCreated(blog: Blog) {
-    this.showCreateModal = false;
+    this.showBlogModal = false;
+    this.blogToEdit = null;
     this.blogs.unshift(blog);
   }
 
+  onBlogUpdated(blog: Blog) {
+    this.showBlogModal = false;
+    this.blogToEdit = null;
+    this.blogs = this.blogs.map(existingBlog =>
+      existingBlog.id === blog.id
+        ? { ...existingBlog, ...blog, user: blog.user ?? existingBlog.user }
+        : existingBlog
+    );
+  }
+
   onModalDismissed() {
-    this.showCreateModal = false;
+    this.showBlogModal = false;
+    this.blogToEdit = null;
   }
 
   private deleteBlog(blog: Blog) {

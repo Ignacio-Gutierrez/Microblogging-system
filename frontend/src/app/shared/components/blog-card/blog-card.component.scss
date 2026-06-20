@@ -58,7 +58,7 @@ ion-label {
   --border-radius: 8px;
 }
 
-.delete-button {
+.action-button {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -81,4 +81,12 @@ ion-label {
   &:hover {
     background: var(--app-popup-background-hover);
   }
+}
+
+.edit-button {
+  color: var(--ion-background-color);
+}
+
+.delete-button {
+  color: var(--ion-color-danger);
 }

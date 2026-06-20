@@ -21,6 +21,7 @@
         [blog]="blog"
         [showActions]="isOwnProfile"
         (click)="onBlogClick($event)"
+        (editRequested)="openEditModal($event)"
         (deleteRequested)="confirmDeleteBlog($event)"
       />
     } @empty {
@@ -45,9 +46,11 @@
   }
 </ion-content>
 
-@if (showCreateModal) {
+@if (showBlogModal) {
   <app-create-blog-modal
+    [blog]="blogToEdit"
     (created)="onBlogCreated($event)"
+    (updated)="onBlogUpdated($event)"
     (dismissed)="onModalDismissed()"
   />
 }
