@@ -51,6 +51,16 @@ $env:DOCKERHUB_NAMESPACE="tuusuario"
 docker compose up -d --wait
 ```
 
+### Credenciales de correo
+
+Para enviar correos reales desde el backend, copiá `.env.example` a `.env` y completá las variables SMTP:
+
+```powershell
+Copy-Item .env.example .env
+```
+
+El compose usa esas variables para configurar `SPRING_MAIL_*` y `JHIPSTER_MAIL_*` dentro del contenedor backend. No subas `.env` al repositorio.
+
 ### Publicar imagenes desde Jenkins
 
 Crear en Jenkins la credencial `dockerhub-login` como `Username with password`.
