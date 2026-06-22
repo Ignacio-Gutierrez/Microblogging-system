@@ -8,7 +8,7 @@
 
   @if (isOwnProfile) {
     <div class="add-blog-btn">
-      <ion-button (click)="openCreateModal()">
+      <ion-button (click)="openCreateModal()" data-cy="create-blog-button">
         <ion-icon name="add-sharp" slot="start"></ion-icon>
         Crear blog
       </ion-button>
