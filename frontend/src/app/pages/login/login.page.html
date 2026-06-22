@@ -18,6 +18,7 @@
           formControlName="username"
           autocomplete="username"
           class="form-input"
+          data-cy="login-username-input"
         />
       </div>
 
@@ -30,6 +31,7 @@
             formControlName="password"
             autocomplete="current-password"
             class="form-input"
+            data-cy="login-password-input"
           />
           <button
             type="button"
@@ -42,12 +44,13 @@
         </div>
       </div>
 
-      <a class="forgot-password" (click)="onForgotPassword()">¿Olvidaste tu contraseña?</a>
+      <a class="forgot-password" (click)="onForgotPassword()" data-cy="login-forgot-password-link">¿Olvidaste tu contraseña?</a>
 
       <button
         type="submit"
         class="login-button"
         [disabled]="isLoading()"
+        data-cy="login-submit-button"
       >
         @if (isLoading()) {
           <ion-spinner name="circular" slot="start"></ion-spinner>
@@ -61,12 +64,12 @@
     <!-- Register link -->
     <div class="register-section">
       <span class="register-text">¿No tienes una cuenta?</span>
-      <button type="button" class="register-link" (click)="onRegisterClick()">Registrarse</button>
+      <button type="button" class="register-link" (click)="onRegisterClick()" data-cy="login-register-link">Registrarse</button>
     </div>
 
     <!-- Error message -->
     @if (errorMessage()) {
-      <div class="error-banner">
+      <div class="error-banner" data-cy="login-error-banner">
         <ion-text>{{ errorMessage() }}</ion-text>
       </div>
     }
