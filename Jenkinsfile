@@ -7,8 +7,14 @@ pipeline {
     }
 
     parameters {
-        booleanParam(name: 'BUILD_DOCKER_IMAGE', defaultValue: true, description: 'Build the backend Docker image with Jib.')
-        booleanParam(name: 'RUN_DOCKER_SMOKE', defaultValue: false, description: 'Start the backend docker compose stack and check the health endpoint.')
+        booleanParam(name: 'PUBLISH_DOCKER_IMAGES', defaultValue: true, description: 'Build and publish backend/frontend Docker images to DockerHub.')
+        booleanParam(name: 'RUN_DOCKER_SMOKE', defaultValue: false, description: 'Start the docker compose stack and check the health endpoints.')
+    }
+
+    environment {
+        DOCKERHUB_NAMESPACE = 'ijgutierrez'
+        BACKEND_IMAGE = "${DOCKERHUB_NAMESPACE}/microblogging-backend"
+        FRONTEND_IMAGE = "${DOCKERHUB_NAMESPACE}/microblogging-frontend"
     }
 
     stages {
@@ -57,13 +63,50 @@ pipeline {
             }
         }
 
-        stage('Backend - Docker Image') {
+        stage('Docker Login') {
             when {
-                expression { params.BUILD_DOCKER_IMAGE }
+                expression { params.PUBLISH_DOCKER_IMAGES }
+            }
+            steps {
+                withCredentials([usernamePassword(
+                    credentialsId: 'dockerhub-login',
+                    usernameVariable: 'DOCKER_REGISTRY_USER',
+                    passwordVariable: 'DOCKER_REGISTRY_PWD'
+                )]) {
+                    sh '''
+                        echo "$DOCKER_REGISTRY_PWD" | docker login -u "$DOCKER_REGISTRY_USER" --password-stdin
+                    '''
+                }
+            }
+        }
+
+        stage('Backend - Publish Docker Image') {
+            when {
+                expression { params.PUBLISH_DOCKER_IMAGES }
             }
             steps {
                 dir('backend') {
-                    sh './mvnw -ntp -Pprod -DskipTests verify jib:dockerBuild'
+                    withCredentials([usernamePassword(
+                        credentialsId: 'dockerhub-login',
+                        usernameVariable: 'DOCKER_REGISTRY_USER',
+                        passwordVariable: 'DOCKER_REGISTRY_PWD'
+                    )]) {
+                        sh './mvnw -ntp -Pprod -DskipTests -Ddockerhub.namespace=${DOCKERHUB_NAMESPACE} verify jib:build'
+                    }
+                }
+            }
+        }
+
+        stage('Frontend - Publish Docker Image') {
+            when {
+                expression { params.PUBLISH_DOCKER_IMAGES }
+            }
+            steps {
+                dir('frontend') {
+                    sh '''
+                        docker build -t ${FRONTEND_IMAGE}:latest .
+                        docker push ${FRONTEND_IMAGE}:latest
+                    '''
                 }
             }
         }
@@ -74,13 +117,14 @@ pipeline {
             }
             steps {
                 sh '''
-                    docker compose -f backend/src/main/docker/app.yml up -d --wait
+                    docker compose up -d --wait
                     curl -fsS http://127.0.0.1:8080/management/health
+                    curl -fsS http://127.0.0.1:8081/
                 '''
             }
             post {
                 always {
-                    sh 'docker compose -f backend/src/main/docker/app.yml down -v'
+                    sh 'docker compose down -v'
                 }
             }
         }

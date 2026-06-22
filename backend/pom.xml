@@ -45,6 +45,7 @@
         <jib-maven-plugin.architecture>amd64</jib-maven-plugin.architecture>
         <jib-maven-plugin.image>eclipse-temurin:25-jre-noble</jib-maven-plugin.image>
         <jib-maven-plugin.version>3.5.1</jib-maven-plugin.version>
+        <dockerhub.namespace>ijgutierrez</dockerhub.namespace>
         <lifecycle-mapping.version>1.0.0</lifecycle-mapping.version>
         <liquibase-plugin.driver/>
         <liquibase-plugin.hibernate-dialect/>
@@ -630,7 +631,7 @@
                             </platforms>
                         </from>
                         <to>
-                            <image>ijgutierrez/microblogging-system:latest</image>
+                            <image>${dockerhub.namespace}/microblogging-backend:latest</image>
                             <tags>
                                 <tag>${project.version}</tag>
                                 <tag>latest</tag>
