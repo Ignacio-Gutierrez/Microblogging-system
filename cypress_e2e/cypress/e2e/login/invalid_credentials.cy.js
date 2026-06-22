@@ -1,5 +1,3 @@
-// cypress/e2e/login/invalid_credentials.cy.js
-
 describe('Login', () => {
   it('debería mostrar error con credenciales inválidas', () => {
     cy.visit('http://localhost:8100/login');

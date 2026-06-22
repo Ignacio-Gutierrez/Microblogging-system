@@ -1,5 +1,3 @@
-// cypress/e2e/login/success.cy.js
-
 describe('Login', () => {
   it('debería iniciar sesión correctamente y redirigir al feed', () => {
     cy.visit('http://localhost:8100/login');

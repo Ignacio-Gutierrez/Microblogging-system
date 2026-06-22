@@ -1,5 +1,3 @@
-// cypress/e2e/login/empty_form.cy.js
-
 describe('Login', () => {
   it('debería mostrar advertencia si se envía el formulario vacío', () => {
     cy.visit('http://localhost:8100/login');
