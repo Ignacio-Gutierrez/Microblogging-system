@@ -16,6 +16,11 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/register/register.page').then(m => m.RegisterPage),
   },
   {
+    path: 'activate',
+    data: { title: 'Activar cuenta' },
+    loadComponent: () => import('./pages/activate/activate.page').then(m => m.ActivatePage),
+  },
+  {
     path: 'app',
     loadComponent: () => import('./shared/components/app-layout/app-layout.component').then(m => m.AppLayoutComponent),
     children: [

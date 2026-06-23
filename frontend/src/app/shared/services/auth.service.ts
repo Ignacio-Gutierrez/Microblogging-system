@@ -41,6 +41,12 @@ export class AuthService {
     return this.http.post<void>('/api/register', registration);
   }
 
+  activateAccount(key: string): Observable<void> {
+    return this.http.get<void>('/api/activate', {
+      params: { key },
+    });
+  }
+
   storeToken(token: string, username?: string): void {
     this.storage.setItem(this.tokenKey, token);
     if (username) {

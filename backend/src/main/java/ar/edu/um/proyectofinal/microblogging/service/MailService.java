@@ -1,5 +1,6 @@
 package ar.edu.um.proyectofinal.microblogging.service;
 
+import ar.edu.um.proyectofinal.microblogging.config.ApplicationProperties;
 import ar.edu.um.proyectofinal.microblogging.domain.User;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
@@ -31,7 +32,11 @@ public class MailService {
 
     private static final String BASE_URL = "baseUrl";
 
+    private static final String FRONTEND_BASE_URL = "frontendBaseUrl";
+
     private final JHipsterProperties jHipsterProperties;
+
+    private final ApplicationProperties applicationProperties;
 
     private final JavaMailSender javaMailSender;
 
@@ -41,11 +46,13 @@ public class MailService {
 
     public MailService(
         JHipsterProperties jHipsterProperties,
+        ApplicationProperties applicationProperties,
         JavaMailSender javaMailSender,
         MessageSource messageSource,
         SpringTemplateEngine templateEngine
     ) {
         this.jHipsterProperties = jHipsterProperties;
+        this.applicationProperties = applicationProperties;
         this.javaMailSender = javaMailSender;
         this.messageSource = messageSource;
         this.templateEngine = templateEngine;
@@ -95,6 +102,7 @@ public class MailService {
         Context context = new Context(locale);
         context.setVariable(USER, user);
         context.setVariable(BASE_URL, jHipsterProperties.getMail().getBaseUrl());
+        context.setVariable(FRONTEND_BASE_URL, applicationProperties.getFrontendBaseUrl());
         String content = templateEngine.process(templateName, context);
         String subject = messageSource.getMessage(titleKey, null, locale);
         sendEmailSync(user.getEmail(), subject, content, false, true);
