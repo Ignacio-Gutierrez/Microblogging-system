@@ -2,6 +2,7 @@ package ar.edu.um.proyectofinal.microblogging.web.rest;
 
 import ar.edu.um.proyectofinal.microblogging.domain.Authority;
 import ar.edu.um.proyectofinal.microblogging.repository.AuthorityRepository;
+import ar.edu.um.proyectofinal.microblogging.security.SecurityUtils;
 import ar.edu.um.proyectofinal.microblogging.web.rest.errors.BadRequestAlertException;
 import jakarta.validation.Valid;
 import java.net.URI;
@@ -54,6 +55,7 @@ public class AuthorityResource {
             throw new BadRequestAlertException("authority already exists", ENTITY_NAME, "idexists");
         }
         authority = authorityRepository.save(authority);
+        LOG.info("USER: userId={} action=CREATE_AUTHORITY name={}", SecurityUtils.getCurrentUserLogin().orElse("anonymous"), authority.getName());
         return ResponseEntity.created(new URI("/api/authorities/" + authority.getName()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, authority.getName()))
             .body(authority);
@@ -95,6 +97,7 @@ public class AuthorityResource {
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
     public ResponseEntity<Void> deleteAuthority(@PathVariable("id") String id) {
         LOG.debug("REST request to delete Authority : {}", id);
+        LOG.info("USER: userId={} action=DELETE_AUTHORITY name={}", SecurityUtils.getCurrentUserLogin().orElse("anonymous"), id);
         authorityRepository.deleteById(id);
         return ResponseEntity.noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id))

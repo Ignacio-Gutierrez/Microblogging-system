@@ -62,6 +62,7 @@ public class AccountResource {
         }
         User user = userService.registerUser(managedUserVM, managedUserVM.getPassword());
         mailService.sendActivationEmail(user);
+        LOG.info("USER: action=REGISTER login={} email={}", managedUserVM.getLogin(), managedUserVM.getEmail());
     }
 
     /**
@@ -76,6 +77,7 @@ public class AccountResource {
         if (!user.isPresent()) {
             throw new AccountResourceException("No user was found for this activation key");
         }
+        LOG.info("USER: action=ACTIVATE login={}", user.get().getLogin());
     }
 
     /**
@@ -119,6 +121,7 @@ public class AccountResource {
             userDTO.getLangKey(),
             userDTO.getImageUrl()
         );
+        LOG.info("USER: userId={} action=UPDATE_ACCOUNT", userLogin);
     }
 
     /**
@@ -133,6 +136,7 @@ public class AccountResource {
             throw new InvalidPasswordException();
         }
         userService.changePassword(passwordChangeDto.getCurrentPassword(), passwordChangeDto.getNewPassword());
+        LOG.info("USER: userId={} action=CHANGE_PASSWORD", SecurityUtils.getCurrentUserLogin().orElse("unknown"));
     }
 
     /**
@@ -145,6 +149,7 @@ public class AccountResource {
         Optional<User> user = userService.requestPasswordReset(mail);
         if (user.isPresent()) {
             mailService.sendPasswordResetMail(user.orElseThrow());
+            LOG.info("USER: action=RESET_PASSWORD_INIT email={}", mail);
         } else {
             // Pretend the request has been successful to prevent checking which emails really exist
             // but log that an invalid attempt has been made
@@ -169,6 +174,7 @@ public class AccountResource {
         if (!user.isPresent()) {
             throw new AccountResourceException("No user was found for this reset key");
         }
+        LOG.info("USER: action=RESET_PASSWORD_FINISH login={}", user.get().getLogin());
     }
 
     private static boolean isPasswordLengthInvalid(String password) {

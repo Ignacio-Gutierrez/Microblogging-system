@@ -62,6 +62,7 @@ public class AuthenticateController {
         String jwt = this.createToken(authentication, loginVM.isRememberMe());
         var httpHeaders = new HttpHeaders();
         httpHeaders.setBearerAuth(jwt);
+        LOG.info("USER: action=LOGIN username={}", loginVM.getUsername());
         return new ResponseEntity<>(new JWTToken(jwt), httpHeaders, HttpStatus.OK);
     }
 

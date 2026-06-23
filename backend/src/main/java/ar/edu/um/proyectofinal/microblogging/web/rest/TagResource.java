@@ -2,6 +2,7 @@ package ar.edu.um.proyectofinal.microblogging.web.rest;
 
 import ar.edu.um.proyectofinal.microblogging.domain.Tag;
 import ar.edu.um.proyectofinal.microblogging.repository.TagRepository;
+import ar.edu.um.proyectofinal.microblogging.security.SecurityUtils;
 import ar.edu.um.proyectofinal.microblogging.web.rest.errors.BadRequestAlertException;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -60,6 +61,7 @@ public class TagResource {
             throw new BadRequestAlertException("A new tag cannot already have an ID", ENTITY_NAME, "idexists");
         }
         tag = tagRepository.save(tag);
+        LOG.info("USER: userId={} action=CREATE_TAG tagId={} name={}", SecurityUtils.getCurrentUserLogin().orElse("anonymous"), tag.getId(), tag.getName());
         return ResponseEntity.created(new URI("/api/tags/" + tag.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, tag.getId().toString()))
             .body(tag);
@@ -173,6 +175,7 @@ public class TagResource {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteTag(@PathVariable("id") Long id) {
         LOG.debug("REST request to delete Tag : {}", id);
+        LOG.info("USER: userId={} action=DELETE_TAG tagId={}", SecurityUtils.getCurrentUserLogin().orElse("anonymous"), id);
         tagRepository.deleteById(id);
         return ResponseEntity.noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))

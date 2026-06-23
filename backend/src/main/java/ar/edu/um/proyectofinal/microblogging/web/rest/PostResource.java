@@ -2,6 +2,7 @@ package ar.edu.um.proyectofinal.microblogging.web.rest;
 
 import ar.edu.um.proyectofinal.microblogging.domain.Post;
 import ar.edu.um.proyectofinal.microblogging.repository.PostRepository;
+import ar.edu.um.proyectofinal.microblogging.security.SecurityUtils;
 import ar.edu.um.proyectofinal.microblogging.web.rest.errors.BadRequestAlertException;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -60,6 +61,7 @@ public class PostResource {
             throw new BadRequestAlertException("A new post cannot already have an ID", ENTITY_NAME, "idexists");
         }
         post = postRepository.save(post);
+        LOG.info("USER: userId={} action=CREATE_POST postId={}", SecurityUtils.getCurrentUserLogin().orElse("anonymous"), post.getId());
         return ResponseEntity.created(new URI("/api/posts/" + post.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, post.getId().toString()))
             .body(post);
@@ -91,6 +93,7 @@ public class PostResource {
         }
 
         post = postRepository.save(post);
+        LOG.info("USER: userId={} action=UPDATE_POST postId={}", SecurityUtils.getCurrentUserLogin().orElse("anonymous"), id);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, post.getId().toString()))
             .body(post);
@@ -161,6 +164,7 @@ public class PostResource {
             page = postRepository.findAll(pageable);
         }
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        LOG.info("USER: userId={} action=GET_FEED page={} size={}", SecurityUtils.getCurrentUserLogin().orElse("anonymous"), pageable.getPageNumber(), pageable.getPageSize());
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
@@ -186,6 +190,7 @@ public class PostResource {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletePost(@PathVariable("id") Long id) {
         LOG.debug("REST request to delete Post : {}", id);
+        LOG.info("USER: userId={} action=DELETE_POST postId={}", SecurityUtils.getCurrentUserLogin().orElse("anonymous"), id);
         postRepository.deleteById(id);
         return ResponseEntity.noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
