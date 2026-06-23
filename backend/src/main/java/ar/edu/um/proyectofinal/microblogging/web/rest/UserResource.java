@@ -4,6 +4,7 @@ import ar.edu.um.proyectofinal.microblogging.config.Constants;
 import ar.edu.um.proyectofinal.microblogging.domain.User;
 import ar.edu.um.proyectofinal.microblogging.repository.UserRepository;
 import ar.edu.um.proyectofinal.microblogging.security.AuthoritiesConstants;
+import ar.edu.um.proyectofinal.microblogging.security.SecurityUtils;
 import ar.edu.um.proyectofinal.microblogging.service.MailService;
 import ar.edu.um.proyectofinal.microblogging.service.UserService;
 import ar.edu.um.proyectofinal.microblogging.service.dto.AdminUserDTO;
@@ -117,6 +118,7 @@ public class UserResource {
         } else {
             User newUser = userService.createUser(userDTO);
             mailService.sendCreationEmail(newUser);
+            LOG.info("USER: userId={} action=CREATE_USER target={}", SecurityUtils.getCurrentUserLogin().orElse("admin"), userDTO.getLogin());
             return ResponseEntity.created(new URI("/api/admin/users/" + newUser.getLogin()))
                 .headers(HeaderUtil.createAlert(applicationName, "userManagement.created", newUser.getLogin()))
                 .body(newUser);
@@ -200,6 +202,7 @@ public class UserResource {
     @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
     public ResponseEntity<Void> deleteUser(@PathVariable("login") @Pattern(regexp = Constants.LOGIN_REGEX) String login) {
         LOG.debug("REST request to delete User: {}", login);
+        LOG.info("USER: userId={} action=DELETE_USER target={}", SecurityUtils.getCurrentUserLogin().orElse("unknown"), login);
         userService.deleteUser(login);
         return ResponseEntity.noContent()
             .headers(HeaderUtil.createAlert(applicationName, "userManagement.deleted", login))

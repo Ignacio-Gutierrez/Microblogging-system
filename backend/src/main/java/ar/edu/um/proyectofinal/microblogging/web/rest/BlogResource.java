@@ -2,6 +2,7 @@ package ar.edu.um.proyectofinal.microblogging.web.rest;
 
 import ar.edu.um.proyectofinal.microblogging.domain.Blog;
 import ar.edu.um.proyectofinal.microblogging.repository.BlogRepository;
+import ar.edu.um.proyectofinal.microblogging.security.SecurityUtils;
 import ar.edu.um.proyectofinal.microblogging.web.rest.errors.BadRequestAlertException;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -56,6 +57,7 @@ public class BlogResource {
         }
         validateUniqueHandleForUser(blog, null);
         blog = blogRepository.save(blog);
+        LOG.info("USER: userId={} action=CREATE_BLOG blogId={} handle={}", SecurityUtils.getCurrentUserLogin().orElse("anonymous"), blog.getId(), blog.getHandle());
         return ResponseEntity.created(new URI("/api/blogs/" + blog.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, blog.getId().toString()))
             .body(blog);
@@ -87,6 +89,7 @@ public class BlogResource {
         }
 
         validateUniqueHandleForUser(blog, id);
+        LOG.info("USER: userId={} action=UPDATE_BLOG blogId={}", SecurityUtils.getCurrentUserLogin().orElse("anonymous"), id);
         blog = blogRepository.save(blog);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, blog.getId().toString()))
@@ -197,6 +200,7 @@ public class BlogResource {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteBlog(@PathVariable("id") Long id) {
         LOG.debug("REST request to delete Blog : {}", id);
+        LOG.info("USER: userId={} action=DELETE_BLOG blogId={}", SecurityUtils.getCurrentUserLogin().orElse("anonymous"), id);
         blogRepository.deleteById(id);
         return ResponseEntity.noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))

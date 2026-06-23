@@ -24,6 +24,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageConversionException;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.ErrorResponse;
 import org.springframework.web.ErrorResponseException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -64,6 +65,25 @@ public class ExceptionTranslator extends ResponseEntityExceptionHandler {
     @ExceptionHandler
     public ResponseEntity<Object> handleAnyException(Throwable ex, NativeWebRequest request) {
         LOG.debug("Converting Exception to Problem Details:", ex);
+
+        int status;
+        if (ex instanceof ErrorResponse err) {
+            status = err.getBody().getStatus();
+        } else {
+            status = toStatus(ex).value();
+        }
+
+        String userId = SecurityContextHolder.getContext().getAuthentication() != null
+            ? SecurityContextHolder.getContext().getAuthentication().getName()
+            : "anonymous";
+        String path = extractURI(request);
+
+        if (status >= 500) {
+            LOG.error("USER_ERROR: userId={} status={} path={} error={}", userId, status, path, ex.getMessage(), ex);
+        } else if (status >= 400) {
+            LOG.warn("USER_ERROR: userId={} status={} path={} error={}", userId, status, path, ex.getMessage());
+        }
+
         ProblemDetailWithCause pdCause = wrapAndCustomizeProblem(ex, request);
         return handleExceptionInternal((Exception) ex, pdCause, buildHeaders(ex), HttpStatusCode.valueOf(pdCause.getStatus()), request);
     }
