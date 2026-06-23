@@ -86,6 +86,6 @@ export class LoginPage {
   }
 
   onForgotPassword() {
-    // TODO: navigate to password recovery page
+    this.router.navigateByUrl('/forgot-password');
   }
 }

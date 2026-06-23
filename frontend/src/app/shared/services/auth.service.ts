@@ -47,6 +47,16 @@ export class AuthService {
     });
   }
 
+  requestPasswordReset(email: string): Observable<void> {
+    return this.http.post<void>('/api/account/reset-password/init', email, {
+      headers: { 'Content-Type': 'text/plain' },
+    });
+  }
+
+  finishPasswordReset(key: string, newPassword: string): Observable<void> {
+    return this.http.post<void>('/api/account/reset-password/finish', { key, newPassword });
+  }
+
   storeToken(token: string, username?: string): void {
     this.storage.setItem(this.tokenKey, token);
     if (username) {
