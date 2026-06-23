@@ -1,0 +1,143 @@
+.activate-content {
+  --background: var(--ion-color-surface-light);
+  --padding-top: 0;
+  --padding-bottom: 0;
+  --overflow: auto;
+}
+
+.activate-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 100%;
+  padding: 40px 32px;
+  max-width: 400px;
+  margin: 0 auto;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* ── Shared width constraint ── */
+.app-title,
+.activate-form {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* ── Logo ── */
+.logo-section {
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.logo-icon {
+  font-size: 6rem;
+  color: var(--ion-background-color);
+}
+
+/* ── Title ── */
+.app-title {
+  font-family: 'Inter', 'Montserrat', system-ui, -apple-system, sans-serif;
+  font-size: 2.2rem;
+  font-weight: 600;
+  color: var(--ion-background-color);
+  text-align: center;
+  letter-spacing: 0.06em;
+  margin: 0 auto 32px;
+  width: 100%;
+}
+
+/* ── Form container ── */
+.activate-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  position: relative;
+}
+
+/* ── Status section ── */
+.status-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 10px;
+}
+
+.status-spinner {
+  width: 40px;
+  height: 40px;
+  color: var(--ion-background-color);
+}
+
+.status-text {
+  font-family: 'Inter', 'Montserrat', system-ui, -apple-system, sans-serif;
+  font-size: 0.92rem;
+  color: var(--ion-color-input-text);
+  margin: 0;
+  line-height: 1.4;
+}
+
+.status-subtext {
+  font-family: 'Inter', 'Montserrat', system-ui, -apple-system, sans-serif;
+  font-size: 0.82rem;
+  color: var(--ion-color-input-text);
+  opacity: 0.8;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.success-icon {
+  font-size: 3.5rem;
+  color: var(--ion-color-success);
+}
+
+.success-title {
+  font-family: 'Inter', 'Montserrat', system-ui, -apple-system, sans-serif;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--ion-color-success);
+  margin: 0;
+}
+
+.error-icon {
+  font-size: 3.5rem;
+  color: var(--ion-color-danger);
+}
+
+.error-title {
+  font-family: 'Inter', 'Montserrat', system-ui, -apple-system, sans-serif;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--ion-color-danger);
+  margin: 0;
+}
+
+/* ── Activate button (same as login-button) ── */
+.activate-button {
+  width: 100%;
+  height: 48px;
+  background: var(--ion-background-color);
+  color: var(--ion-color-secondary);
+  border: none;
+  border-radius: 5px;
+  font-family: 'Inter', 'Montserrat', system-ui, -apple-system, sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: opacity 0.2s;
+
+  &:hover:not(:disabled) {
+    opacity: 0.92;
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}

@@ -111,6 +111,58 @@ pipeline {
             }
         }
 
+        stage('Update DockerHub Description') {
+            when {
+                expression { params.PUBLISH_DOCKER_IMAGES }
+            }
+            steps {
+                withCredentials([usernamePassword(
+                    credentialsId: 'dockerhub-login',
+                    usernameVariable: 'DOCKER_REGISTRY_USER',
+                    passwordVariable: 'DOCKER_REGISTRY_PWD'
+                )]) {
+                    script {
+                        def token = sh(
+                            script: """
+                                curl -s -X POST https://hub.docker.com/v2/users/login/ \
+                                    -H "Content-Type: application/json" \
+                                    -d '{"username":"'${DOCKER_REGISTRY_USER}'","password":"'${DOCKER_REGISTRY_PWD}'"}' | jq -r .token
+                            """,
+                            returnStdout: true
+                        ).trim()
+
+                        // Build JSON payload for backend
+                        def backendDesc = sh(
+                            script: """jq -n --arg desc "API REST de microblogging con Spring Boot, MariaDB, JWT y ELK Stack" --arg full "\$(cat backend/DOCKERHUB_README.md)" '{"description": \$desc, "full_description": \$full}'""",
+                            returnStdout: true
+                        ).trim()
+                        writeFile(file: 'backend_dockerhub.json', text: backendDesc)
+
+                        // Build JSON payload for frontend
+                        def frontendDesc = sh(
+                            script: """jq -n --arg desc "Frontend PWA de microblogging con Ionic y Angular" --arg full "\$(cat frontend/DOCKERHUB_README.md)" '{"description": \$desc, "full_description": \$full}'""",
+                            returnStdout: true
+                        ).trim()
+                        writeFile(file: 'frontend_dockerhub.json', text: frontendDesc)
+
+                        sh """
+                            curl -s -X PATCH https://hub.docker.com/v2/repositories/${BACKEND_IMAGE}/ \
+                                -H "Content-Type: application/json" \
+                                -H "Authorization: JWT ${token}" \
+                                -d @backend_dockerhub.json
+
+                            curl -s -X PATCH https://hub.docker.com/v2/repositories/${FRONTEND_IMAGE}/ \
+                                -H "Content-Type: application/json" \
+                                -H "Authorization: JWT ${token}" \
+                                -d @frontend_dockerhub.json
+
+                            rm -f backend_dockerhub.json frontend_dockerhub.json
+                        """
+                    }
+                }
+            }
+        }
+
         stage('Docker Compose - Smoke Test') {
             when {
                 expression { params.RUN_DOCKER_SMOKE }

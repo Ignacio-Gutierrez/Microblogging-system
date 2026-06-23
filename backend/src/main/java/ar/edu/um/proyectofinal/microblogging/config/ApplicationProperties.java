@@ -13,10 +13,20 @@ public class ApplicationProperties {
 
     private final Liquibase liquibase = new Liquibase();
 
+    private String frontendBaseUrl = "http://localhost:8100";
+
     // jhipster-needle-application-properties-property
 
     public Liquibase getLiquibase() {
         return liquibase;
+    }
+
+    public String getFrontendBaseUrl() {
+        return frontendBaseUrl;
+    }
+
+    public void setFrontendBaseUrl(String frontendBaseUrl) {
+        this.frontendBaseUrl = frontendBaseUrl;
     }
 
     // jhipster-needle-application-properties-property-getter

@@ -99,7 +99,7 @@ export class RegisterPage {
     }).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: () => {
         this.isLoading.set(false);
-        this.successMessage.set('Cuenta creada. Ya podés iniciar sesión.');
+        this.successMessage.set('Revisá tu correo para activarla antes de iniciar sesión.');
         this.resetForm();
       },
       error: (err: HttpErrorResponse) => {

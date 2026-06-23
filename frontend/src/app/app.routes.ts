@@ -16,6 +16,21 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/register/register.page').then(m => m.RegisterPage),
   },
   {
+    path: 'activate',
+    data: { title: 'Activar cuenta' },
+    loadComponent: () => import('./pages/activate/activate.page').then(m => m.ActivatePage),
+  },
+  {
+    path: 'forgot-password',
+    data: { title: 'Restablecer contraseña' },
+    loadComponent: () => import('./pages/forgot-password/forgot-password.page').then(m => m.ForgotPasswordPage),
+  },
+  {
+    path: 'reset-password/finish',
+    data: { title: 'Nueva contraseña' },
+    loadComponent: () => import('./pages/reset-password/reset-password.page').then(m => m.ResetPasswordPage),
+  },
+  {
     path: 'app',
     loadComponent: () => import('./shared/components/app-layout/app-layout.component').then(m => m.AppLayoutComponent),
     children: [
