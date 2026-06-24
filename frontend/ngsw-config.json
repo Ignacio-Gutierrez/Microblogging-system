@@ -27,15 +27,77 @@
   ],
   "dataGroups": [
     {
-      "name": "api-freshness",
+      "name": "api-read-posts",
       "urls": [
-        "/api/**"
+        "/api/posts",
+        "/api/posts?*",
+        "/api/posts/*",
+        "/api/posts/random"
       ],
       "cacheConfig": {
+        "strategy": "performance",
+        "maxSize": 200,
+        "maxAge": "7d",
+        "timeout": "5s"
+      }
+    },
+    {
+      "name": "api-read-blogs",
+      "urls": [
+        "/api/blogs",
+        "/api/blogs?*",
+        "/api/blogs/my-blogs",
+        "/api/blogs/*"
+      ],
+      "cacheConfig": {
+        "strategy": "performance",
         "maxSize": 100,
+        "maxAge": "7d",
+        "timeout": "5s"
+      }
+    },
+    {
+      "name": "api-read-tags",
+      "urls": [
+        "/api/tags",
+        "/api/tags?*",
+        "/api/tags/*"
+      ],
+      "cacheConfig": {
+        "strategy": "performance",
+        "maxSize": 100,
+        "maxAge": "7d",
+        "timeout": "5s"
+      }
+    },
+    {
+      "name": "api-read-users",
+      "urls": [
+        "/api/users",
+        "/api/users?*",
+        "/api/account"
+      ],
+      "cacheConfig": {
+        "strategy": "performance",
+        "maxSize": 50,
+        "maxAge": "7d",
+        "timeout": "5s"
+      }
+    },
+    {
+      "name": "api-auth-writes",
+      "urls": [
+        "/api/authenticate",
+        "/api/register",
+        "/api/activate",
+        "/api/account/reset-password/*",
+        "/api/admin/**"
+      ],
+      "cacheConfig": {
+        "strategy": "freshness",
+        "maxSize": 10,
         "maxAge": "1d",
-        "timeout": "10s",
-        "strategy": "freshness"
+        "timeout": "10s"
       }
     }
   ]
