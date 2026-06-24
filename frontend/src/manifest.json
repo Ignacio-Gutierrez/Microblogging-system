@@ -1,29 +1,29 @@
 {
-  "id": "/",
-  "name": "Microblogging",
-  "short_name": "Microblog",
-  "description": "Microblogging social platform",
-  "theme_color": "#0B3954",
-  "background_color": "#0B3954",
-  "display": "standalone",
-  "scope": "/",
-  "start_url": "/",
-  "icons": [
-    {
-      "src": "assets/icons/icon-192x192.png",
-      "sizes": "192x192",
-      "type": "image/png"
-    },
-    {
-      "src": "assets/icons/icon-512x512.png",
-      "sizes": "512x512",
-      "type": "image/png"
-    },
-    {
-      "src": "assets/icons/icon-512x512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "maskable"
-    }
-  ]
+    "id": "/",
+    "name": "Microblogging",
+    "short_name": "Microblog",
+    "description": "Microblogging social platform",
+    "theme_color": "#0B3954",
+    "background_color": "#0B3954",
+    "display": "standalone",
+    "scope": "/",
+    "start_url": "/",
+    "icons": [
+                  {
+                      "src": "/assets/icons/icon-192x192.png",
+                      "sizes": "192x192",
+                      "type": "image/png"
+                  },
+                  {
+                      "src": "/assets/icons/icon-512x512.png",
+                      "sizes": "512x512",
+                      "type": "image/png"
+                  },
+                  {
+                      "src": "/assets/icons/icon-512x512.png",
+                      "sizes": "512x512",
+                      "type": "image/png",
+                      "purpose": "maskable"
+                  }
+              ]
 }
