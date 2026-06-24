@@ -117,4 +117,4 @@ jhipster:
 # ===================================================================
 
 application:
-  frontend-base-url: http://localhost:8100
+  frontend-base-url: ${FRONTEND_BASE_URL:http://localhost:8100}
