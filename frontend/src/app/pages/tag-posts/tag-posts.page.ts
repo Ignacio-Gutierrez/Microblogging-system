@@ -1,6 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpResponse } from '@angular/common/http';
+import { ViewWillEnter } from '@ionic/angular';
 import {
   IonContent,
   InfiniteScrollCustomEvent,
@@ -15,6 +16,7 @@ import { PostActionsService } from 'src/app/shared/services/post-actions.service
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { PostCardComponent } from 'src/app/shared/components/post-card/post-card.component';
 import { CreatePostModalComponent } from 'src/app/shared/components/create-post-modal/create-post-modal.component';
+import { PullToRefreshComponent } from 'src/app/shared/components/pull-to-refresh/pull-to-refresh.component';
 import { PageTitleService } from 'src/app/shared/services/page-title.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { addIcons } from 'ionicons';
@@ -34,9 +36,10 @@ import { sad } from 'ionicons/icons';
     CommonModule,
     PostCardComponent,
     CreatePostModalComponent,
+    PullToRefreshComponent,
   ],
 })
-export class TagPostsPage implements OnInit {
+export class TagPostsPage implements OnInit, ViewWillEnter {
   private readonly postService = inject(PostService);
   private readonly postActionsService = inject(PostActionsService);
   private readonly authService = inject(AuthService);
@@ -68,6 +71,12 @@ export class TagPostsPage implements OnInit {
         this.resetAndLoad();
       }
     });
+  }
+
+  ionViewWillEnter(): void {
+    if (this.tagName) {
+      this.resetAndLoad();
+    }
   }
 
   private resetAndLoad() {
@@ -108,6 +117,16 @@ export class TagPostsPage implements OnInit {
     this.loadPosts(() => {
       event.target.complete();
       event.target.disabled = !this.hasMore || this.hasLoadError;
+    });
+  }
+
+  handleRefresh(event: { target: { complete: () => void } }) {
+    this.posts = [];
+    this.currentPage = 0;
+    this.hasMore = true;
+    this.hasLoadError = false;
+    this.loadPosts(() => {
+      event.target.complete();
     });
   }
 

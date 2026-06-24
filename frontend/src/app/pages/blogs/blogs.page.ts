@@ -16,6 +16,7 @@ import { AuthService } from 'src/app/shared/services/auth.service';
 import { PageTitleService } from 'src/app/shared/services/page-title.service';
 import { BlogCardComponent } from 'src/app/shared/components/blog-card/blog-card.component';
 import { CreateBlogModalComponent } from 'src/app/shared/components/create-blog-modal/create-blog-modal.component';
+import { PullToRefreshComponent } from 'src/app/shared/components/pull-to-refresh/pull-to-refresh.component';
 import { addIcons } from 'ionicons';
 import { addSharp, sad } from 'ionicons/icons';
 
@@ -33,6 +34,7 @@ import { addSharp, sad } from 'ionicons/icons';
     CommonModule,
     BlogCardComponent,
     CreateBlogModalComponent,
+    PullToRefreshComponent,
   ],
 })
 export class BlogsPage implements OnInit, ViewWillEnter {
@@ -76,7 +78,7 @@ export class BlogsPage implements OnInit, ViewWillEnter {
     });
   }
 
-  loadBlogs(login: string) {
+  loadBlogs(login: string, onComplete?: () => void) {
     this.isLoading = true;
     this.hasLoadError = false;
 
@@ -84,12 +86,18 @@ export class BlogsPage implements OnInit, ViewWillEnter {
       next: (blogs) => {
         this.blogs = blogs;
         this.isLoading = false;
+        onComplete?.();
       },
       error: () => {
         this.isLoading = false;
         this.hasLoadError = true;
+        onComplete?.();
       },
     });
+  }
+
+  handleRefresh(event: { target: { complete: () => void } }) {
+    this.loadBlogs(this.profileLogin, () => event.target.complete());
   }
 
   onBlogClick(blog: Blog) {

@@ -1,4 +1,6 @@
 <ion-content>
+  <app-pull-to-refresh (ionRefresh)="handleRefresh($event)" />
+
   @if (isLoading) {
     <div class="loading-spinner">
       <ion-spinner name="circular"></ion-spinner>

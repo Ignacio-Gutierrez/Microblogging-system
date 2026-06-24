@@ -13,6 +13,7 @@ import { PostActionsService } from 'src/app/shared/services/post-actions.service
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { PostCardComponent } from 'src/app/shared/components/post-card/post-card.component';
 import { CreatePostModalComponent } from 'src/app/shared/components/create-post-modal/create-post-modal.component';
+import { PullToRefreshComponent } from 'src/app/shared/components/pull-to-refresh/pull-to-refresh.component';
 import { PageTitleService } from 'src/app/shared/services/page-title.service';
 import { addIcons } from 'ionicons';
 import { sad, refreshSharp } from 'ionicons/icons';
@@ -29,6 +30,7 @@ import { sad, refreshSharp } from 'ionicons/icons';
     CommonModule,
     PostCardComponent,
     CreatePostModalComponent,
+    PullToRefreshComponent,
   ],
 })
 export class RandomPostPage implements OnInit, ViewWillEnter {
@@ -56,9 +58,11 @@ export class RandomPostPage implements OnInit, ViewWillEnter {
 
   ionViewWillEnter(): void {
     this.pageTitleService.setTitle('Post aleatorio');
+    this.post = null;
+    this.loadRandomPost();
   }
 
-  loadRandomPost() {
+  loadRandomPost(onComplete?: () => void) {
     this.isLoading = true;
     this.hasLoadError = false;
     this.noPostsToday = false;
@@ -71,10 +75,12 @@ export class RandomPostPage implements OnInit, ViewWillEnter {
         } else {
           this.noPostsToday = true;
         }
+        onComplete?.();
       },
       error: () => {
         this.isLoading = false;
         this.hasLoadError = true;
+        onComplete?.();
       },
     });
   }
@@ -82,6 +88,11 @@ export class RandomPostPage implements OnInit, ViewWillEnter {
   refresh() {
     this.post = null;
     this.loadRandomPost();
+  }
+
+  handleRefresh(event: { target: { complete: () => void } }) {
+    this.post = null;
+    this.loadRandomPost(() => event.target.complete());
   }
 
   onUserClick(post: Post) {
