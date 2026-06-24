@@ -1,6 +1,8 @@
 import { Component, inject, output } from '@angular/core';
 import { Platform } from '@ionic/angular';
 import { IonRefresher, IonRefresherContent } from '@ionic/angular/standalone';
+import { addIcons } from 'ionicons';
+import { chevronDownCircleOutline } from 'ionicons/icons';
 
 @Component({
   selector: 'app-pull-to-refresh',
@@ -10,6 +12,10 @@ import { IonRefresher, IonRefresherContent } from '@ionic/angular/standalone';
 })
 export class PullToRefreshComponent {
   private readonly platform = inject(Platform);
+
+  constructor() {
+    addIcons({ chevronDownCircleOutline });
+  }
 
   /** Emite el evento ionRefresh original para que el padre lo maneje y llame a complete() cuando termine. */
   readonly ionRefresh = output<{ target: { complete: () => void } }>();
