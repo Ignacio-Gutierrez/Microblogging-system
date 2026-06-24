@@ -37,6 +37,12 @@ export class AuthService {
       .pipe(map(response => response.id_token));
   }
 
+  resolveLogin(): Observable<string> {
+    return this.http.get<{ login: string }>('/api/account').pipe(
+      map(account => account.login),
+    );
+  }
+
   register(registration: RegisterRequest): Observable<void> {
     return this.http.post<void>('/api/register', registration);
   }
@@ -57,11 +63,12 @@ export class AuthService {
     return this.http.post<void>('/api/account/reset-password/finish', { key, newPassword });
   }
 
-  storeToken(token: string, username?: string): void {
+  storeToken(token: string): void {
     this.storage.setItem(this.tokenKey, token);
-    if (username) {
-      this.storage.setItem(this.usernameKey, username);
-    }
+  }
+
+  storeUsername(username: string): void {
+    this.storage.setItem(this.usernameKey, username);
   }
 
   getToken(): string | null {

@@ -2,6 +2,7 @@ import { Component, DestroyRef, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { switchMap } from 'rxjs';
 import { AuthService } from '../../shared/services/auth.service';
 import {
   IonContent,
@@ -60,9 +61,15 @@ export class LoginPage {
     this.authService.login({
       username: username.trim(),
       password,
-    }).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
-      next: token => {
-        this.authService.storeToken(token, username.trim());
+    }).pipe(
+      switchMap(token => {
+        this.authService.storeToken(token);
+        return this.authService.resolveLogin();
+      }),
+      takeUntilDestroyed(this.destroyRef),
+    ).subscribe({
+      next: realLogin => {
+        this.authService.storeUsername(realLogin);
         this.isLoading.set(false);
         this.router.navigateByUrl('/app/feed', { replaceUrl: true });
       },
