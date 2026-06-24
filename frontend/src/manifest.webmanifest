@@ -1,13 +1,7 @@
 {
-  "id": "/",
   "name": "Microblogging",
   "short_name": "Microblog",
   "description": "Microblogging social platform",
-  "theme_color": "#0B3954",
-  "background_color": "#0B3954",
-  "display": "standalone",
-  "scope": "/",
-  "start_url": "/",
   "icons": [
     {
       "src": "assets/icons/icon-192x192.png",
@@ -25,5 +19,9 @@
       "type": "image/png",
       "purpose": "maskable"
     }
-  ]
+  ],
+  "start_url": "/",
+  "background_color": "#0B3954",
+  "display": "standalone",
+  "theme_color": "#0B3954"
 }

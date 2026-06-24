@@ -99,6 +99,18 @@
         "maxAge": "1d",
         "timeout": "10s"
       }
+    },
+    {
+      "name": "api-perform",
+      "urls": [
+        "*/v1*"
+      ],
+      "cacheConfig": {
+        "strategy": "freshness",
+        "maxSize": 100,
+        "maxAge": "3d",
+        "timeout": "10s"
+      }
     }
   ]
 }

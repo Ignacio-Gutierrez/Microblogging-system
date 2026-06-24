@@ -35,7 +35,7 @@
                 "output": "assets"
               },
               {
-                "glob": "manifest.json",
+                "glob": "manifest.webmanifest",
                 "input": "src",
                 "output": ""
               }
