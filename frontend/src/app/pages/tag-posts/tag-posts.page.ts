@@ -63,18 +63,24 @@ export class TagPostsPage implements OnInit, ViewWillEnter {
   }
 
   ngOnInit() {
-    this.route.paramMap.subscribe((params) => {
-      const tagName = params.get('tagName');
-      if (tagName) {
-        this.tagName = tagName;
-        this.pageTitleService.setTitle(`#${tagName}`);
-        this.resetAndLoad();
-      }
-    });
+    this.route.paramMap.subscribe(() => this.loadRouteParams());
   }
 
   ionViewWillEnter(): void {
-    if (this.tagName) {
+    this.loadRouteParams();
+  }
+
+  private loadRouteParams() {
+    const tagName = this.route.snapshot.paramMap.get('tagName');
+    if (tagName) {
+      if (this.tagName === tagName) {
+        // Same tag — just reload data
+        this.resetAndLoad();
+        return;
+      }
+      this.tagName = tagName;
+      this.posts = [];
+      this.pageTitleService.setTitle(`#${tagName}`);
       this.resetAndLoad();
     }
   }

@@ -68,22 +68,30 @@ export class BlogPostsPage implements OnInit, ViewWillEnter {
   }
 
   ngOnInit() {
-    this.route.paramMap.subscribe((params) => {
-      const login = params.get('login');
-      const blogIdStr = params.get('blogId');
-      if (login && blogIdStr) {
-        this.profileLogin = login;
-        this.blogId = Number(blogIdStr);
-        const displayName = login.charAt(0).toUpperCase() + login.slice(1);
-        this.pageTitleService.setTitle(`${displayName} · ...`);
-        this.verifyBlog();
-      }
-    });
+    this.route.paramMap.subscribe(() => this.loadRouteParams());
   }
 
   ionViewWillEnter(): void {
-    if (this.blog && this.blogId) {
-      this.resetAndLoad();
+    this.loadRouteParams();
+  }
+
+  private loadRouteParams() {
+    const login = this.route.snapshot.paramMap.get('login');
+    const blogIdStr = this.route.snapshot.paramMap.get('blogId');
+    if (login && blogIdStr) {
+      const blogId = Number(blogIdStr);
+      if (this.blogId === blogId && this.profileLogin === login && this.blog) {
+        // Already on the same route — just reload data
+        this.resetAndLoad();
+        return;
+      }
+      this.profileLogin = login;
+      this.blogId = blogId;
+      this.blog = null;
+      this.posts = [];
+      const displayName = login.charAt(0).toUpperCase() + login.slice(1);
+      this.pageTitleService.setTitle(`${displayName} · ...`);
+      this.verifyBlog();
     }
   }
 
