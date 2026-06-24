@@ -4,7 +4,7 @@ services:
   frontend:
     image: ${DOCKERHUB_NAMESPACE:-ijgutierrez}/microblogging-frontend:latest
     ports:
-      - 127.0.0.1:8081:80
+      - 8081:80
     depends_on:
       backend:
         condition: service_healthy
@@ -12,13 +12,14 @@ services:
   backend:
     image: ${DOCKERHUB_NAMESPACE:-ijgutierrez}/microblogging-backend:latest
     environment:
-      - _JAVA_OPTIONS=-Xmx512m -Xms256m
+      - _JAVA_OPTIONS=${_JAVA_OPTIONS:- -Xmx512m -Xms256m}
       - SPRING_PROFILES_ACTIVE=prod,api-docs,secret-samples
       - MANAGEMENT_PROMETHEUS_METRICS_EXPORT_ENABLED=true
-      - SPRING_DATASOURCE_URL=jdbc:mariadb://mariadb:3306/blog?useLegacyDatetimeCode=false
-      - SPRING_DATASOURCE_USERNAME=root
-      - SPRING_DATASOURCE_PASSWORD=
-      - SPRING_LIQUIBASE_URL=jdbc:mariadb://mariadb:3306/blog?useLegacyDatetimeCode=false
+      - SPRING_DATASOURCE_URL=${SPRING_DATASOURCE_URL:-jdbc:mariadb://mariadb:3306/blog?useLegacyDatetimeCode=false}
+      - SPRING_DATASOURCE_USERNAME=${SPRING_DATASOURCE_USERNAME:-blog}
+      - SPRING_DATASOURCE_PASSWORD=${SPRING_DATASOURCE_PASSWORD:-}
+      - SPRING_LIQUIBASE_URL=${SPRING_LIQUIBASE_URL:-jdbc:mariadb://mariadb:3306/blog?useLegacyDatetimeCode=false}
+      - JHIPSTER_SECURITY_AUTHENTICATION_JWT_BASE64_SECRET=${JHIPSTER_SECURITY_AUTHENTICATION_JWT_BASE64_SECRET}
       - SPRING_MAIL_HOST=${MAIL_HOST:-localhost}
       - SPRING_MAIL_PORT=${MAIL_PORT:-25}
       - SPRING_MAIL_USERNAME=${MAIL_USERNAME:-}
@@ -51,11 +52,12 @@ services:
   mariadb:
     image: mariadb:12.2.2
     volumes:
-      - ./backend/src/main/docker/config/mariadb:/etc/mysql/conf.d:ro
+      - ./mariadb/conf/:/etc/mysql/conf.d:ro
     environment:
-      - MARIADB_ALLOW_EMPTY_ROOT_PASSWORD=yes
-      - MARIADB_ALLOW_EMPTY_PASSWORD=yes
-      - MARIADB_DATABASE=blog
+      - MARIADB_DATABASE=${MARIADB_DATABASE:-blog}
+      - MARIADB_USER=${MARIADB_USER:-blog}
+      - MARIADB_PASSWORD=${MARIADB_PASSWORD:-}
+      - MARIADB_ROOT_PASSWORD=${MARIADB_ROOT_PASSWORD:-}
     ports:
       - 127.0.0.1:3306:3306
     command: mariadbd --lower_case_table_names=1 --character_set_server=utf8mb4 --explicit_defaults_for_timestamp
@@ -74,7 +76,7 @@ services:
       - ELASTICSEARCH_PORT=9200
       - MAX_MAP_COUNT=262144
     volumes:
-      - ./backend/src/main/docker/logstash/pipeline/:/etc/logstash/conf.d/:ro
+      - ./logstash/pipeline/:/etc/logstash/conf.d/:ro
     ports:
       - 127.0.0.1:9200:9200
       - 127.0.0.1:5000:5000
