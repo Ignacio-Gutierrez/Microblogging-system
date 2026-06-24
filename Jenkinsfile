@@ -104,8 +104,10 @@ pipeline {
             steps {
                 dir('frontend') {
                     sh '''
-                        docker build -t ${FRONTEND_IMAGE}:latest .
+                        FRONTEND_VERSION=$(node -p "require('./package.json').version")
+                        docker build -t ${FRONTEND_IMAGE}:latest -t ${FRONTEND_IMAGE}:${FRONTEND_VERSION} .
                         docker push ${FRONTEND_IMAGE}:latest
+                        docker push ${FRONTEND_IMAGE}:${FRONTEND_VERSION}
                     '''
                 }
             }
