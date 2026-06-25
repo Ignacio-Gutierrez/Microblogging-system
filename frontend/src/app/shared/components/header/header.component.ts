@@ -36,5 +36,9 @@ export class HeaderComponent {
 
   onLogout() {
     this.authService.logout();
+    const currentUrl = this.router.url;
+    if (currentUrl !== '/app/feed' && currentUrl !== '/app/random') {
+      this.router.navigateByUrl('/login');
+    }
   }
 }
