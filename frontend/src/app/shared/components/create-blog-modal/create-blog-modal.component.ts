@@ -98,13 +98,30 @@ export class CreateBlogModalComponent implements OnInit {
         const newBlog = {
           name: this.blogName.trim(),
           handle: this.blogHandle.trim(),
-          user: { id: user.id },
         };
 
         this.blogService.createBlog(newBlog).subscribe({
           next: (createdBlog) => {
-            this.isSubmitting = false;
-            this.created.emit(createdBlog);
+            this.blogService.updateBlog({
+              id: createdBlog.id,
+              user: { id: user.id },
+            }).subscribe({
+              next: (updatedBlog) => {
+                this.isSubmitting = false;
+                this.created.emit(updatedBlog);
+              },
+              error: (err) => {
+                this.isSubmitting = false;
+                const errorBody = err.error;
+                if (errorBody?.message === 'error.handleAlreadyExistsForUser') {
+                  this.errorMessage = 'Ya existe un blog con ese identificador. Elegí otro.';
+                } else if (errorBody?.title && errorBody.title !== 'Bad Request') {
+                  this.errorMessage = errorBody.title;
+                } else {
+                  this.errorMessage = 'Error al crear el blog. Intentalo de nuevo.';
+                }
+              },
+            });
           },
           error: (err) => {
             this.isSubmitting = false;
