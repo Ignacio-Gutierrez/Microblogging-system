@@ -59,5 +59,9 @@ public interface PostRepository extends PostRepositoryWithBagRelationships, JpaR
     long countByDateAfter(@Param("startOfDay") Instant startOfDay);
 
     @Query("select p from Post p left join fetch p.blog left join fetch p.blog.user where p.date >= :startOfDay")
-    List<Post> findAllByDateAfterWithEagerRelationships(@Param("startOfDay") Instant startOfDay);
+    List<Post> findAllByDateAfterWithToOneRelationships(@Param("startOfDay") Instant startOfDay);
+
+    default List<Post> findAllByDateAfterWithEagerRelationships(Instant startOfDay) {
+        return fetchBagRelationships(findAllByDateAfterWithToOneRelationships(startOfDay));
+    }
 }
