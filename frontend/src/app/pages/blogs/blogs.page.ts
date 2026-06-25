@@ -106,6 +106,7 @@ export class BlogsPage implements OnInit, ViewWillEnter {
   }
 
   onBlogClick(blog: Blog) {
+    if (!this.profileLogin) return;
     this.router.navigate(['/app', this.profileLogin, 'blogs', blog.id, 'posts']);
   }
 
