@@ -93,7 +93,7 @@ export class CreateBlogModalComponent implements OnInit {
       return;
     }
 
-    this.http.get<{ id: number }>('/api/account').subscribe({
+    this.http.get<{ id: number; login: string }>('/api/account').subscribe({
       next: (user) => {
         const newBlog = {
           name: this.blogName.trim(),
@@ -104,7 +104,7 @@ export class CreateBlogModalComponent implements OnInit {
           next: (createdBlog) => {
             this.blogService.updateBlog({
               id: createdBlog.id,
-              user: { id: user.id },
+              user: { id: user.id, login: user.login },
             }).subscribe({
               next: (updatedBlog) => {
                 this.isSubmitting = false;
