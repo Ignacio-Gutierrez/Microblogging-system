@@ -198,9 +198,11 @@ public class PostResource {
         Instant startOfDay = LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant();
         List<Post> posts = postRepository.findAllByDateAfterWithEagerRelationships(startOfDay);
         if (posts.isEmpty()) {
+            LOG.info("USER: userId={} action=GET_RANDOM_POST result=no_content", SecurityUtils.getCurrentUserLogin().orElse("anonymous"));
             return ResponseEntity.noContent().build();
         }
         Post randomPost = posts.get(RANDOM.nextInt(posts.size()));
+        LOG.info("USER: userId={} action=GET_RANDOM_POST postId={}", SecurityUtils.getCurrentUserLogin().orElse("anonymous"), randomPost.getId());
         return ResponseEntity.ok(randomPost);
     }
 
