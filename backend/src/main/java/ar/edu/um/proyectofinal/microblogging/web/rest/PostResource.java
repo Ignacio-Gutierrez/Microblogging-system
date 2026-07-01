@@ -178,6 +178,7 @@ public class PostResource {
     public ResponseEntity<Post> getPost(@PathVariable("id") Long id) {
         LOG.debug("REST request to get Post : {}", id);
         Optional<Post> post = postRepository.findOneWithEagerRelationships(id);
+        LOG.info("USER: userId={} action=GET_POST postId={}", SecurityUtils.getCurrentUserLogin().orElse("anonymous"), id);
         return ResponseUtil.wrapOrNotFound(post);
     }
 

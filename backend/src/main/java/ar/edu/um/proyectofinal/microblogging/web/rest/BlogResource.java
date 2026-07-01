@@ -160,11 +160,14 @@ public class BlogResource {
     @GetMapping("")
     public List<Blog> getAllBlogs(@RequestParam(name = "eagerload", required = false, defaultValue = "true") boolean eagerload) {
         LOG.debug("REST request to get all Blogs");
+        List<Blog> blogs;
         if (eagerload) {
-            return blogRepository.findAllWithEagerRelationships();
+            blogs = blogRepository.findAllWithEagerRelationships();
         } else {
-            return blogRepository.findAll();
+            blogs = blogRepository.findAll();
         }
+        LOG.info("USER: userId={} action=GET_ALL_BLOGS count={}", SecurityUtils.getCurrentUserLogin().orElse("anonymous"), blogs.size());
+        return blogs;
     }
 
     /**
