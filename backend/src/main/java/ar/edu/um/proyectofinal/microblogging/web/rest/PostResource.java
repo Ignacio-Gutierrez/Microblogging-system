@@ -182,7 +182,11 @@ public class PostResource {
             }
         }
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
-        LOG.info("USER: userId={} action=GET_FEED page={} size={}", SecurityUtils.getCurrentUserLogin().orElse("anonymous"), pageable.getPageNumber(), pageable.getPageSize());
+        if (blogId != null) {
+            LOG.info("USER: userId={} action=VIEW_BLOG_POSTS blogId={} page={} size={}", SecurityUtils.getCurrentUserLogin().orElse("anonymous"), blogId, pageable.getPageNumber(), pageable.getPageSize());
+        } else {
+            LOG.info("USER: userId={} action=GET_FEED page={} size={}", SecurityUtils.getCurrentUserLogin().orElse("anonymous"), pageable.getPageNumber(), pageable.getPageSize());
+        }
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
