@@ -91,7 +91,12 @@ pipeline {
                         usernameVariable: 'DOCKER_REGISTRY_USER',
                         passwordVariable: 'DOCKER_REGISTRY_PWD'
                     )]) {
-                        sh './mvnw -ntp -Pprod -DskipTests -Ddockerhub.namespace=${DOCKERHUB_NAMESPACE} verify jib:build'
+                        sh '''
+                            ./mvnw -ntp -Pprod -DskipTests verify jib:build \
+                            -Djib.to.image=${BACKEND_IMAGE}:latest \
+                            -Djib.to.auth.username=$DOCKER_REGISTRY_USER \
+                            -Djib.to.auth.password=$DOCKER_REGISTRY_PWD
+                        '''
                     }
                 }
             }

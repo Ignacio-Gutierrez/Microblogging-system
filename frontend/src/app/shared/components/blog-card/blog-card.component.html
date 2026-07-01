@@ -1,4 +1,4 @@
-<div class="blog-card">
+<div class="blog-card" data-cy="blog-card">
   <ion-item button (click)="onClick()">
     <ion-icon name="file-tray" slot="start"></ion-icon>
     <ion-label>{{ blog().name }}</ion-label>
@@ -11,6 +11,7 @@
         slot="end"
         aria-label="Opciones del blog"
         (click)="$event.stopPropagation()"
+        data-cy="blog-actions-button"
       >
         <ion-icon name="ellipsis-vertical-sharp" slot="icon-only"></ion-icon>
       </ion-button>
@@ -33,7 +34,7 @@
           <ion-icon name="create-outline"></ion-icon>
           <span>Editar blog</span>
         </button>
-        <button type="button" class="action-button delete-button" (click)="actionsPopover.dismiss(); requestDelete($event)">
+        <button type="button" class="action-button delete-button" (click)="actionsPopover.dismiss(); requestDelete($event)" data-cy="blog-delete-button">
           <ion-icon name="trash-outline"></ion-icon>
           <span>Eliminar blog</span>
         </button>
