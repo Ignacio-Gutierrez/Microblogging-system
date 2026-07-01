@@ -13,11 +13,9 @@ export class BlogService {
     return this.http.get<Blog[]>(`${this.baseUrl}/my-blogs`);
   }
 
-  /* Get all blogs for a specific user by their login. Uses the public endpoint and filters client-side. */
+  /* Get all blogs for a specific user by their login. */
   getBlogsByUser(login: string): Observable<Blog[]> {
-    return this.http.get<Blog[]>(`${this.baseUrl}?eagerload=true`).pipe(
-      map(blogs => blogs.filter(blog => blog.user?.login === login))
-    );
+    return this.http.get<Blog[]>(`${this.baseUrl}?eagerload=true&login=${login}`);
   }
 
   /* Get a single blog by its ID. */

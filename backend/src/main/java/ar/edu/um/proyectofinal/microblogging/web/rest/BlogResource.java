@@ -158,7 +158,10 @@ public class BlogResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of Blogs in body.
      */
     @GetMapping("")
-    public List<Blog> getAllBlogs(@RequestParam(name = "eagerload", required = false, defaultValue = "true") boolean eagerload) {
+    public List<Blog> getAllBlogs(
+        @RequestParam(name = "eagerload", required = false, defaultValue = "true") boolean eagerload,
+        @RequestParam(name = "login", required = false) String login
+    ) {
         LOG.debug("REST request to get all Blogs");
         List<Blog> blogs;
         if (eagerload) {
@@ -166,7 +169,11 @@ public class BlogResource {
         } else {
             blogs = blogRepository.findAll();
         }
-        LOG.info("USER: userId={} action=GET_ALL_BLOGS count={}", SecurityUtils.getCurrentUserLogin().orElse("anonymous"), blogs.size());
+        if (login != null && !login.isBlank()) {
+            LOG.info("USER: userId={} action=VIEW_USER_BLOGS viewedUser={} count={}", SecurityUtils.getCurrentUserLogin().orElse("anonymous"), login, blogs.size());
+        } else {
+            LOG.info("USER: userId={} action=GET_ALL_BLOGS count={}", SecurityUtils.getCurrentUserLogin().orElse("anonymous"), blogs.size());
+        }
         return blogs;
     }
 
