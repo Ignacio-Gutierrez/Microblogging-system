@@ -178,7 +178,9 @@ public class BlogResource {
     @GetMapping("/my-blogs")
     public List<Blog> getMyBlogs() {
         LOG.debug("REST request to get Blogs for current user");
-        return blogRepository.findByUserIsCurrentUser();
+        List<Blog> blogs = blogRepository.findByUserIsCurrentUser();
+        LOG.info("USER: userId={} action=GET_MY_BLOGS count={}", SecurityUtils.getCurrentUserLogin().orElse("anonymous"), blogs.size());
+        return blogs;
     }
 
     /**
