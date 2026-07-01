@@ -1,0 +1,21 @@
+
+<ion-tab-button tab="post" class="tab-add" (click)="onCreatePost()" aria-label="Crear post">
+  <ion-icon name="add-circle-sharp"></ion-icon>
+</ion-tab-button>
+
+<ion-tab-bar class="custom-tab-bar">
+  <ion-tab-button tab="home" routerLink="/app/feed" routerLinkActive="tab-selected" [routerLinkActiveOptions]="{ exact: true }">
+    <ion-icon name="home-sharp"></ion-icon>
+  </ion-tab-button>
+  <ion-tab-button tab="globeSharp" routerLink="/app/random" routerLinkActive="tab-selected" [routerLinkActiveOptions]="{ exact: true }">
+    <ion-icon name="globe-sharp"></ion-icon>
+  </ion-tab-button>
+  <ion-tab-button tab="empty" disabled>
+  </ion-tab-button>
+  <ion-tab-button tab="blogs" [routerLink]="userBlogsLink" routerLinkActive="tab-selected" [routerLinkActiveOptions]="{ exact: true }">
+    <ion-icon name="file-tray-stacked-sharp"></ion-icon>
+  </ion-tab-button>
+  <ion-tab-button tab="search" routerLink="/app/search" routerLinkActive="tab-selected" [routerLinkActiveOptions]="{ exact: true }">
+    <ion-icon name="search-sharp"></ion-icon>
+  </ion-tab-button>
+</ion-tab-bar>

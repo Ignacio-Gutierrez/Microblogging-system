@@ -1,0 +1,15 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.outlet-wrapper {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+}
+
+ion-router-outlet {
+  height: 100%;
+}

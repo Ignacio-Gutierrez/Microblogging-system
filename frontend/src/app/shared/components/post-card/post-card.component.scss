@@ -11,7 +11,7 @@ ion-card::after {
   content: '';
   display: block;
   height: 2px;
-  background: rgba(255, 255, 255, 0.24);
+  background: var(--ion-color-separator);
   margin: 0 16px;
 }
 
@@ -26,15 +26,15 @@ ion-card::after {
   width: 42px;
   height: 42px;
   border-radius: 50%;
-  background: linear-gradient(135deg, var(--ion-color-navbar-button) 0%, #ff8e53 100%);
-  color: #fff;
+  background: linear-gradient(135deg, var(--ion-color-navbar-button) 0%, var(--ion-color-avatar-end) 100%);
+  color: var(--ion-color-secondary);
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: 700;
   font-size: 1.1rem;
   flex-shrink: 0;
-  box-shadow: 0 2px 8px rgba(255, 107, 107, 0.35);
+  box-shadow: 0 2px 8px var(--ion-color-shadow);
   cursor: pointer;
   padding: 0;
 
@@ -63,6 +63,7 @@ ion-card::after {
   font-weight: 700;
   font-size: 1rem;
   color: var(--ion-text-color);
+  line-height: 1.3;
 }
 
 .time-text {
@@ -76,6 +77,124 @@ ion-card::after {
 
   ion-icon {
     font-size: 0.95rem;
+  }
+}
+
+.actions-button {
+  width: 44px;
+  height: 44px;
+  margin-inline-end: -8px;
+  --padding-start: 0;
+  --padding-end: 0;
+  --color: var(--ion-text-color);
+  --background-hover: var(--ion-background-color-00);
+  --border-radius: 50%;
+  z-index: 2;
+}
+
+.post-actions-popover {
+  --width: 156px;
+  --background: var(--app-popup-background);
+  --box-shadow: 0 8px 24px rgb(0 0 0 / 14%);
+  --border-radius: 12px;
+}
+
+.action-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  min-height: 40px;
+  padding: 0 12px;
+  border: 0;
+  color: var(--ion-color-danger);
+  background: var(--app-popup-background);
+  font: inherit;
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+
+  ion-icon {
+    color: currentColor;
+    font-size: 1.15rem;
+  }
+
+  &:hover {
+    background: var(--app-popup-background-hover);
+  }
+}
+
+.edit-button {
+  color: var(--ion-background-color);
+}
+
+.delete-button {
+  color: var(--ion-color-danger);
+}
+
+::ng-deep ion-alert.app-alert {
+  --background: var(--ion-background-color);
+  --backdrop-opacity: 0.45;
+  --border-radius: 12px;
+  --box-shadow: 0 4px 24px rgb(0 0 0 / 20%);
+  --max-width: 360px;
+  --width: calc(100% - 32px);
+  color: var(--ion-text-color);
+
+  .alert-head {
+    padding: 16px 16px 0;
+  }
+
+  .alert-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+  }
+
+  .alert-message {
+    padding: 16px;
+    color: var(--ion-text-color-65);
+    font-size: 0.95rem;
+    line-height: 1.4;
+  }
+
+  .alert-button-group {
+    gap: 8px;
+    justify-content: flex-end;
+    padding: 0 16px 16px;
+    border-top: 0;
+  }
+
+  .alert-button {
+    min-width: auto;
+    height: 36px;
+    margin: 0;
+    padding: 0 16px;
+    border-radius: 8px;
+    color: var(--ion-color-secondary);
+    background: var(--ion-color-navbar-button);
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-transform: none;
+    overflow: hidden;
+
+    &:hover {
+      opacity: 0.85;
+    }
+  }
+
+  .alert-button-role-cancel {
+    color: var(--ion-text-color);
+    background: transparent;
+  }
+
+  .alert-button-role-destructive {
+    background: var(--ion-color-danger);
+  }
+}
+
+::ng-deep ion-alert.app-delete-alert {
+  .alert-message {
+    color: var(--ion-text-color);
   }
 }
 
@@ -100,14 +219,7 @@ ion-text p {
   align-items: center;
   margin-top: 14px;
   padding-top: 12px;
-  border-top: 2px dashed rgba(255, 255, 255, 0.12);
-  border-image: repeating-linear-gradient(
-    to right,
-    rgba(255, 255, 255, 0.12) 0,
-    rgba(255, 255, 255, 0.12) 6px,
-    transparent 6px,
-    transparent 20px
-  ) 1;
+  border-top: 2px dashed var(--ion-color-separator-dashed);
 }
 
 .tags {
@@ -134,7 +246,6 @@ ion-text p {
 }
 
 .tag-badge {
-  display: inline-block;
   padding: 2px 10px;
   border-radius: 4px;
   background: transparent;

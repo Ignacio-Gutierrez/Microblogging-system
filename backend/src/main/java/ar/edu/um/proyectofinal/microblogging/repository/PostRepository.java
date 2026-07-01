@@ -1,6 +1,7 @@
 package ar.edu.um.proyectofinal.microblogging.repository;
 
 import ar.edu.um.proyectofinal.microblogging.domain.Post;
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
@@ -29,12 +30,38 @@ public interface PostRepository extends PostRepositoryWithBagRelationships, JpaR
         return this.fetchBagRelationships(this.findAllWithToOneRelationships(pageable));
     }
 
+    default Page<Post> findAllWithEagerRelationships(Pageable pageable, Long blogId) {
+        return this.fetchBagRelationships(this.findAllWithToOneRelationshipsByBlogId(blogId, pageable));
+    }
+
+    default Page<Post> findAllWithEagerRelationships(Pageable pageable, String tagName) {
+        return this.fetchBagRelationships(this.findAllWithToOneRelationshipsByTagName(tagName, pageable));
+    }
+
+    Page<Post> findByBlog_Id(Long blogId, Pageable pageable);
+
     @Query(value = "select post from Post post left join fetch post.blog left join fetch post.blog.user", countQuery = "select count(post) from Post post")
     Page<Post> findAllWithToOneRelationships(Pageable pageable);
+
+    @Query(value = "select post from Post post left join fetch post.blog left join fetch post.blog.user where post.blog.id =:blogId", countQuery = "select count(post) from Post post where post.blog.id =:blogId")
+    Page<Post> findAllWithToOneRelationshipsByBlogId(@Param("blogId") Long blogId, Pageable pageable);
+
+    @Query(value = "select post from Post post left join fetch post.blog left join fetch post.blog.user left join post.tags tag where tag.name =:tagName", countQuery = "select count(post) from Post post left join post.tags tag where tag.name =:tagName")
+    Page<Post> findAllWithToOneRelationshipsByTagName(@Param("tagName") String tagName, Pageable pageable);
 
     @Query("select post from Post post left join fetch post.blog left join fetch post.blog.user")
     List<Post> findAllWithToOneRelationships();
 
     @Query("select post from Post post left join fetch post.blog left join fetch post.blog.user where post.id =:id")
     Optional<Post> findOneWithToOneRelationships(@Param("id") Long id);
+
+    @Query("select count(p) from Post p where p.date >= :startOfDay")
+    long countByDateAfter(@Param("startOfDay") Instant startOfDay);
+
+    @Query("select p from Post p left join fetch p.blog left join fetch p.blog.user where p.date >= :startOfDay")
+    List<Post> findAllByDateAfterWithToOneRelationships(@Param("startOfDay") Instant startOfDay);
+
+    default List<Post> findAllByDateAfterWithEagerRelationships(Instant startOfDay) {
+        return fetchBagRelationships(findAllByDateAfterWithToOneRelationships(startOfDay));
+    }
 }

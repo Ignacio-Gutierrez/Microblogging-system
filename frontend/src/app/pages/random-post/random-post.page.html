@@ -1,0 +1,44 @@
+<ion-content>
+  <app-pull-to-refresh (ionRefresh)="handleRefresh($event)" />
+
+  @if (isLoading) {
+    <div class="loading-spinner">
+      <ion-spinner name="circular"></ion-spinner>
+      <p>Buscando un post aleatorio...</p>
+    </div>
+  }
+
+  @if (noPostsToday) {
+    <div class="empty-state">
+      <ion-icon name="sad"></ion-icon>
+      <p>No hay posts de hoy todavía. Volvé más tarde.</p>
+    </div>
+  }
+
+  @if (hasLoadError) {
+    <div class="empty-state feed-end-state error">
+      <ion-icon name="sad"></ion-icon>
+      <p>No pudimos cargar un post aleatorio. Intentá de nuevo más tarde.</p>
+    </div>
+  }
+
+  @if (post && !isLoading) {
+    <app-post-card
+      [post]="post"
+      [showActions]="post.blog.user?.login === currentUsername"
+      (userClick)="onUserClick($event)"
+      (blogClick)="onBlogClick($event)"
+      (tagClick)="onTagClick($event)"
+      (editRequested)="openEditModal($event)"
+      (deleteRequested)="confirmDeletePost($event)"
+    />
+  }
+</ion-content>
+
+@if (showPostModal) {
+  <app-create-post-modal
+    [post]="postToEdit"
+    (updated)="onPostUpdated($event)"
+    (dismissed)="onPostModalDismissed()"
+  />
+}

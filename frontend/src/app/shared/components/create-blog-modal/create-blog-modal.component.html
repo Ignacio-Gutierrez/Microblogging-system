@@ -1,0 +1,55 @@
+<div class="overlay" (click)="dismiss()">
+  <div class="popup" (click)="$event.stopPropagation()">
+    <div class="popup-header">
+      <span class="popup-title">{{ title }}</span>
+    </div>
+
+    <div class="popup-body">
+      <label class="field">
+        <span class="field-label">Nombre del blog</span>
+        <input
+          class="field-input"
+          [(ngModel)]="blogName"
+          placeholder="Nombre visible del blog"
+          [disabled]="isSubmitting"
+          data-cy="blog-name-input"
+        />
+      </label>
+
+      <label class="field">
+        <span class="field-label">Identificador del blog</span>
+        <input
+          class="field-input"
+          [(ngModel)]="blogHandle"
+          placeholder="Identificador único"
+          [disabled]="isSubmitting"
+          data-cy="blog-handle-input"
+        />
+      </label>
+    </div>
+
+    <div class="popup-message">
+      @if (errorMessage) {
+        <div class="error-message" data-cy="blog-error-message">
+          <span>{{ errorMessage }}</span>
+        </div>
+      }
+    </div>
+
+    <div class="popup-footer">
+      <button class="btn btn-cancel" (click)="dismiss()" [disabled]="isSubmitting" data-cy="blog-modal-cancel-button">
+        Cancelar
+      </button>
+      <button class="btn btn-primary" (click)="submit()" [disabled]="isSubmitting" data-cy="blog-modal-submit-button">
+        @if (isSubmitting) {
+          <span class="btn-loading">
+            <ion-spinner name="circular"></ion-spinner>
+            {{ loadingText }}
+          </span>
+        } @else {
+          {{ submitText }}
+        }
+      </button>
+    </div>
+  </div>
+</div>

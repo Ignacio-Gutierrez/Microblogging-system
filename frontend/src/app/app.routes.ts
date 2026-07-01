@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { redirectIfAuthenticatedGuard } from './shared/guards/redirect-if-authenticated.guard';
+import { requireAuthGuard } from './shared/guards/require-auth.guard';
 
 export const routes: Routes = [
   {
@@ -9,17 +10,65 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/login/login.page').then(m => m.LoginPage),
   },
   {
+    path: 'register',
+    data: { title: 'Registrarse' },
+    canActivate: [redirectIfAuthenticatedGuard],
+    loadComponent: () => import('./pages/register/register.page').then(m => m.RegisterPage),
+  },
+  {
+    path: 'activate',
+    data: { title: 'Activar cuenta' },
+    loadComponent: () => import('./pages/activate/activate.page').then(m => m.ActivatePage),
+  },
+  {
+    path: 'forgot-password',
+    data: { title: 'Restablecer contraseña' },
+    loadComponent: () => import('./pages/forgot-password/forgot-password.page').then(m => m.ForgotPasswordPage),
+  },
+  {
+    path: 'reset-password/finish',
+    data: { title: 'Nueva contraseña' },
+    loadComponent: () => import('./pages/reset-password/reset-password.page').then(m => m.ResetPasswordPage),
+  },
+  {
     path: 'app',
-    loadComponent: () => import('./layouts/main-layout/main-layout.component').then( m => m.MainLayoutComponent),
+    loadComponent: () => import('./shared/components/app-layout/app-layout.component').then(m => m.AppLayoutComponent),
     children: [
       {
         path: 'feed',
         data: { title: 'Feed' },
         loadComponent: () => import('./pages/feed/feed.page').then( m => m.FeedPage)
       },
-      { path: 'search', redirectTo: '/app/feed', pathMatch: 'full' },
-      { path: 'home', redirectTo: '/app/feed', pathMatch: 'full' },
-      { path: 'post', redirectTo: '/app/feed', pathMatch: 'full' },
+      {
+        path: ':login/blogs',
+        data: { title: 'User Blogs' },
+        canActivate: [requireAuthGuard],
+        loadComponent: () => import('./pages/blogs/blogs.page').then( m => m.BlogsPage)
+      },
+      {
+        path: ':login/blogs/:blogId/posts',
+        data: { title: 'Blog Posts' },
+        canActivate: [requireAuthGuard],
+        loadComponent: () => import('./pages/blog-posts/blog-posts.page').then( m => m.BlogPostsPage)
+      },
+      {
+        path: 'tag/:tagName',
+        data: { title: 'Tag' },
+        canActivate: [requireAuthGuard],
+        loadComponent: () => import('./pages/tag-posts/tag-posts.page').then( m => m.TagPostsPage)
+      },
+      {
+        path: 'search',
+        data: { title: 'Buscar' },
+        canActivate: [requireAuthGuard],
+        loadComponent: () => import('./pages/search/search.page').then( m => m.SearchPage)
+      },
+      {
+        path: 'random',
+        data: { title: 'Post aleatorio' },
+        loadComponent: () => import('./pages/random-post/random-post.page').then( m => m.RandomPostPage)
+      },
+      { path: '**', redirectTo: '/app/feed' },
       { path: '', redirectTo: '/app/feed', pathMatch: 'full' }
     ]
   },

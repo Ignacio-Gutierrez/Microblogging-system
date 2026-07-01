@@ -59,7 +59,7 @@
     --ion-color-secondary-rgb: 255 255 255;
 
     --ion-text-color: #BFD7EA;
-	--ion-text-color-rgb: 191 215 234;
+	  --ion-text-color-rgb: 191 215 234;
 
     --ion-text-color-65: #BFD7EA99;
     --ion-text-color-65-rgb: 191 215 234 / 0.65;
@@ -78,27 +78,75 @@
     --ion-color-navbar-selected: #4F4F4F;
     --ion-color-navbar-selected-rgb: 79 79 79;
 
-    --ion-color-success: #06D6A0;
-    --ion-color-success-rgb: 6, 214, 160;
+    --ion-color-success: #0D9488;
+    --ion-color-success-rgb: 13, 148, 136;
 
-    --ion-color-warning: #FFD166;
-    --ion-color-warning-rgb: 255, 209, 102;
+    --ion-color-warning: #B45309;
+    --ion-color-warning-rgb: 180, 83, 9;
 
-    --ion-color-danger: #EF476F;
-    --ion-color-danger-rgb: 239, 71, 111;
+    --ion-color-danger: #BE123C;
+    --ion-color-danger-rgb: 190, 18, 60;
+
+    /* Avatar */
+    --ion-color-avatar-end: #8B5CF6;
+    --ion-color-avatar-end-rgb: 139 92 246;
+
+    /* Separator lines */
+    --ion-color-separator: rgba(255, 255, 255, 0.24);
+    --ion-color-separator-dashed: rgba(255, 255, 255, 0.12);
+
+    /*  Hover */
+    --ion-color-hover: rgba(255, 107, 107, 0.12);
+    --ion-color-active: rgba(255, 107, 107, 0.20);
+    --ion-color-shadow: rgba(255, 107, 107, 0.35);
+
+    /* Popup */
+    --app-popup-background: #fff1f2;
+    --app-popup-background-hover: #ffe4e6;
+
+    /* Feedback */
+    --app-error-background: #3b1828;
+    --app-error-border: rgba(255, 107, 107, 0.38);
+    --app-error-text: #fecdd3;
+    --app-error-text-on-dark: #fecdd3;
+    --app-success-background: #12352f;
+    --app-success-border: rgba(45, 212, 191, 0.34);
+    --app-success-text: #a7f3d0;
+
+    /* Light-theme surface (login/register) */
+    --ion-color-surface-light: #C2D9EC;
+    --ion-color-input-border: #d0d8e0;
+    --ion-color-input-text: #333333;
+    --ion-color-input-bg: #ffffff;
+    --ion-color-input-placeholder: #b0b8c0;
 }
 
-/*
- * Content padding so pages are not hidden behind the fixed
- * header (112px = two toolbars) or the bottom navigation bar (~90px).
- */
+/* Content padding so pages are not hidden behind the bottom navigation bar (~90px). */
 ion-content::part(scroll) {
-  padding-top: 112px;
   padding-bottom: 90px;
 }
 
-@media (max-width: 576px) {
-  ion-content::part(scroll) {
-    padding-top: 102px;
+/* Feed end state — usado en feed, blog-posts y tag-posts para "no hay más posteos" y errores */
+.feed-end-state {
+  min-height: auto;
+  padding: 24px 16px 32px;
+
+  ion-icon {
+    font-size: 40px;
+    margin-bottom: 10px;
+  }
+
+  p {
+    font-size: 0.95rem;
+    margin: 0;
+  }
+}
+
+/* Modificador rojo para errores — misma clase que feed-end-state pero en danger */
+.feed-end-state.error {
+  color: var(--app-error-text-on-dark);
+
+  ion-icon {
+    color: var(--app-error-text-on-dark);
   }
 }

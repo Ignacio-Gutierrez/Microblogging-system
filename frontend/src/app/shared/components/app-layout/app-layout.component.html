@@ -1,0 +1,14 @@
+<app-header />
+
+<div class="outlet-wrapper">
+  <ion-router-outlet></ion-router-outlet>
+</div>
+
+<app-navigation-bar (createPost)="openCreatePostModal()"></app-navigation-bar>
+
+@if (showCreatePostModal) {
+  <app-create-post-modal
+    (created)="onPostCreated($event)"
+    (dismissed)="onPostModalDismissed()"
+  />
+}

@@ -73,11 +73,9 @@ public class AccountResource {
      */
     @GetMapping("/activate")
     public void activateAccount(@RequestParam(value = "key") String key) {
-        Optional<User> user = userService.activateRegistration(key);
-        if (!user.isPresent()) {
-            throw new AccountResourceException("No user was found for this activation key");
-        }
-        LOG.info("USER: action=ACTIVATE login={}", user.get().getLogin());
+        User user = userService.activateRegistration(key)
+            .orElseThrow(() -> new AccountResourceException("No user was found for this activation key"));
+        LOG.info("USER: action=ACTIVATE login={}", user.getLogin());
     }
 
     /**
@@ -169,12 +167,9 @@ public class AccountResource {
         if (isPasswordLengthInvalid(keyAndPassword.getNewPassword())) {
             throw new InvalidPasswordException();
         }
-        Optional<User> user = userService.completePasswordReset(keyAndPassword.getNewPassword(), keyAndPassword.getKey());
-
-        if (!user.isPresent()) {
-            throw new AccountResourceException("No user was found for this reset key");
-        }
-        LOG.info("USER: action=RESET_PASSWORD_FINISH login={}", user.get().getLogin());
+        User user = userService.completePasswordReset(keyAndPassword.getNewPassword(), keyAndPassword.getKey())
+            .orElseThrow(() -> new AccountResourceException("No user was found for this reset key"));
+        LOG.info("USER: action=RESET_PASSWORD_FINISH login={}", user.getLogin());
     }
 
     private static boolean isPasswordLengthInvalid(String password) {

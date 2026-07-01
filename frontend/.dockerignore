@@ -1,0 +1,10 @@
+node_modules
+.angular
+.ionic
+coverage
+dist
+tmp
+out-tsc
+platforms
+plugins
+*.log

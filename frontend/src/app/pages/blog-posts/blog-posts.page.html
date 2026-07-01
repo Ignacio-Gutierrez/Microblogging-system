@@ -1,0 +1,58 @@
+<ion-content>
+  <app-pull-to-refresh (ionRefresh)="handleRefresh($event)" />
+
+  @if (posts.length === 0 && isLoading) {
+    <div class="loading-spinner">
+      <ion-spinner name="circular"></ion-spinner>
+      <p>Cargando posteos...</p>
+    </div>
+  }
+
+  @for (post of posts; track post.id) {
+    <app-post-card
+      [post]="post"
+      [showActions]="post.blog.user?.login === currentUsername"
+      (userClick)="onUserClick($event)"
+      (blogClick)="onBlogClick($event)"
+      (tagClick)="onTagClick($event)"
+      (editRequested)="openEditModal($event)"
+      (deleteRequested)="confirmDeletePost($event)"
+    />
+  } @empty {
+    @if (!isLoading && !hasLoadError) {
+      <div class="empty-state">
+        <ion-icon name="sad"></ion-icon>
+        <p>Este blog no tiene posteos todavía.</p>
+      </div>
+    }
+  }
+
+  @if (posts.length > 0 && !hasMore && !hasLoadError) {
+    <div class="empty-state feed-end-state">
+      <ion-icon name="sad"></ion-icon>
+      <p>No hay más posteos de este blog.</p>
+    </div>
+  }
+
+  @if (hasLoadError) {
+    <div class="empty-state feed-end-state error">
+      <ion-icon name="sad"></ion-icon>
+      <p>No pudimos cargar más posteos. Intentá de nuevo en un rato.</p>
+    </div>
+  }
+
+  <ion-infinite-scroll [disabled]="!hasMore || hasLoadError" (ionInfinite)="onIonInfinite($event)">
+    <ion-infinite-scroll-content
+      loadingSpinner="circular"
+      loadingText="Cargando más posteos..."
+    />
+  </ion-infinite-scroll>
+</ion-content>
+
+@if (showPostModal) {
+  <app-create-post-modal
+    [post]="postToEdit"
+    (updated)="onPostUpdated($event)"
+    (dismissed)="onPostModalDismissed()"
+  />
+}

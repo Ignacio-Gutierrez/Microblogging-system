@@ -107,4 +107,5 @@ jhipster:
 # https://www.jhipster.tech/common-application-properties/
 # ===================================================================
 
-# application:
+application:
+  frontend-base-url: ${FRONTEND_BASE_URL:http://localhost:8100}

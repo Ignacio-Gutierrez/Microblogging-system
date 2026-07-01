@@ -21,7 +21,7 @@
       }
     </ion-buttons>
     <ion-title>
-      {{ pageTitle }}
+      {{ pageTitle$ | async }}
     </ion-title>
     <ion-buttons slot="end">
       @if (authService.isAuthenticated()) {

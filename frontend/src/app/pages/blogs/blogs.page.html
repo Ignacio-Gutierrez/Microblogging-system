@@ -1,0 +1,58 @@
+<ion-content>
+  <app-pull-to-refresh (ionRefresh)="handleRefresh($event)" />
+
+  @if (isLoading) {
+    <div class="loading-spinner">
+      <ion-spinner name="circular"></ion-spinner>
+      <p>Cargando blogs...</p>
+    </div>
+  }
+
+  @if (isOwnProfile) {
+    <div class="add-blog-btn">
+      <ion-button (click)="openCreateModal()" data-cy="create-blog-button">
+        <ion-icon name="add-sharp" slot="start"></ion-icon>
+        Crear blog
+      </ion-button>
+    </div>
+  }
+
+  <ion-list>
+    @for (blog of blogs; track blog.id) {
+      <app-blog-card
+        [blog]="blog"
+        [showActions]="isOwnProfile"
+        (click)="onBlogClick($event)"
+        (editRequested)="openEditModal($event)"
+        (deleteRequested)="confirmDeleteBlog($event)"
+      />
+    } @empty {
+      @if (!isLoading && !hasLoadError) {
+        <div class="empty-state">
+          <ion-icon name="sad"></ion-icon>
+          @if (isOwnProfile) {
+            <p>No tenés blogs todavía. Creá tu primer blog.</p>
+          } @else {
+            <p>{{ profileLogin.charAt(0).toUpperCase() + profileLogin.slice(1) }} no tiene blogs todavía.</p>
+          }
+        </div>
+      }
+    }
+  </ion-list>
+
+  @if (hasLoadError) {
+    <div class="empty-state feed-end-state error">
+      <ion-icon name="sad"></ion-icon>
+      <p>No pudimos cargar los blogs. Intentá de nuevo más tarde.</p>
+    </div>
+  }
+</ion-content>
+
+@if (showBlogModal) {
+  <app-create-blog-modal
+    [blog]="blogToEdit"
+    (created)="onBlogCreated($event)"
+    (updated)="onBlogUpdated($event)"
+    (dismissed)="onModalDismissed()"
+  />
+}

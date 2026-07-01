@@ -1,0 +1,51 @@
+<ion-content class="activate-content">
+  <div class="activate-container">
+    <!-- Logo -->
+    <div class="logo-section">
+      <ion-icon name="chatbubbles-sharp" class="logo-icon"></ion-icon>
+    </div>
+
+    <!-- Title -->
+    <h1 class="app-title">Microblogging</h1>
+
+    <!-- Loading -->
+    @if (isLoading()) {
+      <div class="activate-form">
+        <div class="status-section">
+          <ion-spinner name="circular" class="status-spinner"></ion-spinner>
+          <p class="status-text">Verificando tu clave de activación...</p>
+        </div>
+      </div>
+    }
+
+    <!-- Success -->
+    @if (success()) {
+      <div class="activate-form">
+        <div class="status-section">
+          <ion-icon name="checkmark-circle-sharp" class="success-icon"></ion-icon>
+          <p class="success-title">¡Cuenta activada!</p>
+          <p class="status-subtext">Ya podés iniciar sesión con tu usuario y contraseña.</p>
+        </div>
+
+        <button type="button" class="activate-button" (click)="goToLogin()">
+          Ir a Iniciar Sesión
+        </button>
+      </div>
+    }
+
+    <!-- Error -->
+    @if (error()) {
+      <div class="activate-form">
+        <div class="status-section">
+          <ion-icon name="close-circle-sharp" class="error-icon"></ion-icon>
+          <p class="error-title">No se pudo activar</p>
+          <p class="status-subtext">El enlace de activación es inválido o ya expiró.</p>
+        </div>
+
+        <button type="button" class="activate-button" (click)="goToLogin()">
+          Volver a Inicio
+        </button>
+      </div>
+    }
+  </div>
+</ion-content>

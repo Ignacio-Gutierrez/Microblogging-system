@@ -29,35 +29,64 @@ Los logs de la aplicacion se envian a Logstash en `localhost:5000` y se visualiz
 
 ## Docker Compose
 
-Ejecutar los comandos desde `backend`.
+Ejecutar los comandos desde la raiz del repositorio.
 
-### Stack original
+### Stack publicado
 
-Levanta solamente la app, MariaDB y ELK:
+Levanta backend, frontend, MariaDB y ELK usando las imagenes publicadas en DockerHub.
+ELK corre como servicio `elk` con la imagen all-in-one `sebp/elk`.
 
 ```powershell
-docker-compose -f src/main/docker/app.yml -f src/main/docker/elk.yml up -d --force-recreate
+docker compose up -d --wait
 ```
 
-### Stack original + Ionic
+Frontend: `http://localhost:8081`
+Backend: `http://localhost:8080`
+Kibana: `http://localhost:5601`
 
-Levanta app, MariaDB, ELK y la web Ionic:
+Por defecto usa el namespace `ijgutierrez`. Para probar otro namespace:
 
 ```powershell
-docker-compose -f src/main/docker/app.yml -f src/main/docker/elk.yml -f src/main/docker/frontend.yml up -d --force-recreate --build
+$env:DOCKERHUB_NAMESPACE="tuusuario"
+docker compose up -d --wait
 ```
 
-### Rebuild completo de pruebas
+### Credenciales de correo
 
-Regenera la imagen Docker del backend y recrea el stack con Ionic:
+Para enviar correos reales desde el backend, copiá `.env.example` a `.env` y completá las variables SMTP:
 
 ```powershell
+Copy-Item .env.example .env
+```
+
+El compose usa esas variables para configurar `SPRING_MAIL_*` y `JHIPSTER_MAIL_*` dentro del contenedor backend. No subas `.env` al repositorio.
+
+### Publicar imagenes desde Jenkins
+
+Crear en Jenkins la credencial `dockerhub-login` como `Username with password`.
+El pipeline publica:
+
+- `ijgutierrez/microblogging-backend:latest`
+- `ijgutierrez/microblogging-frontend:latest`
+
+El backend tambien publica una etiqueta con la version Maven del proyecto.
+
+### Rebuild local de pruebas
+
+Regenera la imagen Docker del backend localmente y compila el frontend:
+
+```powershell
+cd backend
 .\mvnw.cmd -Pprod -ntp verify -DskipTests jib:dockerBuild
-docker-compose -f src/main/docker/app.yml -f src/main/docker/elk.yml -f src/main/docker/frontend.yml up -d --force-recreate --build
+
+cd ..\frontend
+npm ci
+npm run build
+docker build -t ijgutierrez/microblogging-frontend:latest .
 ```
 
 ### Apagar el stack
 
 ```powershell
-docker-compose -f src/main/docker/app.yml -f src/main/docker/elk.yml -f src/main/docker/frontend.yml down
+docker compose down -v
 ```

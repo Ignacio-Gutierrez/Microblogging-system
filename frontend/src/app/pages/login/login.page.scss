@@ -1,5 +1,5 @@
 .login-content {
-  --background: #C2D9EC;
+  --background: var(--ion-color-surface-light);
   --padding-top: 0;
   --padding-bottom: 0;
   --overflow: auto;
@@ -52,8 +52,8 @@
 /* ── Error banner ── */
 .error-banner {
   margin-top: 12px;
-  background: color-mix(in srgb, var(--ion-color-danger) 25%, transparent);
-  border: 1px solid color-mix(in srgb, var(--ion-color-danger) 50%, transparent);
+  background: var(--app-error-background);
+  border: 1px solid var(--app-error-border);
   border-radius: 6px;
   padding: 10px 14px;
   text-align: center;
@@ -61,6 +61,7 @@
   ion-text {
     font-size: 0.82rem;
     font-weight: 700;
+    color: var(--app-error-text);
   }
 }
 
@@ -90,18 +91,18 @@
   width: 100%;
   height: 48px;
   padding: 0 14px;
-  border: 1px solid #d0d8e0;
+  border: 1px solid var(--ion-color-input-border);
   border-radius: 5px;
   font-size: 0.92rem;
   font-family: 'Inter', 'Montserrat', system-ui, -apple-system, sans-serif;
-  color: #333;
-  background: #fff;
+  color: var(--ion-color-input-text);
+  background: var(--ion-color-input-bg);
   outline: none;
   box-sizing: border-box;
   transition: border-color 0.2s;
 
   &::placeholder {
-    color: #b0b8c0;
+    color: var(--ion-color-input-placeholder);
     opacity: 1;
   }
 
@@ -126,7 +127,7 @@
   transform: translateY(-50%);
   background: none;
   border: none;
-  color: #b0b8c0;
+  color: var(--ion-color-input-placeholder);
   font-size: 1.15rem;
   cursor: pointer;
   padding: 4px;
@@ -160,7 +161,7 @@
   width: 100%;
   height: 48px;
   background: var(--ion-background-color);
-  color: #fff;
+  color: var(--ion-color-secondary);
   border: none;
   border-radius: 5px;
   font-family: 'Inter', 'Montserrat', system-ui, -apple-system, sans-serif;
@@ -196,7 +197,7 @@
 .register-text {
   font-family: 'Inter', 'Montserrat', system-ui, -apple-system, sans-serif;
   font-size: 0.85rem;
-  color: #333;
+  color: var(--ion-color-input-text);
 }
 
 .register-link {
