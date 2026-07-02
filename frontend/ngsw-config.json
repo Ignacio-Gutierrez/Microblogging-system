@@ -42,7 +42,7 @@
         "/api/posts/random"
       ],
       "cacheConfig": {
-        "strategy": "performance",
+        "strategy": "freshness",
         "maxSize": 200,
         "maxAge": "7d",
         "timeout": "5s"
