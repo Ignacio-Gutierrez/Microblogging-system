@@ -1,0 +1,15 @@
+{
+  "name": "blog-e2e-cypress",
+  "version": "1.0.0",
+  "private": true,
+  "description": "E2E tests for the frontend (Ionic) application",
+  "type": "commonjs",
+  "scripts": {
+    "cypress:open": "cypress open --e2e",
+    "cypress:run": "cypress run --e2e",
+    "cypress:headed": "cypress run --e2e --headed"
+  },
+  "devDependencies": {
+    "cypress": "^15.16.0"
+  }
+}
